@@ -7,5 +7,6 @@ if(process.env.PORT){
 }
 
 module.exports = {
-    PORT
+    PORT,
+    MONGO_URI: process.env.MONGO_URI
 }
