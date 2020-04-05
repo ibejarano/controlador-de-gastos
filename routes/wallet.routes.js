@@ -5,4 +5,6 @@ const router = express.Router();
 
 router.post("/new", Wallet.newWallet);
 
+router.put("/:id", Wallet.updateWalletBalance);
+
 module.exports = router;
