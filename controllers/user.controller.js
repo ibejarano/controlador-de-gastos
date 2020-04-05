@@ -2,7 +2,7 @@ const { User } = require("../models");
 
 async function getAll(req, res) {
   try {
-    const users = await User.find().populate("wallet");
+    const users = await User.find().populate("expenses").populate("wallet");
     res.send(users);
   } catch (err) {
     res.status(500).json(err.message);
@@ -64,6 +64,18 @@ async function addWallet(req, res) {
   }
 }
 
+async function addExpense(req, res) {
+  try {
+    const userId = req.params.id;
+    const user = await User.findById(userId);
+    user.expenses.push(req.expenseId)
+    await user.save()
+    res.json('Nueva entrada registrada')
+  } catch (error) {
+    res.status(400).json(error.message)
+  }
+}
+
 async function deleteUser(req, res) {
   try {
     /* TODO  Viene de middleware cookie parser luego*/
@@ -100,4 +112,5 @@ module.exports = {
   updateUser,
   addWallet,
   deleteUser,
+  addExpense
 };

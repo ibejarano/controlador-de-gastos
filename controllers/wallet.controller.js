@@ -35,8 +35,8 @@ async function deleteWallet(req, res) {
   try {
     const { id } = req.params;
     const wallet = await Wallet.findByIdAndDelete(id);
-    if(!wallet){
-        throw new Error("ID de Billetera no encontrada")
+    if (!wallet) {
+      throw new Error("ID de Billetera no encontrada");
     }
     res.json("Billetera eliminada");
   } catch (error) {
@@ -44,8 +44,21 @@ async function deleteWallet(req, res) {
   }
 }
 
+async function computeExpense(req, res, next) {
+  try {
+    const walletId = req.body.fromWallet;
+    const wallet = await Wallet.findById(walletId);
+    wallet.balance += req.expenseNetAmount;
+    await wallet.save();
+    next();
+  } catch (error) {
+    res.status(400).json(error.message);
+  }
+}
+
 module.exports = {
   newWallet,
   updateWalletBalance,
   deleteWallet,
+  computeExpense
 };
