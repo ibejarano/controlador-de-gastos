@@ -1,28 +1,17 @@
 const express = require("express");
 const router = express.Router();
-const { User } = require("../models");
+const { User } = require("../controllers");
 
-router.get("/", async (req, res) => {
-  try {
-    const users = await User.find().populate("wallet");
-    res.json(users);
-  } catch (err) {
-    res.status(500).json("And error has ocurred! sorry");
-  }
-});
+router.get("/", User.getAll);
 
-router.post("/register", async (req, res) => {
-    console.log(req.body);
-    /* TODO1 Encriptar password  */
-    /*  form validation desde front end*/
-    try {
-        const user = new User({...req.body});
-        await user.save()
-        res.json('Nuevo usuario registrado!')
-    } catch(err){
-        res.status(401).json(err.message)
-    }
+router.get("/:id", User.getOne);
 
-});
+router.post("/register", User.registerNewUser);
+
+router.put("/", User.updateUser);
+
+router.put("/:id/:wallet", User.addWallet )
+
+router.delete("/", User.deleteUser);
 
 module.exports = router;
