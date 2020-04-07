@@ -14,7 +14,9 @@ async function getOne(req, res) {
     if (!req.params.id) {
       throw new Error("ID de usuario debe ser provisto");
     }
-    const users = await User.findById(req.params.id).populate("wallet");
+    const users = await (await User.findById(req.params.id))
+      .populated("expenses")
+      .populate("wallet");
     res.send(users);
   } catch (err) {
     res.status(500).json(err.message);
@@ -57,7 +59,7 @@ async function addWallet(req, res) {
       throw new Error("Id de billetera no provista");
     }
     user.wallet.push(req.params.wallet);
-    await user.save()
+    await user.save();
     res.json("Nueva billetera agregada");
   } catch (error) {
     res.status(400).json(error.message);
@@ -68,11 +70,11 @@ async function addExpense(req, res) {
   try {
     const userId = req.params.id;
     const user = await User.findById(userId);
-    user.expenses.push(req.expenseId)
-    await user.save()
-    res.json('Nueva entrada registrada')
+    user.expenses.push(req.expenseId);
+    await user.save();
+    res.json("Nueva entrada registrada");
   } catch (error) {
-    res.status(400).json(error.message)
+    res.status(400).json(error.message);
   }
 }
 
@@ -112,5 +114,5 @@ module.exports = {
   updateUser,
   addWallet,
   deleteUser,
-  addExpense
+  addExpense,
 };
