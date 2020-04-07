@@ -18,7 +18,7 @@ const ExpensesTable = ({ expenses }) => (
           <td>{exp.amount}</td>
           <td>{exp.section}</td>
           <td>{exp.fromWallet}</td>
-          <td>{exp.createdAt}</td>
+          <td>{exp.atDate}</td>
         </tr>
       ))}
     </thead>
