@@ -9,17 +9,18 @@ async function getAll(req, res) {
   }
 }
 
-async function getOne(req, res) {
+async function getOne(req, res, next) {
   try {
     if (!req.params.id) {
       throw new Error("ID de usuario debe ser provisto");
     }
-    const users = await (await User.findById(req.params.id))
-      .populated("expenses")
+    const users = await User.findById(req.params.id)
+      .populate("expenses")
       .populate("wallet");
     res.send(users);
   } catch (err) {
-    res.status(500).json(err.message);
+    // res.status(500).json(err.message);
+    next(err);
   }
 }
 

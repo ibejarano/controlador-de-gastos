@@ -36,6 +36,10 @@ const ExpenseSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Wallet",
   },
+  atDate: {
+    type: Date,
+    default: Date.now()
+  }
 });
 
 module.exports = mongoose.model("Expense", ExpenseSchema);

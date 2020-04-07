@@ -21,6 +21,11 @@ app.use(bodyParser.json());
 app.use("/user", UserRoutes);
 app.use("/wallet", WalletRoutes);
 
+app.use((err,req,res,next)=>{
+  console.log(err.message);
+  res.status(401).json(err.message)
+})
+
 /* iniciar servidor */
 
 app.listen(PORT, () => {
