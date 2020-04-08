@@ -1,6 +1,6 @@
 export default {
   color: {
-    mainBackground: "#fff",
+    mainBackground: "#000",
     card: "#faff00",
     greenCard: "#306C00",
     warningCard: "#c11111",

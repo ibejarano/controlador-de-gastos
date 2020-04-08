@@ -3,14 +3,14 @@ import styled from "styled-components";
 
 const BalanceCardContainer = styled.div`
   background: ${props => props.theme.color.card};
-  border-radius: 10px;
+  border-radius: 20px;
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
   height: 150px;
 
   h3 {
-    font-size: 18px;
+    font-size: 14px;
     margin-bottom: 0;
   }
 
@@ -19,7 +19,7 @@ const BalanceCardContainer = styled.div`
     width: 100%;
     display: flex;
     flex-flow: row nowrap;
-    justify-content: space-evenly;
+    justify-content: space-around;
   }
 `;
 
@@ -36,7 +36,7 @@ const BalanceItem = styled.div`
       ? props.theme.color.warningCard
       : props.theme.color.neutralCard};
   h3 {
-    font-size: 14px;
+    font-size: 12px;
     width: 100%;
     text-align: center;
     margin: 10px 0;
