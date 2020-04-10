@@ -6,7 +6,7 @@ const MainContainerStyle = styled.div`
   height: 100vh;
   padding-top: 24px;
   > div {
-    margin-bottom: 24px;
+    margin: 24px;
   }
 `;
 
