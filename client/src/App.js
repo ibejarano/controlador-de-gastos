@@ -5,7 +5,6 @@ import theme from "./themes/main";
 
 import MainContainer from "./components/MainContainer";
 import Home from "./pages/Home";
-import HomeWallet from './pages/HomeWallet';
 
 import "./App.css";
 

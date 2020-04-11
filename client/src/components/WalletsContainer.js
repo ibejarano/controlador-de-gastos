@@ -17,7 +17,7 @@ const StyledWalletContainer = styled.div`
     margin-bottom: 1em;
   }
 
-  a {
+  button {
     background: ${(props) => props.theme.color.purpleText};
     color: ${(props) => props.theme.color.yellowText};
     font-weight: bold;
@@ -30,32 +30,32 @@ const StyledWalletContainer = styled.div`
   }
 `;
 
-const WalletContainer = ({ singleWallet }) => (
+const WalletContainer = ({ singleWallet, setWalletId }) => (
   <StyledWalletContainer>
     <div className="wallet-title">
       <TitleAndSubtitle
-        title="Nombre de cuenta"
-        subtitle="Aca describo un toque"
+        title={singleWallet.name}
+        subtitle="Implementacion pendiente Descripcion"
         invert={true}
       />
     </div>
     <div className="wallet-balance">
       <TitleAndSubtitle
-        title="Balance: $12000"
-        subtitle="Moneda: USD"
+        title={`Balance: $${singleWallet.balance}`}
+        subtitle={`Moneda: ${singleWallet.currency.toUpperCase()}`}
         invert={true}
       />
     </div>
-    <a href="#">Ver Detalles</a>
+    <button onClick={() => setWalletId(singleWallet._id)}>Ver Detalles</button>
   </StyledWalletContainer>
 );
 
-const WalletsContainer = ({ wallet }) => {
-  console.log(wallet);
+const WalletsContainer = ({ wallet, setWalletId }) => {
+  console.log(wallet)
   return (
     <React.Fragment>
       {wallet.map((singleWallet) => (
-        <WalletContainer singleWallet={singleWallet} />
+        <WalletContainer singleWallet={singleWallet} setWalletId={setWalletId} />
       ))}
     </React.Fragment>
   );

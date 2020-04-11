@@ -43,16 +43,15 @@ const BalanceItem = styled.div`
   }
 `;
 
-export default function MonthBalance({ wallet, expenses }) {
-  const totalWallet = wallet.reduce((acc, wal) => (acc += wal.balance), 0);
-  const totalExpenses = expenses.reduce((acc, exp) => (acc += exp.amount), 0);
+export default function MonthBalance({ wallet }) {
+  const totalExpenses = wallet.expenses.reduce((acc, exp) => (acc += exp.amount), 0);
   return (
     <BalanceCardContainer>
       <h3>Balance de saldos</h3>
       <div className="container-balance">
         <BalanceItem className="balance-item" primary>
           <h3>Ingresos</h3>
-          <h3>{totalWallet}</h3>
+          <h3>{wallet.balance}</h3>
         </BalanceItem>
         <BalanceItem className="balance-item" warning>
           <h3> Gastos </h3>
@@ -60,7 +59,7 @@ export default function MonthBalance({ wallet, expenses }) {
         </BalanceItem>
         <BalanceItem className="balance-item" neutral>
           <h3> Total </h3>
-          <h3>{totalWallet - totalExpenses}</h3>
+          <h3>{wallet.balance - totalExpenses}</h3>
         </BalanceItem>
       </div>
     </BalanceCardContainer>
