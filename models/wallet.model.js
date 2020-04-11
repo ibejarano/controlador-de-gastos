@@ -18,7 +18,13 @@ const WalletSchema = new Schema({
     currency: {
         type: String,
         required: true
-    }
+    },
+    expenses: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Expense"
+        }
+    ]
 })
 
 module.exports = mongoose.model('Wallet', WalletSchema);
