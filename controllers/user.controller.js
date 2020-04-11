@@ -2,7 +2,7 @@ const { User } = require("../models");
 
 async function getAll(req, res) {
   try {
-    const users = await User.find().populate("expenses").populate("wallet");
+    const users = await User.find().populate("wallet");
     res.send(users);
   } catch (err) {
     res.status(500).json(err.message);
@@ -14,9 +14,7 @@ async function getOne(req, res, next) {
     if (!req.params.id) {
       throw new Error("ID de usuario debe ser provisto");
     }
-    const users = await User.findById(req.params.id)
-      .populate("expenses")
-      .populate("wallet");
+    const users = await User.findById(req.params.id).populate("wallet");
     res.send(users);
   } catch (err) {
     // res.status(500).json(err.message);
