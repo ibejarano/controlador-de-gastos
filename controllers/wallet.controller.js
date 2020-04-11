@@ -3,7 +3,8 @@ const { Wallet } = require("../models");
 async function getWalletInfo(req, res) {
   try {
     const { id } = req.params;
-    const wallet = await Wallet.findById(id);
+    console.log(id);
+    const wallet = await Wallet.findById(id).populate("expenses");
     if (!wallet) {
       throw new Error("ID de Billetera no encontrada");
     }
@@ -61,13 +62,13 @@ async function addExpense(req, res, next) {
   try {
     const walletId = req.params.id;
     const wallet = await Wallet.findById(walletId);
-    if (!wallet){
-      throw new Error('Id de Wallet no encontrada')
+    if (!wallet) {
+      throw new Error("Id de Wallet no encontrada");
     }
     wallet.balance += req.expenseNetAmount;
-    wallet.expenses.push(req.expenseId)
+    wallet.expenses.push(req.expenseId);
     await wallet.save();
-    res.json('Registro agregado!');
+    res.json("Registro agregado!");
   } catch (error) {
     res.status(400).json(error.message);
   }
@@ -78,5 +79,5 @@ module.exports = {
   updateWalletBalance,
   deleteWallet,
   addExpense,
-  getWalletInfo
+  getWalletInfo,
 };
