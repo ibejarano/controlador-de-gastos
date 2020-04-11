@@ -7,6 +7,7 @@ export default {
     neutralCard: "#3300ff",
     tableBackground: "#f6ffc0",
     yellowText: "#FAFF00",
-    purpleText: "#180A3F"
+    purpleText: "#180A3F",
+    walletColor: "#4B0086"
   }
 };

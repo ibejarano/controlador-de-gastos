@@ -1,18 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 
+import TitleAndSubtitle from './TitleAndSubtitle';
+
 const BalanceCardContainer = styled.div`
-  background: ${props => props.theme.color.card};
   border-radius: 20px;
   display: flex;
   flex-flow: row wrap;
-  justify-content: center;
+  /* justify-content: center; */
   height: 150px;
-
-  h3 {
-    font-size: 14px;
-    margin-bottom: 0;
-  }
 
   .container-balance {
     margin: 0;
@@ -47,7 +43,7 @@ export default function MonthBalance({ wallet }) {
   const totalExpenses = wallet.expenses.reduce((acc, exp) => (acc += exp.amount), 0);
   return (
     <BalanceCardContainer>
-      <h3>Balance de saldos</h3>
+      <TitleAndSubtitle title="Balance de saldos"  />
       <div className="container-balance">
         <BalanceItem className="balance-item" primary>
           <h3>Ingresos</h3>

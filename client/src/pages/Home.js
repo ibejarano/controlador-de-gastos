@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import styled from "styled-components";
 
 import WalletsContainer from "../components/WalletsContainer";
 import TitleContainer from "../components/TitleContainer";
@@ -22,13 +23,24 @@ const ShowWallets = ({ userInfo, setWalletId }) => (
   </React.Fragment>
 );
 
+const StyledWalletDetails = styled.div`
+  background: ${(props) => props.theme.color.walletColor};
+  border-radius: 3em;
+  padding: 24px;
+  margin-left: 0 !important ;
+  margin-right: 0 !important ;
+  height: 100vh;
+`;
+
 const ShowWalletDetails = ({ wallet, removeWalletId }) => {
   return (
     <React.Fragment>
       <TitleContainer walletName={wallet.name} />
-      {wallet.expenses && <BalanceCard wallet={wallet} />}
-      {wallet.expenses && <Expenses expenses={wallet.expenses} />}
-      <button onClick={()=> removeWalletId('')}>X</button>
+      <StyledWalletDetails>
+        {wallet.expenses && <BalanceCard wallet={wallet} />}
+        {wallet.expenses && <Expenses expenses={wallet.expenses} />}
+        <button onClick={() => removeWalletId("")}>X</button>
+      </StyledWalletDetails>
     </React.Fragment>
   );
 };
