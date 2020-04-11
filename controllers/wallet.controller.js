@@ -44,13 +44,17 @@ async function deleteWallet(req, res) {
   }
 }
 
-async function computeExpense(req, res, next) {
+async function addExpense(req, res, next) {
   try {
-    const walletId = req.body.fromWallet;
+    const walletId = req.params.id;
     const wallet = await Wallet.findById(walletId);
+    if (!wallet){
+      throw new Error('Id de Wallet no encontrada')
+    }
     wallet.balance += req.expenseNetAmount;
+    wallet.expenses.push(req.expenseId)
     await wallet.save();
-    next();
+    res.json('Registro agregado!');
   } catch (error) {
     res.status(400).json(error.message);
   }
@@ -60,5 +64,5 @@ module.exports = {
   newWallet,
   updateWalletBalance,
   deleteWallet,
-  computeExpense
+  addExpense
 };
