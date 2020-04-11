@@ -4,11 +4,8 @@ import { ThemeProvider } from "styled-components";
 import theme from "./themes/main";
 
 import MainContainer from "./components/MainContainer";
-import TitleContainer from "./components/TitleContainer";
-import BalanceCard from "./components/MonthBalance";
-import Expenses from "./components/Expenses";
-import WalletsContainer from "./components/WalletsContainer";
-import TitleAndSubtitle from "./components/TitleAndSubtitle";
+import Home from "./pages/Home";
+import HomeWallet from './pages/HomeWallet';
 
 import "./App.css";
 
@@ -27,16 +24,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <MainContainer>
-        <TitleContainer username={userInfo.username} />
-        <TitleAndSubtitle
-          title="Cuentas"
-          subtitle="Seleccione una para ver el estado"
-        />
-        {userInfo.expenses && <WalletsContainer {...userInfo} />}
-        {/* {userInfo.expenses && (
-          <BalanceCard wallet={userInfo.wallet} expenses={userInfo.expenses} />
-        )}
-        {userInfo.expenses && <Expenses expenses={userInfo.expenses} />} */}
+        <Home userInfo={userInfo} />
       </MainContainer>
     </ThemeProvider>
   );
