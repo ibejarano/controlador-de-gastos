@@ -22,13 +22,13 @@ const ShowWallets = ({ userInfo, setWalletId }) => (
   </React.Fragment>
 );
 
-const ShowWalletDetails = ({ wallet }) => {
+const ShowWalletDetails = ({ wallet, removeWalletId }) => {
   return (
     <React.Fragment>
-      {wallet.expenses && (
-        <BalanceCard wallet={wallet} />
-      )}
+      <TitleContainer walletName={wallet.name} />
+      {wallet.expenses && <BalanceCard wallet={wallet} />}
       {wallet.expenses && <Expenses expenses={wallet.expenses} />}
+      <button onClick={()=> removeWalletId('')}>X</button>
     </React.Fragment>
   );
 };
@@ -41,9 +41,7 @@ const Home = ({ userInfo }) => {
 
   /* 3. Si selecciono walletId hacer un fetch al servidor */
   useEffect(() => {
-    if (!walletId) {
-      console.log("No pido nada");
-    } else {
+    if (walletId) {
       axios
         .get(`http://localhost:5000/wallet/${walletId}`)
         .then(({ data }) => setWallet(data))
@@ -52,7 +50,7 @@ const Home = ({ userInfo }) => {
   }, [walletId]);
 
   if (walletId) {
-    return <ShowWalletDetails wallet={wallet} />;
+    return <ShowWalletDetails wallet={wallet} removeWalletId={setWalletId} />;
   } else {
     return <ShowWallets userInfo={userInfo} setWalletId={setWalletId} />;
   }

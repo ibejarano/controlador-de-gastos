@@ -51,11 +51,10 @@ const WalletContainer = ({ singleWallet, setWalletId }) => (
 );
 
 const WalletsContainer = ({ wallet, setWalletId }) => {
-  console.log(wallet)
   return (
     <React.Fragment>
       {wallet.map((singleWallet) => (
-        <WalletContainer singleWallet={singleWallet} setWalletId={setWalletId} />
+        <WalletContainer key={singleWallet._id} singleWallet={singleWallet} setWalletId={setWalletId} />
       ))}
     </React.Fragment>
   );
