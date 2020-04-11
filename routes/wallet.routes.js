@@ -1,7 +1,9 @@
 const express = require("express");
-const { Wallet } = require("../controllers");
+const { Wallet, Expense } = require("../controllers");
 
 const router = express.Router();
+
+router.get("/:id", Wallet.getWalletInfo);
 
 router.post("/new", Wallet.newWallet);
 

@@ -1,5 +1,18 @@
 const { Wallet } = require("../models");
 
+async function getWalletInfo(req, res) {
+  try {
+    const { id } = req.params;
+    const wallet = await Wallet.findById(id);
+    if (!wallet) {
+      throw new Error("ID de Billetera no encontrada");
+    }
+    res.json(wallet);
+  } catch (error) {
+    res.json(error.message);
+  }
+}
+
 async function newWallet(req, res) {
   try {
     const { balance, name, account, currency, userId } = req.body;
@@ -64,5 +77,6 @@ module.exports = {
   newWallet,
   updateWalletBalance,
   deleteWallet,
-  addExpense
+  addExpense,
+  getWalletInfo
 };
