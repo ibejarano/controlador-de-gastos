@@ -100,6 +100,5 @@ module.exports = {
   registerNewUser,
   updateUser,
   addWallet,
-  deleteUser,
-  addExpense,
+  deleteUser
 };
