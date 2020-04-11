@@ -30,6 +30,22 @@ const StyledWalletDetails = styled.div`
   margin-left: 0 !important ;
   margin-right: 0 !important ;
   height: 100vh;
+  position: relative;
+
+  button {
+    position: absolute;
+    right: 1em;
+    top: 1em;
+    background: none;
+    color: ${(props) => props.theme.color.yellowText};
+    border: none;
+    font-weight: bold;
+    font-size: 1.5em;
+    transition: transform .2s ease-in-out;
+  }
+  button:hover {
+    transform: scale(1.4);
+  }
 `;
 
 const ShowWalletDetails = ({ wallet, removeWalletId }) => {
