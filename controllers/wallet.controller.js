@@ -3,7 +3,6 @@ const { Wallet } = require("../models");
 async function getWalletInfo(req, res) {
   try {
     const { id } = req.params;
-    console.log(id);
     const wallet = await Wallet.findById(id).populate("expenses");
     if (!wallet) {
       throw new Error("ID de Billetera no encontrada");
@@ -58,7 +57,7 @@ async function deleteWallet(req, res) {
   }
 }
 
-async function addExpense(req, res, next) {
+async function addExpense(req, res) {
   try {
     const walletId = req.params.id;
     const wallet = await Wallet.findById(walletId);

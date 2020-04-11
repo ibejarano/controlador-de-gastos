@@ -2,7 +2,7 @@ const { Expense } = require("../models");
 
 async function registerExpense(req, res, next) {
   try {
-    const expense = new Expense({ ...req.body, doneBy: req.params.id });
+    const expense = new Expense({ ...req.body });
     await expense.save();
     req.expenseNetAmount = req.body.isIncome ? req.body.amount : - req.body.amount
     req.expenseId = expense.id;
