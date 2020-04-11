@@ -67,18 +67,6 @@ async function addWallet(req, res) {
   }
 }
 
-async function addExpense(req, res) {
-  try {
-    const userId = req.params.id;
-    const user = await User.findById(userId);
-    user.expenses.push(req.expenseId);
-    await user.save();
-    res.json("Nueva entrada registrada");
-  } catch (error) {
-    res.status(400).json(error.message);
-  }
-}
-
 async function deleteUser(req, res) {
   try {
     /* TODO  Viene de middleware cookie parser luego*/
