@@ -1,0 +1,87 @@
+import React from "react";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faHome,
+  faMoneyBillWave,
+  faMoneyCheckAlt,
+  faChartBar,
+  faInfoCircle,
+} from "@fortawesome/free-solid-svg-icons";
+
+const sections = [
+  {
+    name: "Inicio",
+    url: "/",
+    icon: faHome,
+  },
+  {
+    name: "Agregar",
+    url: "/add-expense",
+    icon: faMoneyBillWave,
+  },
+  {
+    name: "Presupuestos",
+    url: "/budgets",
+    icon: faMoneyCheckAlt,
+  },
+  {
+    name: "Estadisticas",
+    url: "/stats",
+    icon: faChartBar,
+  },
+  {
+    name: "Info",
+    url: "/info",
+    icon: faInfoCircle,
+  },
+];
+
+const StyledLinks = styled.div`
+  width: 72px;
+  height: 56px;
+  background: ${(props) => props.theme.color.yellowText};
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: space-evenly;
+  border-right: 1px solid ${(props) => props.theme.color.mainBackground};
+  text-decoration: none;
+
+  svg {
+    font-size: 28px;
+    color: ${(props) => props.theme.color.mainBackground};
+  }
+
+  p {
+    font-size: 10px;
+    margin: 0;
+  }
+`;
+
+const NavItem = ({ section }) => (
+  <Link to={section.url}>
+    <StyledLinks>
+      <FontAwesomeIcon icon={section.icon} />
+      <p>{section.name}</p>
+    </StyledLinks>
+  </Link>
+);
+
+const StyledNav = styled.nav`
+  display: flex;
+  flex-flow: row nowrap;
+  position: fixed;
+  bottom: 0;
+`;
+
+const Navbar = () => (
+  <StyledNav>
+    {sections.map((sec) => (
+      <NavItem key={sec.name} section={sec} />
+    ))}
+  </StyledNav>
+);
+
+export default Navbar;
