@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { ThemeProvider } from "styled-components";
 import theme from "./themes/main";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import MainContainer from "./components/MainContainer";
 import Home from "./pages/Home";
+import Navbar from "./components/Navbar";
 
 import "./App.css";
 
@@ -21,11 +23,21 @@ function App() {
   }, []);
 
   return (
-    <ThemeProvider theme={theme}>
-      <MainContainer>
-        <Home userInfo={userInfo} />
-      </MainContainer>
-    </ThemeProvider>
+    <Router>
+      <ThemeProvider theme={theme}>
+        <MainContainer>
+          <Switch>
+            <Route path="/add-expense">
+              <div>Agregar expensa form</div>
+            </Route>
+            <Route path="/">
+              <Home userInfo={userInfo} />
+            </Route>
+          </Switch>
+          <Navbar />
+        </MainContainer>
+      </ThemeProvider>
+    </Router>
   );
 }
 
