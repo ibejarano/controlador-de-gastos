@@ -11,11 +11,11 @@ const TitleStyleCard = styled.div`
   }
 `;
 
-const TitleContainer = ({ username, walletName }) => (
+const TitleContainer = ({ username, title }) => (
   <TitleStyleCard>
     {username && <h3>Bienvenid@, {username}!</h3>}
-    {walletName && <h3>Billetera: {walletName}</h3>}
-    {!username && !walletName && <h3>Cargando...</h3>}
+    {title && <h3>{title}</h3>}
+    {!username && !title && <h3>Cargando...</h3>}
   </TitleStyleCard>
 );
 

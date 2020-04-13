@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Dropdown from "react-dropdown";
-
-import TitleContainer from "../components/TitleContainer";
+import axios from "axios";
 
 const StyledForm = styled.form`
   background: ${(props) => props.theme.color.yellowText};
@@ -64,7 +63,32 @@ const StyledDropdown = styled.div`
 `;
 
 const InputDropdown = ({ name, field, fields, setFields }) => {
-  const options = ["Comida", "Casa", "Impuestos"];
+  const options = [
+    {
+      value: "Food",
+      label: "Comida",
+    },
+    {
+      value: "House",
+      label: "Hogar",
+    },
+    {
+      value: "Tax",
+      label: "Impuestos",
+    },
+    {
+      value: "Entertainment",
+      label: "Entretenimiento",
+    },
+    {
+      value: "Various",
+      label: "Varios",
+    },
+    {
+      value: "Transport",
+      label: "Transporte",
+    },
+  ];
   return (
     <React.Fragment>
       <StyledDropdown>
@@ -80,12 +104,36 @@ const InputDropdown = ({ name, field, fields, setFields }) => {
   );
 };
 
-const AddPage = ({ userInfo }) => {
-  const [fields, setFields] = useState({});
+const SubmitButton = () => {
+  const StyledButton = styled.button`
+    margin-top: 1.5em;
+    padding: 0.7em;
+    background: ${(props) => props.theme.color.mainBackground};
+    color: ${(props) => props.theme.color.yellowText};
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+  `;
+
+  return <StyledButton type="submit">Agregar</StyledButton>;
+};
+
+const AddPage = ({ walletId, closeAddExpenseDialog }) => {
+  const [fields, setFields] = useState({ fromWallet: walletId });
   return (
     <React.Fragment>
-      <TitleContainer walletName="Agregar nuevo registro" />
-      <StyledForm>
+      <StyledForm
+        onSubmit={(e) => {
+          e.preventDefault();
+          axios
+            .put(`http://localhost:5000/wallet/${walletId}/new-expense`, fields)
+            .then(({ data }) => {
+              console.log(data);
+              closeAddExpenseDialog(false);
+            })
+            .catch(console.log);
+        }}
+      >
         <InputText
           name="Descripcion"
           field="description"
@@ -104,12 +152,7 @@ const AddPage = ({ userInfo }) => {
           fields={fields}
           setFields={setFields}
         />
-        <InputDropdown
-          name="Billetera"
-          field="wallet"
-          fields={fields}
-          setFields={setFields}
-        />
+        <SubmitButton />
       </StyledForm>
     </React.Fragment>
   );

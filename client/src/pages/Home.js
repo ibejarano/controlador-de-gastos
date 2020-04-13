@@ -6,6 +6,8 @@ import WalletsContainer from "../components/WalletsContainer";
 import TitleContainer from "../components/TitleContainer";
 import TitleAndSubtitle from "../components/TitleAndSubtitle";
 
+import Add from "./Add";
+
 import BalanceCard from "../components/MonthBalance";
 import Expenses from "../components/Expenses";
 // import { Container } from './styles';
@@ -32,7 +34,18 @@ const StyledWalletDetails = styled.div`
   height: 100vh;
   position: relative;
 
-  button {
+  button.add {
+    background: ${(props) => props.theme.color.mainBackground};
+    color: ${(props) => props.theme.color.yellowText};
+    border: none;
+    padding: 0.3em;
+    margin-bottom: 1em;
+    font-weight: bold;
+    font-size: 1em;
+    transition: transform 0.2s ease-in-out;
+  }
+
+  button.close {
     position: absolute;
     right: 1em;
     top: 1em;
@@ -41,21 +54,37 @@ const StyledWalletDetails = styled.div`
     border: none;
     font-weight: bold;
     font-size: 1.5em;
-    transition: transform .2s ease-in-out;
+    transition: transform 0.2s ease-in-out;
   }
   button:hover {
-    transform: scale(1.4);
+    transform: scale(1.2);
   }
 `;
 
 const ShowWalletDetails = ({ wallet, removeWalletId }) => {
+  const [addExpense, setAddExpense] = useState(false);
   return (
     <React.Fragment>
-      <TitleContainer walletName={wallet.name} />
+      <TitleContainer
+        title={
+          addExpense ? "Agregar nuevo registro" : `Billetera: ${wallet.name}`
+        }
+      />
       <StyledWalletDetails>
-        {wallet.expenses && <BalanceCard wallet={wallet} />}
-        {wallet.expenses && <Expenses expenses={wallet.expenses} />}
-        <button onClick={() => removeWalletId("")}>X</button>
+        {wallet.expenses && !addExpense && <BalanceCard wallet={wallet} />}
+        {wallet.expenses && !addExpense && (
+          <React.Fragment>
+            <button className="add" onClick={() => setAddExpense(true)}>
+              {" "}
+              Agregar nuevo registro
+            </button>
+            <Expenses expenses={wallet.expenses} />
+          </React.Fragment>
+        )}
+        {addExpense && <Add walletId={wallet._id} closeAddExpenseDialog={setAddExpense}  />}
+        <button className="close" onClick={() => removeWalletId("")}>
+          X
+        </button>
       </StyledWalletDetails>
     </React.Fragment>
   );
