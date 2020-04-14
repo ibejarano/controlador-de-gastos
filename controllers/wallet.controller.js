@@ -60,15 +60,17 @@ async function deleteWallet(req, res) {
 async function addExpense(req, res) {
   try {
     const walletId = req.params.id;
-    const wallet = await Wallet.findById(walletId);
+    const wallet = await Wallet.findById(walletId).populate("expenses");
     if (!wallet) {
       throw new Error("Id de Wallet no encontrada");
     }
     wallet.balance += req.expenseNetAmount;
     wallet.expenses.push(req.expenseId);
     await wallet.save();
-    res.json("Registro agregado!");
+    const updatedWallet = await Wallet.findById(walletId).populate("expenses");
+    res.json({ wallet: updatedWallet, message: "Registro agregado" });
   } catch (error) {
+    console.log(error.message);
     res.status(400).json(error.message);
   }
 }
