@@ -61,7 +61,7 @@ const StyledWalletDetails = styled.div`
   }
 `;
 
-const ShowWalletDetails = ({ wallet, removeWalletId }) => {
+const ShowWalletDetails = ({ wallet, removeWalletId, setWallet }) => {
   const [addExpense, setAddExpense] = useState(false);
   return (
     <React.Fragment>
@@ -75,13 +75,18 @@ const ShowWalletDetails = ({ wallet, removeWalletId }) => {
         {wallet.expenses && !addExpense && (
           <React.Fragment>
             <button className="add" onClick={() => setAddExpense(true)}>
-              {" "}
               Agregar nuevo registro
             </button>
             <Expenses expenses={wallet.expenses} />
           </React.Fragment>
         )}
-        {addExpense && <Add walletId={wallet._id} expenses={wallet.expenses} closeAddExpenseDialog={setAddExpense}  />}
+        {addExpense && (
+          <Add
+            wallet={wallet}
+            setWallet={setWallet}
+            closeAddExpenseDialog={setAddExpense}
+          />
+        )}
         <button className="close" onClick={() => removeWalletId("")}>
           X
         </button>
@@ -107,7 +112,13 @@ const Home = ({ userInfo }) => {
   }, [walletId]);
 
   if (walletId) {
-    return <ShowWalletDetails wallet={wallet} removeWalletId={setWalletId} />;
+    return (
+      <ShowWalletDetails
+        wallet={wallet}
+        setWallet={setWallet}
+        removeWalletId={setWalletId}
+      />
+    );
   } else {
     return <ShowWallets userInfo={userInfo} setWalletId={setWalletId} />;
   }

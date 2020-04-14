@@ -118,18 +118,18 @@ const SubmitButton = () => {
   return <StyledButton type="submit">Agregar</StyledButton>;
 };
 
-const AddPage = ({ walletId, closeAddExpenseDialog, expenses }) => {
-  const [fields, setFields] = useState({ fromWallet: walletId });
+const AddExpense = ({ wallet , setWallet, closeAddExpenseDialog}) => {
+  const [fields, setFields] = useState({ fromWallet: wallet._id });
   return (
     <React.Fragment>
       <StyledForm
         onSubmit={(e) => {
           e.preventDefault();
           axios
-            .put(`http://localhost:5000/wallet/${walletId}/new-expense`, fields)
+            .put(`http://localhost:5000/wallet/${wallet._id}/new-expense`, fields)
             .then(({ data }) => {
-              console.log(data);
-              expenses.push(fields)
+              console.log(data)
+              setWallet(data.wallet)
               closeAddExpenseDialog(false);
             })
             .catch(console.log);
@@ -159,4 +159,4 @@ const AddPage = ({ walletId, closeAddExpenseDialog, expenses }) => {
   );
 };
 
-export default AddPage;
+export default AddExpense;
