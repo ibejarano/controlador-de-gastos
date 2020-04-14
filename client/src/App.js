@@ -6,7 +6,6 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import MainContainer from "./components/MainContainer";
 import Home from "./pages/Home";
-import Add from './pages/Add'
 import Navbar from "./components/Navbar";
 
 import "./App.css";
@@ -28,9 +27,6 @@ function App() {
       <ThemeProvider theme={theme}>
         <MainContainer>
           <Switch>
-            <Route path="/add-expense">
-              <Add />
-            </Route>
             <Route path="/">
               <Home userInfo={userInfo} />
             </Route>

@@ -6,7 +6,7 @@ import WalletsContainer from "../components/WalletsContainer";
 import TitleContainer from "../components/TitleContainer";
 import TitleAndSubtitle from "../components/TitleAndSubtitle";
 
-import Add from "./Add";
+import Add from "../components/Add";
 
 import BalanceCard from "../components/MonthBalance";
 import Expenses from "../components/Expenses";
@@ -81,7 +81,7 @@ const ShowWalletDetails = ({ wallet, removeWalletId }) => {
             <Expenses expenses={wallet.expenses} />
           </React.Fragment>
         )}
-        {addExpense && <Add walletId={wallet._id} closeAddExpenseDialog={setAddExpense}  />}
+        {addExpense && <Add walletId={wallet._id} expenses={wallet.expenses} closeAddExpenseDialog={setAddExpense}  />}
         <button className="close" onClick={() => removeWalletId("")}>
           X
         </button>

@@ -118,7 +118,7 @@ const SubmitButton = () => {
   return <StyledButton type="submit">Agregar</StyledButton>;
 };
 
-const AddPage = ({ walletId, closeAddExpenseDialog }) => {
+const AddPage = ({ walletId, closeAddExpenseDialog, expenses }) => {
   const [fields, setFields] = useState({ fromWallet: walletId });
   return (
     <React.Fragment>
@@ -129,6 +129,7 @@ const AddPage = ({ walletId, closeAddExpenseDialog }) => {
             .put(`http://localhost:5000/wallet/${walletId}/new-expense`, fields)
             .then(({ data }) => {
               console.log(data);
+              expenses.push(fields)
               closeAddExpenseDialog(false);
             })
             .catch(console.log);
