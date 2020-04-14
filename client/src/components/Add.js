@@ -20,38 +20,6 @@ const StyledForm = styled.form`
   }
 `;
 
-const InputText = ({ name, field, fields, setFields }) => {
-  return (
-    <React.Fragment>
-      <label>{name}</label>
-      <input
-        name="description"
-        value={fields[field]}
-        type="text"
-        onChange={(e) => setFields({ ...fields, [field]: e.target.value })}
-      />
-    </React.Fragment>
-  );
-};
-
-const InputNumber = ({ name, field, fields, setFields }) => {
-  return (
-    <React.Fragment>
-      <label>{name}</label>
-      <input
-        name="description"
-        value={fields[field]}
-        type="number"
-        onChange={(e) => {
-          if (e.target.value) {
-            setFields({ ...fields, [field]: e.target.value });
-          }
-        }}
-      />
-    </React.Fragment>
-  );
-};
-
 const StyledDropdown = styled.div`
   div {
     background: ${(props) => props.theme.color.mainBackground};
@@ -62,100 +30,100 @@ const StyledDropdown = styled.div`
   }
 `;
 
-const InputDropdown = ({ name, field, fields, setFields }) => {
-  const options = [
-    {
-      value: "Food",
-      label: "Comida",
-    },
-    {
-      value: "House",
-      label: "Hogar",
-    },
-    {
-      value: "Tax",
-      label: "Impuestos",
-    },
-    {
-      value: "Entertainment",
-      label: "Entretenimiento",
-    },
-    {
-      value: "Various",
-      label: "Varios",
-    },
-    {
-      value: "Transport",
-      label: "Transporte",
-    },
-  ];
-  return (
-    <React.Fragment>
-      <StyledDropdown>
-        <label>{name}</label>
-        <Dropdown
-          options={options}
-          value={fields[field]}
-          onChange={({ value }) => setFields({ ...fields, [field]: value })}
-          placeholder="Selecciona una opcion..."
-        />
-      </StyledDropdown>
-    </React.Fragment>
-  );
-};
+const OPTIONS_DROPDOWN = [
+  {
+    value: "Food",
+    label: "Comida",
+  },
+  {
+    value: "House",
+    label: "Hogar",
+  },
+  {
+    value: "Tax",
+    label: "Impuestos",
+  },
+  {
+    value: "Entertainment",
+    label: "Entretenimiento",
+  },
+  {
+    value: "Various",
+    label: "Varios",
+  },
+  {
+    value: "Transport",
+    label: "Transporte",
+  },
+];
+
+const StyledButton = styled.button`
+  margin-top: 1.5em;
+  padding: 0.7em;
+  background: ${(props) => props.theme.color.mainBackground};
+  color: ${(props) => props.theme.color.yellowText};
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+`;
 
 const SubmitButton = () => {
-  const StyledButton = styled.button`
-    margin-top: 1.5em;
-    padding: 0.7em;
-    background: ${(props) => props.theme.color.mainBackground};
-    color: ${(props) => props.theme.color.yellowText};
-    font-weight: bold;
-    border: none;
-    border-radius: 10px;
-  `;
-
   return <StyledButton type="submit">Agregar</StyledButton>;
 };
 
-const AddExpense = ({ wallet , setWallet, closeAddExpenseDialog}) => {
-  const [fields, setFields] = useState({ fromWallet: wallet._id });
+const AddExpense = ({ wallet, setWallet, closeAddExpenseDialog }) => {
+  const [fields, setFields] = useState({
+    description: "",
+    amount: "",
+    section: "",
+    fromWallet: wallet._id,
+  });
+
+  const {description, amount, section} = fields
+
+  const handleChange = (e) => {
+    setFields({ ...fields, [e.target.name]: e.target.value });
+  };
+
   return (
-    <React.Fragment>
-      <StyledForm
-        onSubmit={(e) => {
-          e.preventDefault();
-          axios
-            .put(`http://localhost:5000/wallet/${wallet._id}/new-expense`, fields)
-            .then(({ data }) => {
-              console.log(data)
-              setWallet(data.wallet)
-              closeAddExpenseDialog(false);
-            })
-            .catch(console.log);
-        }}
-      >
-        <InputText
-          name="Descripcion"
-          field="description"
-          fields={fields}
-          setFields={setFields}
+    <StyledForm
+      onSubmit={(e) => {
+        e.preventDefault();
+        axios
+          .put(`http://localhost:5000/wallet/${wallet._id}/new-expense`, fields)
+          .then(({ data }) => {
+            console.log(data);
+            setWallet(data.wallet);
+            closeAddExpenseDialog(false);
+          })
+          .catch(console.log);
+      }}
+    >
+      <label>Descripcion</label>
+      <input
+        name="description"
+        value={description}
+        type="text"
+        onChange={handleChange}
+      />
+      <label>Monto</label>
+      <input
+        name="amount"
+        value={amount}
+        type="number"
+        onChange={handleChange}
+      />
+      <label>Seccion</label>
+      <StyledDropdown>
+        <Dropdown
+          options={OPTIONS_DROPDOWN}
+          value={section}
+          onChange={(e) => setFields({...fields, section: e.value}) }
+          placeholder="Selecciona una opcion..."
         />
-        <InputNumber
-          name="Monto"
-          field="amount"
-          fields={fields}
-          setFields={setFields}
-        />
-        <InputDropdown
-          name="Seccion"
-          field="section"
-          fields={fields}
-          setFields={setFields}
-        />
-        <SubmitButton />
-      </StyledForm>
-    </React.Fragment>
+      </StyledDropdown>
+      <SubmitButton />
+    </StyledForm>
   );
 };
 
