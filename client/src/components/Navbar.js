@@ -17,11 +17,6 @@ const sections = [
     icon: faHome,
   },
   {
-    name: "Agregar",
-    url: "/add-expense",
-    icon: faMoneyBillWave,
-  },
-  {
     name: "Presupuestos",
     url: "/budgets",
     icon: faMoneyCheckAlt,
