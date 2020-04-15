@@ -8,6 +8,12 @@ const MainContainerStyle = styled.div`
   > div {
     margin: 24px;
   }
+
+  @media (min-width: 600px) {
+    > div {
+      margin: 0 auto;
+    }
+  }
 `;
 
 const MainContainer = ({ children }) => (

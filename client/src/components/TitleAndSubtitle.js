@@ -3,18 +3,16 @@ import styled from "styled-components";
 
 const StyledTitleAndSubtitle = styled.div`
   /* background: inherit; */
-
+  max-width: 450px;
   h3 {
     color: ${(props) => props.invert? props.theme.color.purpleText: props.theme.color.yellowText};
     font-size: 1.2em;
-    margin: 0%;
     margin-bottom: .2em;
   }
 
   p {
     color: ${(props) => props.invert? props.theme.color.purpleText: props.theme.color.yellowText};
     font-size: 0.7em;
-    margin: 0;
   }
 `;
 

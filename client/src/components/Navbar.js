@@ -40,6 +40,7 @@ const StyledLinks = styled.div`
   flex-flow: column nowrap;
   align-items: center;
   justify-content: space-evenly;
+  border-left: 1px solid ${(props) => props.theme.color.mainBackground};
   border-right: 1px solid ${(props) => props.theme.color.mainBackground};
   text-decoration: none;
 
@@ -68,6 +69,16 @@ const StyledNav = styled.nav`
   flex-flow: row nowrap;
   position: fixed;
   bottom: 0;
+  width: 100%;
+  justify-content: space-around;
+  background: ${(props) => props.theme.color.yellowText};
+  
+  @media (min-width: 600px){
+    flex-flow: column nowrap;
+    bottom: 40vh;
+    left: 0;
+    width: min-content;
+  }
 `;
 
 const Navbar = () => (

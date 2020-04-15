@@ -9,6 +9,7 @@ const StyledWalletContainer = styled.div`
   border-radius: 10px;
   padding: 1em;
   position: relative;
+  max-width: 450px;
   /* min-width: 300px; */
 
   .wallet-title {

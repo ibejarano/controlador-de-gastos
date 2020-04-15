@@ -5,6 +5,7 @@ const TitleStyleCard = styled.div`
   background: ${(props) => props.theme.color.card};
   padding: 12px;
   border-radius: 20px;
+  max-width: 450px;
   h3 {
     margin: 0;
     font-size: 14px;
