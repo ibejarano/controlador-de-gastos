@@ -17,6 +17,7 @@ const WalletSchema = new Schema({
     },
     currency: {
         type: String,
+        enum: ['usd', 'eur', 'ars', 'brl'],
         required: true
     },
     expenses: [
