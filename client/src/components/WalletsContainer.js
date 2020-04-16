@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 import TitleAndSubtitle from "./TitleAndSubtitle";
 
@@ -18,7 +19,7 @@ const StyledWalletContainer = styled.div`
     margin-bottom: 1em;
   }
 
-  button {
+  a {
     background: ${(props) => props.theme.color.purpleText};
     color: ${(props) => props.theme.color.yellowText};
     font-weight: bold;
@@ -26,7 +27,7 @@ const StyledWalletContainer = styled.div`
     position: absolute;
     right: 1em;
     bottom: 1em;
-    padding: 0.25em .4em;
+    padding: 0.25em 0.4em;
     text-decoration: none;
   }
 `;
@@ -47,15 +48,15 @@ const WalletContainer = ({ singleWallet, setWalletId }) => (
         invert={true}
       />
     </div>
-    <button onClick={() => setWalletId(singleWallet._id)}>Ver Detalles</button>
+    <Link to={`/details?walletId=${singleWallet._id}`}>Ver Detalles</Link>
   </StyledWalletContainer>
 );
 
-const WalletsContainer = ({ wallet, setWalletId }) => {
+const WalletsContainer = ({ wallet }) => {
   return (
     <React.Fragment>
       {wallet.map((singleWallet) => (
-        <WalletContainer key={singleWallet._id} singleWallet={singleWallet} setWalletId={setWalletId} />
+        <WalletContainer key={singleWallet._id} singleWallet={singleWallet} />
       ))}
     </React.Fragment>
   );

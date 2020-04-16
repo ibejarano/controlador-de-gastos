@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Switch, Route, Link, useLocation } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
 
@@ -19,9 +20,7 @@ const ShowWallets = ({ userInfo, setWalletId }) => (
       title="Cuentas"
       subtitle="Seleccione una para ver el estado"
     />
-    {userInfo.expenses && (
-      <WalletsContainer wallet={userInfo.wallet} setWalletId={setWalletId} />
-    )}
+    {userInfo.expenses && <WalletsContainer wallet={userInfo.wallet} />}
   </React.Fragment>
 );
 
@@ -45,7 +44,7 @@ const StyledWalletDetails = styled.div`
     transition: transform 0.2s ease-in-out;
   }
 
-  button.close {
+  a.close {
     position: absolute;
     right: 1em;
     top: 1em;
@@ -61,8 +60,25 @@ const StyledWalletDetails = styled.div`
   }
 `;
 
-const ShowWalletDetails = ({ wallet, removeWalletId, setWallet }) => {
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
+
+const ShowWalletDetails = () => {
   const [addExpense, setAddExpense] = useState(false);
+  const [wallet, setWallet] = useState({});
+  const query = useQuery();
+  const walletId = query.get("walletId");
+
+  useEffect(() => {
+    if (walletId) {
+      axios
+        .get(`http://localhost:5000/wallet/${walletId}`)
+        .then(({ data }) => setWallet(data))
+        .catch(console.log);
+    }
+  }, [walletId]);
+
   return (
     <React.Fragment>
       <TitleContainer
@@ -87,41 +103,25 @@ const ShowWalletDetails = ({ wallet, removeWalletId, setWallet }) => {
             closeAddExpenseDialog={setAddExpense}
           />
         )}
-        <button className="close" onClick={() => removeWalletId("")}>
+        <Link className="close" to="/">
           X
-        </button>
+        </Link>
       </StyledWalletDetails>
     </React.Fragment>
   );
 };
 
 const Home = ({ userInfo }) => {
-  /* 1. no me muestres nada, solo detalles */
-  const [walletId, setWalletId] = useState("");
-  const [wallet, setWallet] = useState({});
-  /* 2. Mostrar todas las carteras SI walletId='' */
-
-  /* 3. Si selecciono walletId hacer un fetch al servidor */
-  useEffect(() => {
-    if (walletId) {
-      axios
-        .get(`http://localhost:5000/wallet/${walletId}`)
-        .then(({ data }) => setWallet(data))
-        .catch(console.log);
-    }
-  }, [walletId]);
-
-  if (walletId) {
-    return (
-      <ShowWalletDetails
-        wallet={wallet}
-        setWallet={setWallet}
-        removeWalletId={setWalletId}
-      />
-    );
-  } else {
-    return <ShowWallets userInfo={userInfo} setWalletId={setWalletId} />;
-  }
+  return (
+    <Switch>
+      <Route path="/details">
+        <ShowWalletDetails />
+      </Route>
+      <Route path="/">
+        <ShowWallets userInfo={userInfo} />
+      </Route>
+    </Switch>
+  );
 };
 
 export default Home;
