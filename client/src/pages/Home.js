@@ -8,10 +8,13 @@ import TitleContainer from "../components/TitleContainer";
 import TitleAndSubtitle from "../components/TitleAndSubtitle";
 
 import Add from "../components/Add";
+import AddWallet from "../components/AddWallet";
 
 import BalanceCard from "../components/MonthBalance";
 import Expenses from "../components/Expenses";
 // import { Container } from './styles';
+
+
 
 const ShowWallets = ({ userInfo, setWalletId }) => (
   <React.Fragment>
@@ -111,9 +114,12 @@ const ShowWalletDetails = () => {
   );
 };
 
-const Home = ({ userInfo }) => {
+const Home = ({ userInfo, setUserInfo }) => {
   return (
     <Switch>
+      <Route path="/add-wallet">
+        <AddWallet setUserInfo={setUserInfo} />
+      </Route>
       <Route path="/details">
         <ShowWalletDetails />
       </Route>

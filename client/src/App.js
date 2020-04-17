@@ -28,7 +28,7 @@ function App() {
         <MainContainer>
           <Switch>
             <Route path="/">
-              <Home userInfo={userInfo} />
+              <Home userInfo={userInfo} setUserInfo={setUserInfo} />
             </Route>
           </Switch>
           <Navbar />

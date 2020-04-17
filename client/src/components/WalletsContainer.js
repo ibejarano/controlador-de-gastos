@@ -4,14 +4,29 @@ import { Link } from "react-router-dom";
 
 import TitleAndSubtitle from "./TitleAndSubtitle";
 
+const StyledPlusLink = styled.div`
+  font-size: 2em;
+  border-radius: 50%;
+  background: ${(props) => props.theme.color.yellowText};
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
+  margin-bottom: 1em;
+  text-decoration: none;
+  h1 {
+    margin: auto;
+    text-align: center;
+  }
+`;
+
 const StyledWalletContainer = styled.div`
   background: ${(props) => props.theme.color.yellowText};
   /* height: 100px; */
   border-radius: 10px;
   padding: 1em;
   position: relative;
-  max-width: 450px;
-  /* min-width: 300px; */
+  min-width: 280px;
+  margin-bottom: 2em;
 
   .wallet-title {
     padding: 0;
@@ -52,13 +67,24 @@ const WalletContainer = ({ singleWallet, setWalletId }) => (
   </StyledWalletContainer>
 );
 
+const StyledWallets = styled.div`
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+`;
+
 const WalletsContainer = ({ wallet }) => {
   return (
-    <React.Fragment>
+    <StyledWallets>
       {wallet.map((singleWallet) => (
         <WalletContainer key={singleWallet._id} singleWallet={singleWallet} />
       ))}
-    </React.Fragment>
+      <Link to="/add-wallet">
+        <StyledPlusLink>
+          <h1>+</h1>
+        </StyledPlusLink>
+      </Link>
+    </StyledWallets>
   );
 };
 
