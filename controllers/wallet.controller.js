@@ -13,20 +13,21 @@ async function getWalletInfo(req, res) {
   }
 }
 
-async function newWallet(req, res) {
+async function newWallet(req, res, next) {
   try {
-    const { balance, name, account, currency, userId } = req.body;
+    const { balance, name, description, currency } = req.body;
     /* TODO Cambiar userId que luego venga por middleware */
 
     const wallet = new Wallet({
       balance,
       name,
-      account,
+      description,
       currency,
     });
 
     await wallet.save();
-    res.json({ message: "Billetera guardada!", walletId: wallet._id });
+    req.walletId = wallet._id;
+    next();
   } catch (error) {
     res.status(401).json(error.message);
   }

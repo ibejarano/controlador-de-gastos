@@ -54,12 +54,13 @@ async function addWallet(req, res) {
       throw new Error("ID de usuario debe ser provisto");
     }
     const user = await User.findById(req.params.id);
-    if (!req.params.wallet) {
+    if (!req.walletId) {
       throw new Error("Id de billetera no provista");
     }
-    user.wallet.push(req.params.wallet);
+    user.wallet.push(req.walletId);
     await user.save();
-    res.json("Nueva billetera agregada");
+    const resUser = await User.findById(req.params.id).populate('wallet')
+    res.json({ walletId: req.walletId, userInfo: resUser });
   } catch (error) {
     res.status(400).json(error.message);
   }
@@ -100,5 +101,5 @@ module.exports = {
   registerNewUser,
   updateUser,
   addWallet,
-  deleteUser
+  deleteUser,
 };
