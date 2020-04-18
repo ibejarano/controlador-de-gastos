@@ -16,14 +16,14 @@ import Expenses from "../components/Expenses";
 
 
 
-const ShowWallets = ({ userInfo, setWalletId }) => (
+const ShowWallets = ({ userInfo, setUserInfo }) => (
   <React.Fragment>
     <TitleContainer username={userInfo.username} />
     <TitleAndSubtitle
       title="Cuentas"
       subtitle="Seleccione una para ver el estado"
     />
-    {userInfo.expenses && <WalletsContainer wallet={userInfo.wallet} />}
+    {userInfo.expenses && <WalletsContainer userInfo={userInfo} setUserInfo={setUserInfo } />}
   </React.Fragment>
 );
 
@@ -124,7 +124,7 @@ const Home = ({ userInfo, setUserInfo }) => {
         <ShowWalletDetails />
       </Route>
       <Route path="/">
-        <ShowWallets userInfo={userInfo} />
+        <ShowWallets userInfo={userInfo} setUserInfo={setUserInfo} />
       </Route>
     </Switch>
   );

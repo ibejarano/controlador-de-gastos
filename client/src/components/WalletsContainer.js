@@ -1,6 +1,9 @@
 import React from "react";
 import styled from "styled-components";
+import axios from "axios";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 
 import TitleAndSubtitle from "./TitleAndSubtitle";
 
@@ -34,7 +37,7 @@ const StyledWalletContainer = styled.div`
     margin-bottom: 1em;
   }
 
-  a {
+  a.details {
     background: ${(props) => props.theme.color.purpleText};
     color: ${(props) => props.theme.color.yellowText};
     font-weight: bold;
@@ -45,27 +48,91 @@ const StyledWalletContainer = styled.div`
     padding: 0.25em 0.4em;
     text-decoration: none;
   }
+
+  button.dropdown-options {
+    border: none;
+    background: inherit;
+    color: ${(props) => props.theme.color.purpleText};
+    font-weight: bold;
+    font-size: 1.1em;
+    position: absolute;
+    right: 1em;
+    top: 1em;
+    padding: 0.25em 0.4em;
+    cursor: pointer;
+  }
+
+  button.option {
+    background: ${(props) => props.theme.color.purpleText};
+    color: ${(props) => props.theme.color.yellowText};
+    font-weight: bold;
+    font-size: 0.8em;
+    position: absolute;
+    right: 3em;
+    top: 2em;
+    padding: 0.25em 0.4em;
+    border: none;
+  }
 `;
 
-const WalletContainer = ({ singleWallet, setWalletId }) => (
-  <StyledWalletContainer>
-    <div className="wallet-title">
-      <TitleAndSubtitle
-        title={singleWallet.name}
-        subtitle="Implementacion pendiente Descripcion"
-        invert={true}
-      />
-    </div>
-    <div className="wallet-balance">
-      <TitleAndSubtitle
-        title={`Balance: $${singleWallet.balance}`}
-        subtitle={`Moneda: ${singleWallet.currency.toUpperCase()}`}
-        invert={true}
-      />
-    </div>
-    <Link to={`/details?walletId=${singleWallet._id}`}>Ver Detalles</Link>
-  </StyledWalletContainer>
-);
+const WalletContainer = ({ singleWallet,userInfo, setUserInfo  }) => {
+  const [showMenu, setShowMenu] = React.useState(false);
+  const openMenu = (e) => {
+    e.preventDefault();
+    setShowMenu(true);
+    document.addEventListener("click", closeMenu);
+  };
+
+  const closeMenu = () => {
+    setShowMenu(false);
+
+    document.removeEventListener("click", closeMenu);
+  };
+
+  return (
+    <StyledWalletContainer>
+      <div className="wallet-title">
+        <TitleAndSubtitle
+          title={singleWallet.name}
+          subtitle="Implementacion pendiente Descripcion"
+          invert={true}
+        />
+      </div>
+      <div className="wallet-balance">
+        <TitleAndSubtitle
+          title={`Balance: $${singleWallet.balance}`}
+          subtitle={`Moneda: ${singleWallet.currency.toUpperCase()}`}
+          invert={true}
+        />
+      </div>
+      <Link className="details" to={`/details?walletId=${singleWallet._id}`}>
+        Ver Detalles
+      </Link>
+      <button type="button" className="dropdown-options" onClick={openMenu}>
+        <FontAwesomeIcon icon={faEllipsisV} />
+      </button>
+      {showMenu && (
+        <button
+          className="option"
+          onClick={() => {
+            axios
+              .delete(`http://localhost:5000/wallet/${singleWallet._id}`)
+              .then((res) => {
+                console.log(res);
+                const filteredUserInfo = {...userInfo};
+                const updatedWallet = filteredUserInfo.wallet.filter(wallet => wallet._id !== singleWallet._id )
+                filteredUserInfo.wallet = updatedWallet
+                setUserInfo(filteredUserInfo) 
+              })
+              .catch(console.log);
+          }}
+        >
+          Borrar Billetera
+        </button>
+      )}
+    </StyledWalletContainer>
+  );
+};
 
 const StyledWallets = styled.div`
   display: flex;
@@ -79,11 +146,11 @@ const StyledWallets = styled.div`
   }
 `;
 
-const WalletsContainer = ({ wallet }) => {
+const WalletsContainer = ({ userInfo, setUserInfo  }) => {
   return (
     <StyledWallets>
-      {wallet.map((singleWallet) => (
-        <WalletContainer key={singleWallet._id} singleWallet={singleWallet} />
+      {userInfo.wallet.map((singleWallet) => (
+        <WalletContainer key={singleWallet._id} singleWallet={singleWallet} userInfo={userInfo} setUserInfo={setUserInfo}   />
       ))}
       <Link to="/add-wallet">
         <StyledPlusLink>
