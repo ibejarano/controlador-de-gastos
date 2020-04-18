@@ -40,8 +40,7 @@ const StyledLinks = styled.div`
   flex-flow: column nowrap;
   align-items: center;
   justify-content: space-evenly;
-  border-left: 1px solid ${(props) => props.theme.color.mainBackground};
-  border-right: 1px solid ${(props) => props.theme.color.mainBackground};
+
   text-decoration: none;
 
   svg {
