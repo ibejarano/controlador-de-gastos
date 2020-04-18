@@ -4,13 +4,16 @@ import { Redirect } from "react-router-dom";
 import Dropdown from "react-dropdown";
 import axios from "axios";
 
+import TitleContainer from "./TitleContainer";
+
 const StyledForm = styled.form`
   background: ${(props) => props.theme.color.yellowText};
   display: flex;
   flex-flow: column nowrap;
   padding: 1em;
   border-radius: 1em;
-  margin: 0 24px;
+  margin: 2em auto;
+  max-width: 450px;
   label {
     font-weight: bold;
   }
@@ -47,7 +50,7 @@ const SubmitButton = () => {
   return <StyledButton type="submit">Agregar</StyledButton>;
 };
 
-const AddWallet = ({setUserInfo}) => {
+const AddWallet = ({ setUserInfo }) => {
   const [fields, setFields] = useState({
     name: "TEST",
     description: "TEST DESCRIPTION",
@@ -68,44 +71,48 @@ const AddWallet = ({setUserInfo}) => {
   return redirect ? (
     <Redirect to={redirect} />
   ) : (
-    <StyledForm
-      onSubmit={(e) => {
-        e.preventDefault();
-        axios
-          .post(`http://localhost:5000/wallet/new/${USERID_TEST}`, fields)
-          .then(({ data }) => {
-            setUserInfo(data.userInfo)
-            setRedirect(`/details?walletId=${data.walletId}`)})
-          .catch(console.log);
-      }}
-    >
-      <label>Nombre</label>
-      <input name="name" value={name} type="text" onChange={handleChange} />
-      <label>Descripcion</label>
-      <input
-        name="description"
-        value={description}
-        type="text"
-        onChange={handleChange}
-      />
-      <label>Monto Inicial</label>
-      <input
-        name="balance"
-        value={balance}
-        type="number"
-        onChange={handleChange}
-      />
-      <label>Seccion</label>
-      <StyledDropdown>
-        <Dropdown
-          options={OPTIONS_DROPDOWN.map((opt) => opt.toUpperCase())}
-          value={currency}
-          onChange={(e) => setFields({ ...fields, currency: e.value })}
-          placeholder="Selecciona una opcion..."
+    <React.Fragment>
+      <TitleContainer title="Agregar nueva billetera" />
+      <StyledForm
+        onSubmit={(e) => {
+          e.preventDefault();
+          axios
+            .post(`http://localhost:5000/wallet/new/${USERID_TEST}`, fields)
+            .then(({ data }) => {
+              setUserInfo(data.userInfo);
+              setRedirect(`/details?walletId=${data.walletId}`);
+            })
+            .catch(console.log);
+        }}
+      >
+        <label>Nombre</label>
+        <input name="name" value={name} type="text" onChange={handleChange} />
+        <label>Descripcion</label>
+        <input
+          name="description"
+          value={description}
+          type="text"
+          onChange={handleChange}
         />
-      </StyledDropdown>
-      <SubmitButton />
-    </StyledForm>
+        <label>Monto Inicial</label>
+        <input
+          name="balance"
+          value={balance}
+          type="number"
+          onChange={handleChange}
+        />
+        <label>Seccion</label>
+        <StyledDropdown>
+          <Dropdown
+            options={OPTIONS_DROPDOWN.map((opt) => opt.toUpperCase())}
+            value={currency}
+            onChange={(e) => setFields({ ...fields, currency: e.value })}
+            placeholder="Selecciona una opcion..."
+          />
+        </StyledDropdown>
+        <SubmitButton />
+      </StyledForm>
+    </React.Fragment>
   );
 };
 

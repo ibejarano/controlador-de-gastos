@@ -2,8 +2,9 @@ import React from "react";
 import styled from "styled-components";
 
 const MainContainerStyle = styled.div`
-  background: ${props => props.theme.color.mainBackground};
+  background: ${(props) => props.theme.color.mainBackground};
   padding-top: 24px;
+  min-height: 100vh;
   > div {
     margin: 24px;
   }
