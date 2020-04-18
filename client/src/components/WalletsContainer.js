@@ -71,6 +71,12 @@ const StyledWallets = styled.div`
   display: flex;
   flex-flow: column wrap;
   align-items: center;
+
+  @media (min-width: 600px) {
+    flex-flow: row wrap;
+    justify-content: space-around;
+    padding: 0 4em;
+  }
 `;
 
 const WalletsContainer = ({ wallet }) => {
