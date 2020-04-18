@@ -6,8 +6,6 @@ router.get("/", User.getAll);
 
 router.get("/:id", User.getOne);
 
-router.post("/register", User.registerNewUser);
-
 router.put("/", User.updateUser);
 
 router.put("/:id/:wallet", User.addWallet ) 

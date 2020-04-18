@@ -22,13 +22,26 @@ async function getOne(req, res, next) {
   }
 }
 
-async function registerNewUser(req, res) {
+async function register(req, res) {
   /* TODO1 Encriptar password  */
   /*  form validation desde front end*/
   try {
     const user = new User({ ...req.body });
     await user.save();
-    res.json("Nuevo usuario registrado!");
+    res.json({ data: user, message: "Nuevo usuario registrado!" });
+  } catch (err) {
+    res.status(401).json(err.message);
+  }
+}
+
+async function login(req, res) {
+  try {
+    const { email, password } = req.body;
+    const user = await User.authenticate(email, password);
+    const token = await user.generateAuthToken();
+    res
+      .cookie("expenses-tracker-cookie", token)
+      .json({ data: user, message: "Login satisfactorio! Bienvenid@!" });
   } catch (err) {
     res.status(401).json(err.message);
   }
@@ -59,7 +72,7 @@ async function addWallet(req, res) {
     }
     user.wallet.push(req.walletId);
     await user.save();
-    const resUser = await User.findById(req.params.id).populate('wallet')
+    const resUser = await User.findById(req.params.id).populate("wallet");
     res.json({ walletId: req.walletId, userInfo: resUser });
   } catch (error) {
     res.status(400).json(error.message);
@@ -98,7 +111,8 @@ function checkUserIdProvided(clientReq) {
 module.exports = {
   getAll,
   getOne,
-  registerNewUser,
+  register,
+  login,
   updateUser,
   addWallet,
   deleteUser,
