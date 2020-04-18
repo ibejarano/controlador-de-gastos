@@ -61,6 +61,12 @@ const StyledWalletDetails = styled.div`
   button:hover {
     transform: scale(1.2);
   }
+
+  @media (min-width: 600px) {
+    padding-left: 6em;
+    padding-right: 6em;
+  }
+
 `;
 
 function useQuery() {

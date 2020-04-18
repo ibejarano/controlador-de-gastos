@@ -10,6 +10,10 @@ const ExpensesStyled = styled.div`
   align-content: center;
   padding-bottom: 20px;
   padding: 0;
+
+  @media (min-width: 600px){
+    flex-flow: column nowrap;
+  }
 `;
 
 export default function Expenses({ expenses }) {
