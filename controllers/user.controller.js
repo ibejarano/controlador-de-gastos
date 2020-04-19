@@ -47,6 +47,17 @@ async function login(req, res) {
   }
 }
 
+async function logout(req, res) {
+  try {
+    const user = await User.findById(req.userId);
+    user.token = "";
+    await user.save();
+    res.clearCookie("expenses-tracker-cookie").json("Logout satisfactorio!");
+  } catch (err) {
+    res.status(400).json(err.message);
+  }
+}
+
 async function updateUser(req, res) {
   try {
     /* TODO  Viene de middleware cookie parser luego*/
@@ -113,6 +124,7 @@ module.exports = {
   getOne,
   register,
   login,
+  logout,
   updateUser,
   addWallet,
   deleteUser,
