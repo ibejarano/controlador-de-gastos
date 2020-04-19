@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -29,6 +30,11 @@ const sections = [
     name: "Info",
     url: "/info",
     icon: faInfoCircle,
+  },
+  {
+    name: "Logout",
+    url: "/logout",
+    icon: faChartBar,
   },
 ];
 
@@ -71,8 +77,8 @@ const StyledNav = styled.nav`
   width: 100%;
   justify-content: space-around;
   background: ${(props) => props.theme.color.yellowText};
-  
-  @media (min-width: 600px){
+
+  @media (min-width: 600px) {
     flex-flow: column nowrap;
     bottom: 40vh;
     left: 0;
