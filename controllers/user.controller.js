@@ -1,21 +1,9 @@
 const { User } = require("../models");
 
-async function getAll(req, res) {
+async function get(req, res, next) {
   try {
-    const users = await User.find().populate("wallet");
-    res.send(users);
-  } catch (err) {
-    res.status(500).json(err.message);
-  }
-}
-
-async function getOne(req, res, next) {
-  try {
-    if (!req.params.id) {
-      throw new Error("ID de usuario debe ser provisto");
-    }
-    const users = await User.findById(req.params.id).populate("wallet");
-    res.send(users);
+    const user = await User.findById(req.userId).populate("wallet");
+    res.send({ user });
   } catch (err) {
     // res.status(500).json(err.message);
     next(err);
@@ -28,7 +16,7 @@ async function register(req, res) {
   try {
     const user = new User({ ...req.body });
     await user.save();
-    res.json({ data: user, message: "Nuevo usuario registrado!" });
+    res.json({ user, message: "Nuevo usuario registrado!" });
   } catch (err) {
     res.status(401).json(err.message);
   }
@@ -40,8 +28,10 @@ async function login(req, res) {
     const user = await User.authenticate(email, password);
     const token = await user.generateAuthToken();
     res
-      .cookie("expenses-tracker-cookie", token)
-      .json({ data: user, message: "Login satisfactorio! Bienvenid@!" });
+      .cookie("expenses-tracker-cookie", token, {
+        httpOnly: true
+      })
+      .json({ user, message: "Login satisfactorio! Bienvenid@!" });
   } catch (err) {
     res.status(401).json(err.message);
   }
@@ -120,8 +110,7 @@ function checkUserIdProvided(clientReq) {
 }
 
 module.exports = {
-  getAll,
-  getOne,
+  get,
   register,
   login,
   logout,

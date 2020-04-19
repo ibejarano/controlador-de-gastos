@@ -16,7 +16,15 @@ mongoose
   .catch(console.log);
 
 const app = express();
-app.use(cors());
+
+const corsOptions = {
+  origin: ['http://localhost:3000' ],
+  methods: "GET,HEAD,POST,PATCH,DELETE,PUT,OPTIONS",
+  credentials: true, // required to pass
+  allowedHeaders: "Content-Type, Authorization, X-Requested-With",
+};
+
+app.use(cors(corsOptions));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
