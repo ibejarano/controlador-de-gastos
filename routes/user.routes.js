@@ -10,7 +10,7 @@ router.put("/:id/:wallet", User.addWallet);
 
 /* Reemplazar por logida de arriba */
 
-router.post("/logout", User.logout);
+router.get("/logout", User.logout);
 
 // router.delete("/", User.deleteUser);
 
