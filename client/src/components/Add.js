@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Dropdown from "react-dropdown";
-import axios from "axios";
+import { addExpense } from "../helpers/requests";
 
 const StyledForm = styled.form`
   background: ${(props) => props.theme.color.yellowText};
@@ -71,7 +71,7 @@ const SubmitButton = () => {
   return <StyledButton type="submit">Agregar</StyledButton>;
 };
 
-const AddExpense = ({ wallet, setWallet, closeAddExpenseDialog }) => {
+const AddExpense = ({ wallet, setWallet, closeAddExpenseDialog, setError }) => {
   const [fields, setFields] = useState({
     description: "",
     amount: "",
@@ -79,7 +79,7 @@ const AddExpense = ({ wallet, setWallet, closeAddExpenseDialog }) => {
     fromWallet: wallet._id,
   });
 
-  const {description, amount, section} = fields
+  const { description, amount, section } = fields;
 
   const handleChange = (e) => {
     setFields({ ...fields, [e.target.name]: e.target.value });
@@ -87,16 +87,16 @@ const AddExpense = ({ wallet, setWallet, closeAddExpenseDialog }) => {
 
   return (
     <StyledForm
-      onSubmit={(e) => {
+      onSubmit={async (e) => {
         e.preventDefault();
-        axios
-          .put(`http://localhost:5000/wallet/${wallet._id}/new-expense`, fields)
-          .then(({ data }) => {
-            console.log(data);
-            setWallet(data.wallet);
-            closeAddExpenseDialog(false);
-          })
-          .catch(console.log);
+
+        const { data, err } = await addExpense(wallet._id, fields);
+        if (err) {
+          setError(err.response.data.error);
+        } else {
+          setWallet(data.wallet);
+          closeAddExpenseDialog(false);
+        }
       }}
     >
       <label>Descripcion</label>
@@ -118,7 +118,7 @@ const AddExpense = ({ wallet, setWallet, closeAddExpenseDialog }) => {
         <Dropdown
           options={OPTIONS_DROPDOWN}
           value={section}
-          onChange={(e) => setFields({...fields, section: e.value}) }
+          onChange={(e) => setFields({ ...fields, section: e.value })}
           placeholder="Selecciona una opcion..."
         />
       </StyledDropdown>

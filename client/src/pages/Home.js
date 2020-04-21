@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Switch, Route, Link, useLocation } from "react-router-dom";
-import axios from "axios";
 import styled from "styled-components";
 
 import WalletsContainer from "../components/WalletsContainer";
@@ -9,12 +8,11 @@ import TitleAndSubtitle from "../components/TitleAndSubtitle";
 
 import Add from "../components/Add";
 import AddWallet from "../components/AddWallet";
-
 import BalanceCard from "../components/MonthBalance";
 import Expenses from "../components/Expenses";
-// import { Container } from './styles';
+import Error from "../components/Error";
 
-
+import { getWalletDetails } from "../helpers/requests";
 
 const ShowWallets = ({ userInfo, setUserInfo }) => (
   <React.Fragment>
@@ -23,7 +21,9 @@ const ShowWallets = ({ userInfo, setUserInfo }) => (
       title="Cuentas"
       subtitle="Seleccione una para ver el estado"
     />
-    {userInfo && <WalletsContainer userInfo={userInfo} setUserInfo={setUserInfo } />}
+    {userInfo && (
+      <WalletsContainer userInfo={userInfo} setUserInfo={setUserInfo} />
+    )}
   </React.Fragment>
 );
 
@@ -66,7 +66,6 @@ const StyledWalletDetails = styled.div`
     padding-left: 6em;
     padding-right: 6em;
   }
-
 `;
 
 function useQuery() {
@@ -76,15 +75,23 @@ function useQuery() {
 const ShowWalletDetails = () => {
   const [addExpense, setAddExpense] = useState(false);
   const [wallet, setWallet] = useState({});
+  const [error, setError] = useState(null);
   const query = useQuery();
   const walletId = query.get("walletId");
 
   useEffect(() => {
+    async function fetchData() {
+      const { data, err } = await getWalletDetails(walletId);
+      if (err) {
+        setError(err.response.data.error);
+      } else {
+        console.log(data);
+        setWallet(data);
+      }
+    }
+
     if (walletId) {
-      axios
-        .get(`http://localhost:5000/wallet/${walletId}`)
-        .then(({ data }) => setWallet(data))
-        .catch(console.log);
+      fetchData();
     }
   }, [walletId]);
 
@@ -110,12 +117,14 @@ const ShowWalletDetails = () => {
             wallet={wallet}
             setWallet={setWallet}
             closeAddExpenseDialog={setAddExpense}
+            setError={setError}
           />
         )}
         <Link className="close" to="/">
           X
         </Link>
       </StyledWalletDetails>
+      {error && <Error error={error} />}
     </React.Fragment>
   );
 };

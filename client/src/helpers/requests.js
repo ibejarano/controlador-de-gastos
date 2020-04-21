@@ -5,10 +5,32 @@ const transport = axios.create({
 });
 
 export async function addWallet(fields) {
-  console.log("pidiendoo");
   try {
     const { data } = await transport.post(
       "http://localhost:5000/wallet/new",
+      fields
+    );
+    return { data };
+  } catch (err) {
+    return { err };
+  }
+}
+
+export async function getWalletDetails(walletId) {
+  try {
+    const { data } = await transport.get(
+      `http://localhost:5000/wallet/${walletId}`
+    );
+    return { data };
+  } catch (err) {
+    return { err };
+  }
+}
+
+export async function addExpense(walletId, fields) {
+  try {
+    const { data } = await transport.put(
+      `http://localhost:5000/wallet/${walletId}/new-expense`,
       fields
     );
     return { data };
