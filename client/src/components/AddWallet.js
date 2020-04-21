@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { Redirect } from "react-router-dom";
 import Dropdown from "react-dropdown";
-import axios from "axios";
+
+import { addWallet } from "../helpers/requests";
 
 import TitleContainer from "./TitleContainer";
+import Error from "./Error";
 
 const StyledForm = styled.form`
   background: ${(props) => props.theme.color.yellowText};
@@ -57,6 +59,7 @@ const AddWallet = ({ setUserInfo }) => {
     balance: 12200.0,
     currency: "ARS",
   });
+  const [error, setError] = useState(null);
 
   const [redirect, setRedirect] = useState(null);
 
@@ -66,23 +69,21 @@ const AddWallet = ({ setUserInfo }) => {
     setFields({ ...fields, [e.target.name]: e.target.value });
   };
 
-  const USERID_TEST = "5e89de48d8784a4727158acc";
-
   return redirect ? (
     <Redirect to={redirect} />
   ) : (
     <React.Fragment>
       <TitleContainer title="Agregar nueva billetera" />
       <StyledForm
-        onSubmit={(e) => {
+        onSubmit={async (e) => {
           e.preventDefault();
-          axios
-            .post(`http://localhost:5000/wallet/new/${USERID_TEST}`, fields)
-            .then(({ data }) => {
-              setUserInfo(data.userInfo);
-              setRedirect(`/details?walletId=${data.walletId}`);
-            })
-            .catch(console.log);
+          const { err, data } = await addWallet(fields);
+          if (err) {
+            setError(err.response.data.error);
+          } else {
+            setUserInfo(data.userInfo);
+            setRedirect(`/details?walletId=${data.walletId}`);
+          }
         }}
       >
         <label>Nombre</label>
@@ -112,6 +113,7 @@ const AddWallet = ({ setUserInfo }) => {
         </StyledDropdown>
         <SubmitButton />
       </StyledForm>
+      {error && <Error error={error} />}
     </React.Fragment>
   );
 };

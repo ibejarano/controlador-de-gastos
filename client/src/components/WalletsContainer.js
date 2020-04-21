@@ -75,7 +75,7 @@ const StyledWalletContainer = styled.div`
   }
 `;
 
-const WalletContainer = ({ singleWallet,userInfo, setUserInfo  }) => {
+const WalletContainer = ({ singleWallet, userInfo, setUserInfo }) => {
   const [showMenu, setShowMenu] = React.useState(false);
   const openMenu = (e) => {
     e.preventDefault();
@@ -119,10 +119,12 @@ const WalletContainer = ({ singleWallet,userInfo, setUserInfo  }) => {
               .delete(`http://localhost:5000/wallet/${singleWallet._id}`)
               .then((res) => {
                 console.log(res);
-                const filteredUserInfo = {...userInfo};
-                const updatedWallet = filteredUserInfo.wallet.filter(wallet => wallet._id !== singleWallet._id )
-                filteredUserInfo.wallet = updatedWallet
-                setUserInfo(filteredUserInfo) 
+                const filteredUserInfo = { ...userInfo };
+                const updatedWallet = filteredUserInfo.wallet.filter(
+                  (wallet) => wallet._id !== singleWallet._id
+                );
+                filteredUserInfo.wallet = updatedWallet;
+                setUserInfo(filteredUserInfo);
               })
               .catch(console.log);
           }}
@@ -146,11 +148,16 @@ const StyledWallets = styled.div`
   }
 `;
 
-const WalletsContainer = ({ userInfo, setUserInfo  }) => {
+const WalletsContainer = ({ userInfo, setUserInfo }) => {
   return (
     <StyledWallets>
       {userInfo.wallet.map((singleWallet) => (
-        <WalletContainer key={singleWallet._id} singleWallet={singleWallet} userInfo={userInfo} setUserInfo={setUserInfo}   />
+        <WalletContainer
+          key={singleWallet._id}
+          singleWallet={singleWallet}
+          userInfo={userInfo}
+          setUserInfo={setUserInfo}
+        />
       ))}
       <Link to="/add-wallet">
         <StyledPlusLink>

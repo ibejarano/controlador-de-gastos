@@ -23,7 +23,7 @@ const ShowWallets = ({ userInfo, setUserInfo }) => (
       title="Cuentas"
       subtitle="Seleccione una para ver el estado"
     />
-    {userInfo.expenses && <WalletsContainer userInfo={userInfo} setUserInfo={setUserInfo } />}
+    {userInfo && <WalletsContainer userInfo={userInfo} setUserInfo={setUserInfo } />}
   </React.Fragment>
 );
 
