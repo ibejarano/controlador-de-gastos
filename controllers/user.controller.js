@@ -63,17 +63,10 @@ async function updateUser(req, res) {
 
 async function addWallet(req, res) {
   try {
-    /* TODO  Viene de middleware cookie parser luego*/
-    if (!req.params.id) {
-      throw new Error("ID de usuario debe ser provisto");
-    }
-    const user = await User.findById(req.params.id);
-    if (!req.walletId) {
-      throw new Error("Id de billetera no provista");
-    }
+    const user = await User.findById(req.userId);
     user.wallet.push(req.walletId);
     await user.save();
-    const resUser = await User.findById(req.params.id).populate("wallet");
+    const resUser = await User.findById(req.userId).populate("wallet");
     res.json({ walletId: req.walletId, userInfo: resUser });
   } catch (error) {
     res.status(400).json(error.message);

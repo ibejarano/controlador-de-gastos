@@ -16,8 +16,6 @@ async function getWalletInfo(req, res) {
 async function newWallet(req, res, next) {
   try {
     const { balance, name, description, currency } = req.body;
-    /* TODO Cambiar userId que luego venga por middleware */
-
     const wallet = new Wallet({
       balance,
       name,

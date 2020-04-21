@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get("/:id", Wallet.getWalletInfo);
 
-router.post("/new/:id", Wallet.newWallet, User.addWallet);
+router.post("/new", Wallet.newWallet, User.addWallet);
 
 router.put('/:id/new-expense', Expense.registerExpense, Wallet.addExpense)
 
