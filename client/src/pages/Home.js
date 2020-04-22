@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Route, Link, useLocation, Switch } from "react-router-dom";
 import styled from "styled-components";
+import { Circle } from "react-spinners-css";
 
 import WalletsContainer from "../components/WalletsContainer";
 import TitleContainer from "../components/TitleContainer";
@@ -75,6 +76,7 @@ function useQuery() {
 const ShowWalletDetails = () => {
   const [addExpense, setAddExpense] = useState(false);
   const [wallet, setWallet] = useState({});
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const query = useQuery();
   const walletId = query.get("walletId");
@@ -87,6 +89,7 @@ const ShowWalletDetails = () => {
       } else {
         setWallet(data);
       }
+      setLoading(false);
     }
 
     if (walletId) {
@@ -98,31 +101,38 @@ const ShowWalletDetails = () => {
     <React.Fragment>
       <TitleContainer
         title={
-          addExpense ? "Agregar nuevo registro" : `Billetera: ${wallet.name}`
+          loading
+            ? "Cargando..."
+            : addExpense
+            ? "Agregar nuevo registro"
+            : `Billetera: ${wallet.name}`
         }
       />
-      <StyledWalletDetails>
-        {wallet.expenses && !addExpense && <BalanceCard wallet={wallet} />}
-        {wallet.expenses && !addExpense && (
-          <React.Fragment>
-            <button className="add" onClick={() => setAddExpense(true)}>
-              Agregar nuevo registro
-            </button>
-            <Expenses expenses={wallet.expenses} />
-          </React.Fragment>
-        )}
-        {addExpense && (
-          <Add
-            wallet={wallet}
-            setWallet={setWallet}
-            closeAddExpenseDialog={setAddExpense}
-            setError={setError}
-          />
-        )}
-        <Link className="close" to="/">
-          X
-        </Link>
-      </StyledWalletDetails>
+      {loading && <Circle />}
+      {!loading && (
+        <StyledWalletDetails>
+          {wallet.expenses && !addExpense && <BalanceCard wallet={wallet} />}
+          {wallet.expenses && !addExpense && (
+            <React.Fragment>
+              <button className="add" onClick={() => setAddExpense(true)}>
+                Agregar nuevo registro
+              </button>
+              <Expenses expenses={wallet.expenses} />
+            </React.Fragment>
+          )}
+          {addExpense && (
+            <Add
+              wallet={wallet}
+              setWallet={setWallet}
+              closeAddExpenseDialog={setAddExpense}
+              setError={setError}
+            />
+          )}
+          <Link className="close" to="/">
+            X
+          </Link>
+        </StyledWalletDetails>
+      )}
       {error && <Error error={error} />}
     </React.Fragment>
   );
