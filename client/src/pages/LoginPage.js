@@ -17,7 +17,7 @@ const StyledForm = styled.form`
   }
 `;
 
-const LoginPage = ({ setLoggedIn, setUser }) => {
+const LoginPage = ({ setUser }) => {
   const [input, setInput] = useState({
     username: "",
     email: "",
@@ -93,8 +93,6 @@ const LoginPage = ({ setLoggedIn, setUser }) => {
               config
             );
             if (data.user) {
-              console.log(data);
-              setLoggedIn(true);
               setUser(data.user);
             }
           } else {

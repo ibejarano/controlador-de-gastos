@@ -15,7 +15,6 @@ import "./App.css";
 
 function App() {
   const [user, setUser] = useState(null);
-  const [loggedIn, setLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -56,7 +55,7 @@ function App() {
                 <Navbar />
               </React.Fragment>
             )}
-            {!user && <LoginPage setLoggedIn={setLoggedIn} setUser={setUser} />}
+            {!user && <LoginPage setUser={setUser} />}
           </MainContainer>
         )}
       </ThemeProvider>
