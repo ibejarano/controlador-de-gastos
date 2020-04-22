@@ -3,6 +3,7 @@ import { ThemeProvider } from "styled-components";
 import theme from "./themes/main";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import axios from "axios";
+import { Circle } from "react-spinners-css";
 
 import MainContainer from "./components/MainContainer";
 import LoginPage from "./pages/LoginPage";
@@ -13,8 +14,9 @@ import Navbar from "./components/Navbar";
 import "./App.css";
 
 function App() {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(null);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchData() {
@@ -22,14 +24,13 @@ function App() {
         const { data } = await axios.get("http://localhost:5000/user", {
           withCredentials: true,
         });
-        if (!user) {
-          setUser({});
-        } else {
+        if (data.user) {
           setUser(data.user);
-          setLoggedIn(true);
         }
       } catch (err) {
         console.log(err.message);
+      } finally {
+        setLoading(false);
       }
     }
 
@@ -39,20 +40,25 @@ function App() {
   return (
     <Router>
       <ThemeProvider theme={theme}>
-        {loggedIn && (
+        {loading && <Circle />}
+        {!loading && (
           <MainContainer>
-            <Switch>
-              <Route path="/logout">
-                <Logout />
-              </Route>
-              <Route path="/">
-                <Home userInfo={user} setUserInfo={setUser} />
-              </Route>
-            </Switch>
-            <Navbar />
+            {user && (
+              <React.Fragment>
+                <Switch>
+                  <Route path="/logout">
+                    <Logout />
+                  </Route>
+                  <Route path="/">
+                    <Home userInfo={user} setUserInfo={setUser} />
+                  </Route>
+                </Switch>
+                <Navbar />
+              </React.Fragment>
+            )}
+            {!user && <LoginPage setLoggedIn={setLoggedIn} setUser={setUser} />}
           </MainContainer>
         )}
-        {!loggedIn && <LoginPage setLoggedIn={setLoggedIn} setUser={setUser} />}
       </ThemeProvider>
     </Router>
   );
