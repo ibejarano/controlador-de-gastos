@@ -85,7 +85,6 @@ const ShowWalletDetails = () => {
       if (err) {
         setError(err.response.data.error);
       } else {
-        console.log(data);
         setWallet(data);
       }
     }

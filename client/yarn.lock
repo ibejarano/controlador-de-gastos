@@ -8732,6 +8732,13 @@ react-scripts@3.4.1:
   optionalDependencies:
     fsevents "2.1.2"
 
+react-spinners-css@^1.1.7:
+  version "1.1.7"
+  resolved "https://registry.yarnpkg.com/react-spinners-css/-/react-spinners-css-1.1.7.tgz#1143ef1051b77a76b2394a8c71db3db520ec0481"
+  integrity sha512-wcnFtGXCgFbIDsPr9CDoDU+F01uojf+ot/jJi4DUfHJ9S/zVRE7lIfSbsSHtIeDltclr3Dq9rHnAUdYaOt4SIg==
+  dependencies:
+    prop-types "^15.7.2"
+
 react@^16.13.1:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react/-/react-16.13.1.tgz#2e818822f1a9743122c063d6410d85c1e3afe48e"
