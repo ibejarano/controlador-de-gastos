@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import Dropdown from "react-dropdown";
 import { addExpense } from "../helpers/requests";
+import { DualRing } from "react-spinners-css";
 
 const StyledForm = styled.form`
   background: ${(props) => props.theme.color.yellowText};
@@ -65,10 +66,19 @@ const StyledButton = styled.button`
   font-weight: bold;
   border: none;
   border-radius: 10px;
+  height: 45px;
 `;
 
-const SubmitButton = () => {
-  return <StyledButton type="submit">Agregar</StyledButton>;
+const SubmitButton = ({ isSubmitting }) => {
+  return (
+    <StyledButton type="submit">
+      {isSubmitting ? (
+        <DualRing style={{ padding: 0, marginTop: 0 }} size={25} />
+      ) : (
+        "Agregar"
+      )}
+    </StyledButton>
+  );
 };
 
 const AddExpense = ({ wallet, setWallet, closeAddExpenseDialog, setError }) => {
@@ -80,6 +90,7 @@ const AddExpense = ({ wallet, setWallet, closeAddExpenseDialog, setError }) => {
   });
 
   const { description, amount, section } = fields;
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     setFields({ ...fields, [e.target.name]: e.target.value });
@@ -89,7 +100,7 @@ const AddExpense = ({ wallet, setWallet, closeAddExpenseDialog, setError }) => {
     <StyledForm
       onSubmit={async (e) => {
         e.preventDefault();
-
+        setIsSubmitting(true);
         const { data, err } = await addExpense(wallet._id, fields);
         if (err) {
           setError(err.response.data.error);
@@ -97,6 +108,7 @@ const AddExpense = ({ wallet, setWallet, closeAddExpenseDialog, setError }) => {
           setWallet(data.wallet);
           closeAddExpenseDialog(false);
         }
+        setIsSubmitting(false);
       }}
     >
       <label>Descripcion</label>
@@ -122,7 +134,7 @@ const AddExpense = ({ wallet, setWallet, closeAddExpenseDialog, setError }) => {
           placeholder="Selecciona una opcion..."
         />
       </StyledDropdown>
-      <SubmitButton />
+      <SubmitButton isSubmitting={isSubmitting} />
     </StyledForm>
   );
 };

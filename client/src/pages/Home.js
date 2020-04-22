@@ -7,7 +7,7 @@ import WalletsContainer from "../components/WalletsContainer";
 import TitleContainer from "../components/TitleContainer";
 import TitleAndSubtitle from "../components/TitleAndSubtitle";
 
-import Add from "../components/Add";
+import Add from "../components/AddExpense";
 import AddWallet from "../components/AddWallet";
 import BalanceCard from "../components/MonthBalance";
 import Expenses from "../components/Expenses";
