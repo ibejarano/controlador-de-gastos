@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Switch, Route, Link, useLocation } from "react-router-dom";
+import { Route, Link, useLocation, Switch } from "react-router-dom";
 import styled from "styled-components";
 
 import WalletsContainer from "../components/WalletsContainer";
