@@ -21,6 +21,7 @@ const StyledLogoutContainer = styled.div`
 const Logout = () => {
   const logoutConfirm = async () => {
     await logout();
+    sessionStorage.removeItem("expenses-user");
   };
 
   return (

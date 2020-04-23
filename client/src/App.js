@@ -13,18 +13,20 @@ import Navbar from "./components/Navbar";
 import "./App.css";
 
 function App() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(
+    JSON.parse(sessionStorage.getItem("expenses-user"))
+  );
   const [isAuth, setIsAuth] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
-      console.log("entro aca");
       try {
         const { data } = await axios.get("http://localhost:5000/user", {
           withCredentials: true,
         });
         if (data.user) {
           setUser(data.user);
+          sessionStorage.setItem("expenses-user", JSON.stringify(data.user));
         }
       } catch (err) {
         console.log(err.message);
