@@ -44,7 +44,7 @@ export async function login(input) {
     if (!input.email && !input.password) {
       throw new Error("Usuario y Password requeridos");
     }
-    const { data } = await axios.post("http://localhost:5000/login", input);
+    const { data } = await transport.post("http://localhost:5000/login", input);
     return { data };
   } catch (err) {
     if (err.message) {
@@ -68,7 +68,7 @@ export async function register(input) {
     if (input.password !== input.confPassword) {
       throw new Error("Los passwords no coinciden");
     }
-    const { data, message } = await axios.post(
+    const { data, message } = await transport.post(
       "http://localhost:5000/register",
       input
     );
