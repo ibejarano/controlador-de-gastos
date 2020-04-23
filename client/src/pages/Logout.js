@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import axios from "axios";
+
+import { logout } from "../helpers/requests";
 
 const StyledLogoutContainer = styled.div`
   background: ${(props) => props.theme.color.yellowText};
@@ -19,14 +20,7 @@ const StyledLogoutContainer = styled.div`
 
 const Logout = () => {
   const logoutConfirm = async () => {
-    try {
-      const res = await axios.get("http://localhost:5000/user/logout", {
-        withCredentials: true,
-      });
-      console.log(res);
-    } catch (err) {
-      console.log(err.message);
-    }
+    await logout();
   };
 
   return (

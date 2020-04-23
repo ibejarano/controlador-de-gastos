@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
+import { login, register } from "../helpers/requests";
+
+import SubmitButton from "../components/SubmitButton";
+import Error from "../components/Error";
 
 const StyledForm = styled.form`
   background: yellow;
@@ -24,6 +28,8 @@ const LoginPage = ({ setUser }) => {
     password: "",
     confPassword: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleChange = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
@@ -39,15 +45,15 @@ const LoginPage = ({ setUser }) => {
       <StyledForm
         onSubmit={async (e) => {
           e.preventDefault();
-          if (input.confPassword === input.password) {
-            const { data, message } = await axios.post(
-              "http://localhost:5000/register",
-              input
-            );
-            console.log(data, message);
+          setIsSubmitting(true);
+          const { data, message, err } = await register(input);
+          if (err) {
+            setError(err);
           } else {
-            console.log("no se puede");
+            setUser(data.user);
+            console.log(message);
           }
+          setIsSubmitting(false);
         }}
       >
         <label>Nombre de usuario</label>
@@ -73,31 +79,20 @@ const LoginPage = ({ setUser }) => {
           value={input.confPassword}
           onChange={handlePasswordConfirmation}
         />
-        <button type="submit">Unirse</button>
+        <SubmitButton text="Unirse" isSubmitting={isSubmitting} />
       </StyledForm>
       <h1>Log In</h1>
       <StyledForm
         onSubmit={async (e) => {
           e.preventDefault();
-          if (input.email && input.password) {
-            console.log(input);
-            const config = {
-              headers: {
-                "Content-Type": "application/json",
-              },
-              withCredentials: true,
-            };
-            const { data } = await axios.post(
-              "http://localhost:5000/login",
-              input,
-              config
-            );
-            if (data.user) {
-              setUser(data.user);
-            }
+          setIsSubmitting(true);
+          const { data, err } = await login(input);
+          if (data) {
+            setUser(data.user);
           } else {
-            console.log("no se puede");
+            setError(err);
           }
+          setIsSubmitting(false);
         }}
       >
         <label>E-mail</label>
@@ -109,8 +104,9 @@ const LoginPage = ({ setUser }) => {
         />
         <label>Password</label>
         <input name="password" type="password" onChange={handleChange} />
-        <button type="submit">Entrar</button>
+        <SubmitButton text="Entrar" isSubmitting={isSubmitting} />
       </StyledForm>
+      {error && <Error error={error} />}
     </div>
   );
 };
