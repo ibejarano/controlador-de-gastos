@@ -4,8 +4,7 @@
   "description": "Expenses tracker to be free",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js",
-    "clientDev": "node index.js",
+    "dev": "nodemon --ignore './client'  index.js ",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Ignacio Bejarano",
