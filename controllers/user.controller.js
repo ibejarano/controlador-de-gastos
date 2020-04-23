@@ -29,11 +29,11 @@ async function login(req, res) {
     const token = await user.generateAuthToken();
     res
       .cookie("expenses-tracker-cookie", token, {
-        httpOnly: true
+        httpOnly: true,
       })
       .json({ user, message: "Login satisfactorio! Bienvenid@!" });
   } catch (err) {
-    res.status(401).json(err.message);
+    res.status(401).json(err);
   }
 }
 
