@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 import styled from "styled-components";
 import { login, register } from "../helpers/requests";
 
@@ -90,7 +89,8 @@ const LoginPage = ({ setUser }) => {
           if (data) {
             setUser(data.user);
           } else {
-            setError(err);
+            console.log(err)
+            setError(err.message || err.response.data.error);
           }
           setIsSubmitting(false);
         }}
