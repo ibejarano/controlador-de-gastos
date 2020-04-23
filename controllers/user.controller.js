@@ -16,9 +16,15 @@ async function register(req, res) {
   try {
     const user = new User({ ...req.body });
     await user.save();
-    res.json({ user, message: "Nuevo usuario registrado!" });
+    const token = await user.generateAuthToken();
+    res
+      .cookie("expenses-tracker-cookie", token, {
+        httpOnly: true,
+      })
+      .status(401)
+      .json({ message: "Nuevo usuario registrado!" });
   } catch (err) {
-    res.status(401).json(err.message);
+    res.json({ err: err.message });
   }
 }
 

@@ -3,7 +3,6 @@ import { ThemeProvider } from "styled-components";
 import theme from "./themes/main";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import axios from "axios";
-import { Circle } from "react-spinners-css";
 
 import MainContainer from "./components/MainContainer";
 import LoginPage from "./pages/LoginPage";
@@ -15,10 +14,11 @@ import "./App.css";
 
 function App() {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [isAuth, setIsAuth] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
+      console.log("entro aca");
       try {
         const { data } = await axios.get("http://localhost:5000/user", {
           withCredentials: true,
@@ -28,36 +28,31 @@ function App() {
         }
       } catch (err) {
         console.log(err.message);
-      } finally {
-        setLoading(false);
       }
     }
 
     fetchData();
-  }, []);
+  }, [isAuth]);
 
   return (
     <Router>
       <ThemeProvider theme={theme}>
-        {loading && <Circle />}
-        {!loading && (
-          <MainContainer>
-            {user && (
-              <React.Fragment>
-                <Switch>
-                  <Route path="/logout">
-                    <Logout />
-                  </Route>
-                  <Route path="/">
-                    <Home userInfo={user} setUserInfo={setUser} />
-                  </Route>
-                </Switch>
-                <Navbar />
-              </React.Fragment>
-            )}
-            {!user && <LoginPage setUser={setUser} />}
-          </MainContainer>
-        )}
+        <MainContainer>
+          {user && (
+            <React.Fragment>
+              <Switch>
+                <Route path="/logout">
+                  <Logout />
+                </Route>
+                <Route path="/">
+                  <Home userInfo={user} setUserInfo={setUser} />
+                </Route>
+              </Switch>
+              <Navbar />
+            </React.Fragment>
+          )}
+          {!user && <LoginPage setIsAuth={setIsAuth} />}
+        </MainContainer>
       </ThemeProvider>
     </Router>
   );

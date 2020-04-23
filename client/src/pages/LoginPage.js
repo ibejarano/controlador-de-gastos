@@ -20,7 +20,7 @@ const StyledForm = styled.form`
   }
 `;
 
-const LoginPage = ({ setUser }) => {
+const LoginPage = ({ setIsAuth }) => {
   const [input, setInput] = useState({
     username: "",
     email: "",
@@ -49,8 +49,9 @@ const LoginPage = ({ setUser }) => {
           if (err) {
             setError(err);
           } else {
-            setUser(data.user);
+            console.log(data);
             console.log(message);
+            setIsAuth(true);
           }
           setIsSubmitting(false);
         }}
@@ -87,9 +88,9 @@ const LoginPage = ({ setUser }) => {
           setIsSubmitting(true);
           const { data, err } = await login(input);
           if (data) {
-            setUser(data.user);
+            setIsAuth(true);
+            setError(data.message);
           } else {
-            console.log(err)
             setError(err.message || err.response.data.error);
           }
           setIsSubmitting(false);

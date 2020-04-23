@@ -44,13 +44,13 @@ export async function login(input) {
     if (!input.email && !input.password) {
       throw new Error("Usuario y Password requeridos");
     }
-    const { data } = await axios.post("http://localhost:5000/login", input);
+    const { data } = await transport.post("http://localhost:5000/login", input);
     return { data };
   } catch (err) {
     if (err.message) {
       return { err };
     }
-    return { err  };
+    return { err };
   }
 }
 
