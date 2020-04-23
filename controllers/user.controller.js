@@ -31,7 +31,7 @@ async function login(req, res) {
       .cookie("expenses-tracker-cookie", token, {
         httpOnly: true,
       })
-      .json({ user, message: "Login satisfactorio! Bienvenid@!" });
+      .json({ message: "Login satisfactorio! Bienvenid@!" });
   } catch (err) {
     res.status(401).json(err);
   }
