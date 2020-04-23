@@ -18,10 +18,12 @@ const StyledLogoutContainer = styled.div`
   }
 `;
 
-const Logout = () => {
+const Logout = ({ setIsAuth }) => {
   const logoutConfirm = async () => {
     await logout();
+    setIsAuth(false);
     sessionStorage.removeItem("expenses-user");
+    window.location = "/";
   };
 
   return (

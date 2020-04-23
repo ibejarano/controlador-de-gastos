@@ -44,7 +44,7 @@ function App() {
             <React.Fragment>
               <Switch>
                 <Route path="/logout">
-                  <Logout />
+                  <Logout setIsAuth={setIsAuth} />
                 </Route>
                 <Route path="/">
                   <Home userInfo={user} setUserInfo={setUser} />
