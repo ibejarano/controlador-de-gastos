@@ -32,6 +32,7 @@ async function login(req, res) {
   try {
     const { email, password } = req.body;
     const user = await User.authenticate(email, password);
+    console.log('trying')
     const token = await user.generateAuthToken();
     res
       .cookie("expenses-tracker-cookie", token, {
