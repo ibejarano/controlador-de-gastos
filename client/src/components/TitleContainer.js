@@ -3,12 +3,12 @@ import styled from "styled-components";
 
 const TitleStyleCard = styled.div`
   background: ${(props) => props.theme.color.card};
-  padding: 12px;
+  padding: 0.8em 1em;
   border-radius: 20px;
   max-width: 450px;
   h3 {
     margin: 0;
-    font-size: 14px;
+    font-size: 1.1em;
   }
 `;
 

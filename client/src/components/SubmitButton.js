@@ -3,19 +3,20 @@ import styled from "styled-components";
 import { DualRing } from "react-spinners-css";
 
 const StyledButton = styled.button`
-  margin-top: 1.5em;
-  padding: 0.7em;
-  background: ${(props) => props.theme.color.mainBackground};
+  margin-top: 0.75em;
+  padding: 0.34em;
+  background: ${(props) => props.theme.color.walletColor};
   color: ${(props) => props.theme.color.yellowText};
   font-weight: bold;
   border: none;
   border-radius: 10px;
-  height: 45px;
+  font-size: ${(props) => (props.fontSize ? props.fontSize : "12px")};
+  width: ${(props) => (props.fullWidth ? "100%" : "min-content")};
 `;
 
-const Button = ({ isSubmitting, text }) => {
+const Button = ({ isSubmitting, text, fontSize, fullWidth }) => {
   return (
-    <StyledButton type="submit">
+    <StyledButton type="submit" fontSize={fontSize} fullWidth={fullWidth}>
       {isSubmitting ? (
         <DualRing style={{ padding: 0, marginTop: 0 }} size={25} />
       ) : (
