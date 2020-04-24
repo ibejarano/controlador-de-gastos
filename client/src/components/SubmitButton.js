@@ -14,9 +14,14 @@ const StyledButton = styled.button`
   width: ${(props) => (props.fullWidth ? "100%" : "min-content")};
 `;
 
-const Button = ({ isSubmitting, text, fontSize, fullWidth }) => {
+const Button = ({ isSubmitting, text, fontSize, fullWidth, form }) => {
   return (
-    <StyledButton type="submit" fontSize={fontSize} fullWidth={fullWidth}>
+    <StyledButton
+      type="submit"
+      form={form}
+      fontSize={fontSize}
+      fullWidth={fullWidth}
+    >
       {isSubmitting ? (
         <DualRing style={{ padding: 0, marginTop: 0 }} size={25} />
       ) : (

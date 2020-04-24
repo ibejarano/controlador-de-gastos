@@ -48,8 +48,8 @@ const StyledForm = styled.form`
 const LoginPage = ({ setIsAuth }) => {
   const [input, setInput] = useState({
     username: "",
-    email: "",
-    password: "",
+    email: "test@mail.com",
+    password: "test",
     confPassword: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -90,16 +90,22 @@ const LoginPage = ({ setIsAuth }) => {
               type="email"
               placeholder="Requerido"
               onChange={handleChange}
+              value={input.email}
             />
             <label>Password</label>
-            <input name="password" type="password" onChange={handleChange} />
+            <input
+              name="password"
+              type="password"
+              onChange={handleChange}
+              value={input.password}
+            />
           </StyledForm>
           <SubmitButton
             text="Ingresar"
-            isSubmitting={isSubmitting}
             fontSize="18px"
-            form="login-form"
             fullWidth
+            form="login-form"
+            isSubmitting={isSubmitting}
           />
         </div>
         <div className="form-container">
