@@ -4,8 +4,10 @@
   "description": "Expenses tracker to be free",
   "main": "index.js",
   "scripts": {
-    "start": "cd /client && npm run build && cd .. && env NODE_ENV=PRODUCTION node index.js",
-    "dev": "env NODE_ENV=DEVELOPMENT  nodemon --ignore './client' index.js",
+    "start": "cd client && react-scripts build",
+    "poststart": "env NODE_ENV=production node index.js",
+    "devServer": "env NODE_ENV=development  nodemon --ignore './client' index.js",
+    "devClient": "react-scripts start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Ignacio Bejarano",
@@ -18,9 +20,38 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.9.7"
+    "mongoose": "^5.9.7",
+    "@fortawesome/fontawesome-svg-core": "^1.2.28",
+    "@fortawesome/free-solid-svg-icons": "^5.13.0",
+    "@fortawesome/react-fontawesome": "^0.1.9",
+    "axios": "^0.19.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-dropdown": "^1.7.0",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "3.4.1",
+    "react-spinners-css": "^1.1.7",
+    "styled-components": "^5.1.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.2"
+    "nodemon": "^2.0.2",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

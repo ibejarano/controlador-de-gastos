@@ -18,7 +18,7 @@ mongoose
 const app = express();
 
 const corsOptions = {
-  origin: ["http://localhost:3000"],
+  origin: ["http://localhost:5001"],
   methods: "GET,HEAD,POST,PATCH,DELETE,PUT,OPTIONS",
   credentials: true, // required to pass
   allowedHeaders: "Content-Type, Authorization, X-Requested-With",
@@ -29,7 +29,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-if (process.env.NODE_ENV == "PRODUCTION") {
+if (process.env.NODE_ENV == "production") {
   const path = require("path");
   app.use(express.static(path.join(__dirname, "client", "build")));
   app.get("/", (req, res) => {

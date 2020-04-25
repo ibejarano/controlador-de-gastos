@@ -36,6 +36,10 @@ function App() {
     fetchData();
   }, [isAuth]);
 
+  console.log(process.env.NODE_ENV);
+  console.log(process.env.REACT_APP_ENDPOINT);
+  console.log(process.env.REACT_APP_ANOTHER);
+
   return (
     <Router>
       <ThemeProvider theme={theme}>
