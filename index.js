@@ -29,6 +29,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
+if (process.env.NODE_ENV == "PRODUCTION") {
+  const path = require("path");
+  app.use(express.static(path.join(__dirname, "client", "build")));
+  app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+  });
+}
+
 app.use("/", AuthRoutes);
 app.use("/", AuthUser);
 
@@ -43,5 +51,7 @@ app.use((err, req, res, next) => {
 /* iniciar servidor */
 
 app.listen(PORT, () => {
-  console.log(`Server is up and running on port: ${PORT}`);
+  console.log(
+    `Server is up and running on port: ${PORT} \n Running a in a ${process.env.NODE_ENV} build`
+  );
 });

@@ -1,10 +1,11 @@
 {
-  "name": "expenses-tracker",
+  "name": "expenses-manager",
   "version": "1.0.0",
   "description": "Expenses tracker to be free",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --ignore './client'  index.js ",
+    "start": "cd /client && npm run build && cd .. && env NODE_ENV=PRODUCTION node index.js",
+    "dev": "env NODE_ENV=DEVELOPMENT  nodemon --ignore './client' index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Ignacio Bejarano",
