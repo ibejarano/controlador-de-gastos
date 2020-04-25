@@ -7,7 +7,6 @@ const { PORT, MONGO_URI } = require("./config");
 const { UserRoutes, WalletRoutes, AuthRoutes } = require("./routes");
 const { AuthUser } = require("./middlewares/auth.middleware");
 
-/* Conectar a db */
 mongoose
   .connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
@@ -18,9 +17,9 @@ mongoose
 const app = express();
 
 const corsOptions = {
-  origin: ["http://localhost:5001"],
+  origin: ["http://localhost:3000"],
   methods: "GET,HEAD,POST,PATCH,DELETE,PUT,OPTIONS",
-  credentials: true, // required to pass
+  credentials: true,
   allowedHeaders: "Content-Type, Authorization, X-Requested-With",
 };
 
@@ -31,9 +30,9 @@ app.use(cookieParser());
 
 if (process.env.NODE_ENV == "production") {
   const path = require("path");
-  app.use(express.static(path.join(__dirname, "client", "build")));
+  app.use(express.static(path.join(__dirname, "build")));
   app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+    res.sendFile(path.join(__dirname, "build", "index.html"));
   });
 }
 

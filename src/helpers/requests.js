@@ -1,15 +1,17 @@
 import axios from "axios";
 
+const endpoint =
+  process.env.NODE_ENV == "production"
+    ? process.env.REACT_APP_ENDPOINT
+    : "http://localhost:5000";
+
 const transport = axios.create({
   withCredentials: true,
 });
 
 export async function addWallet(fields) {
   try {
-    const { data } = await transport.post(
-      "http://localhost:5000/wallet/new",
-      fields
-    );
+    const { data } = await transport.post(`${endpoint}/wallet/new`, fields);
     return { data };
   } catch (err) {
     return { err };
@@ -18,9 +20,7 @@ export async function addWallet(fields) {
 
 export async function getWalletDetails(walletId) {
   try {
-    const { data } = await transport.get(
-      `http://localhost:5000/wallet/${walletId}`
-    );
+    const { data } = await transport.get(`${endpoint}/wallet/${walletId}`);
     return { data };
   } catch (err) {
     return { err };
@@ -30,7 +30,7 @@ export async function getWalletDetails(walletId) {
 export async function addExpense(walletId, fields) {
   try {
     const { data } = await transport.put(
-      `http://localhost:5000/wallet/${walletId}/new-expense`,
+      `${endpoint}/wallet/${walletId}/new-expense`,
       fields
     );
     return { data };
@@ -44,7 +44,7 @@ export async function login(input) {
     if (!input.email && !input.password) {
       throw new Error("Usuario y Password requeridos");
     }
-    const { data } = await transport.post("http://localhost:5000/login", input);
+    const { data } = await transport.post(`${endpoint}/login`, input);
     return { data };
   } catch (err) {
     if (err.message) {
@@ -56,7 +56,7 @@ export async function login(input) {
 
 export async function logout() {
   try {
-    const { data } = await transport.get("http://localhost:5000/user/logout");
+    const { data } = await transport.get(`${endpoint}/user/logout`);
     return { data };
   } catch (err) {
     return { err };
@@ -69,7 +69,7 @@ export async function register(input) {
       throw new Error("Los passwords no coinciden");
     }
     const { data, message } = await transport.post(
-      "http://localhost:5000/register",
+      `${endpoint}/register`,
       input
     );
     return { data, message };
