@@ -16,8 +16,13 @@ mongoose
 
 const app = express();
 
+const ORIGIN_URL =
+  process.env.NODE_ENV == "production"
+    ? "https://new-expenses-manager.herokuapp.com"
+    : "http://localhost";
+
 const corsOptions = {
-  origin: ["http://localhost:3000"],
+  origin: [ORIGIN_URL],
   methods: "GET,HEAD,POST,PATCH,DELETE,PUT,OPTIONS",
   credentials: true,
   allowedHeaders: "Content-Type, Authorization, X-Requested-With",
