@@ -17,9 +17,9 @@ mongoose
 const app = express();
 
 const ORIGIN_URL =
-  process.env.NODE_ENV == "production"
-    ? "https://new-expenses-manager.herokuapp.com"
-    : "http://localhost";
+  process.env.NODE_ENV == "development"
+    ? "http://localhost"
+    : "https://new-expenses-manager.herokuapp.com/";
 
 const corsOptions = {
   origin: [ORIGIN_URL],
