@@ -18,7 +18,7 @@ const app = express();
 
 const ORIGIN_URL =
   process.env.NODE_ENV == "development"
-    ? "http://localhost"
+    ? "http://localhost:3000"
     : "https://new-expenses-manager.herokuapp.com/";
 
 const corsOptions = {
@@ -28,7 +28,7 @@ const corsOptions = {
   allowedHeaders: "Content-Type, Authorization, X-Requested-With",
 };
 
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());

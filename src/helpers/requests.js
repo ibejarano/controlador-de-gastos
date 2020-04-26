@@ -1,13 +1,22 @@
 import axios from "axios";
 
 const endpoint =
-  process.env.NODE_ENV == "production"
+  process.env.NODE_ENV === "production"
     ? process.env.REACT_APP_ENDPOINT
     : "http://localhost:5000";
 
 const transport = axios.create({
   withCredentials: true,
 });
+
+export async function getUserWithCookies() {
+  try {
+    const { data } = await transport.get(`${endpoint}/user`);
+    return { data };
+  } catch (error) {
+    return { err: error };
+  }
+}
 
 export async function addWallet(fields) {
   try {

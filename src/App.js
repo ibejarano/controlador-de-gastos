@@ -2,13 +2,14 @@ import React, { useState, useEffect } from "react";
 import { ThemeProvider } from "styled-components";
 import theme from "./themes/main";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import axios from "axios";
 
 import MainContainer from "./components/MainContainer";
 import LoginPage from "./pages/LoginPage";
 import Home from "./pages/Home";
 import Logout from "./pages/Logout";
 import Navbar from "./components/Navbar";
+
+import { getUserWithCookies } from "./helpers/requests";
 
 import "./App.css";
 
@@ -20,16 +21,12 @@ function App() {
 
   useEffect(() => {
     async function fetchData() {
-      try {
-        const { data } = await axios.get("http://localhost:5000/user", {
-          withCredentials: true,
-        });
-        if (data.user) {
-          setUser(data.user);
-          sessionStorage.setItem("expenses-user", JSON.stringify(data.user));
-        }
-      } catch (err) {
+      const { data, err } = await getUserWithCookies();
+      if (err) {
         console.log(err.message);
+      } else {
+        setUser(data.user);
+        sessionStorage.setItem("expenses-user", JSON.stringify(data.user));
       }
     }
 
