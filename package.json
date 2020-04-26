@@ -4,9 +4,9 @@
   "description": "Expenses tracker to be free",
   "main": "index.js",
   "scripts": {
-    "start": "cd client && react-scripts build",
+    "start": "react-scripts build",
     "poststart": "env NODE_ENV=production node index.js",
-    "devServer": "env NODE_ENV=development  nodemon --ignore './client' index.js",
+    "devServer": "env NODE_ENV=development  nodemon --ignore './src' index.js",
     "devClient": "react-scripts start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
