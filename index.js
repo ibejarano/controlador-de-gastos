@@ -28,7 +28,7 @@ const corsOptions = {
   allowedHeaders: "Content-Type, Authorization, X-Requested-With",
 };
 
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
