@@ -17,10 +17,6 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
-  token: {
-    type: String,
-    required: false,
-  },
   wallet: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -38,13 +34,17 @@ UserSchema.pre("save", async function (next) {
 });
 
 UserSchema.statics.authenticate = async (email, password) => {
-  const user = await User.findOne({ email })
+  const user = await User.findOne({ email });
   if (!user) {
-    throw new Error("Invalid user");
+    const err = new Error("Usuario y/o password invalido");
+    err.status = 401;
+    throw err;
   }
   const isPasswordMatch = await bcrypt.compare(password, user.password);
   if (!isPasswordMatch) {
-    throw new Error("Invalid password");
+    const err = new Error("Usuario o password invalido");
+    err.status = 401;
+    throw err;
   }
   return user;
 };
@@ -52,8 +52,6 @@ UserSchema.statics.authenticate = async (email, password) => {
 UserSchema.methods.generateAuthToken = async function () {
   const user = this;
   const token = jwt.sign({ _id: user._id }, process.env.JWT_KEY);
-  user.token = token;
-  await user.save();
   return token;
 };
 
