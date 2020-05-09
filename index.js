@@ -49,7 +49,7 @@ app.use("/wallet", WalletRoutes);
 
 app.use((err, req, res, next) => {
   console.log(err.message);
-  res.status(401).json(err.message);
+  res.status(err.status || 500).json(err.message);
 });
 
 /* iniciar servidor */

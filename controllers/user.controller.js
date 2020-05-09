@@ -1,57 +1,41 @@
 const { User } = require("../models");
+const { UserServices } = require("../services");
+
+const COOKIENAME = "controlador-gastos-ib";
+const COOKIESETTINGS = {
+  httpOnly: true,
+};
 
 async function get(req, res, next) {
   try {
-    const user = await User.findById(req.userId).populate("wallet");
-    res.send({ user });
+    const users = await UserServices.getAllUsers();
+    res.send(users);
   } catch (err) {
-    // res.status(500).json(err.message);
     next(err);
   }
 }
 
-async function register(req, res) {
-  /* TODO1 Encriptar password  */
-  /*  form validation desde front end*/
+async function register(req, res, next) {
   try {
-    const user = new User({ ...req.body });
-    await user.save();
-    const token = await user.generateAuthToken();
-    res
-      .cookie("expenses-tracker-cookie", token, {
-        httpOnly: true,
-      })
-      .status(401)
-      .json({ message: "Nuevo usuario registrado!" });
+    const { user, token } = await UserServices.register(req.body);
+    delete user.password;
+    res.cookie(COOKIENAME, token, COOKIESETTINGS).status(201).json(user);
   } catch (err) {
-    res.json({ err: err.message });
+    next(err);
   }
 }
 
-async function login(req, res) {
+async function login(req, res, next) {
   try {
-    const { email, password } = req.body;
-    const user = await User.authenticate(email, password);
-    const token = await user.generateAuthToken();
-    res
-      .cookie("expenses-tracker-cookie", token, {
-        httpOnly: true,
-      })
-      .json({ message: "Login satisfactorio! Bienvenid@!" });
+    const { user, token } = await UserServices.login(req.body);
+    res.cookie(COOKIENAME, token, COOKIESETTINGS).status(201).json(user);
   } catch (err) {
-    res.status(401).json(err);
+    next(err);
   }
 }
 
 async function logout(req, res) {
-  try {
-    const user = await User.findById(req.userId);
-    user.token = "";
-    await user.save();
-    res.clearCookie("expenses-tracker-cookie").json("Logout satisfactorio!");
-  } catch (err) {
-    res.status(400).json(err.message);
-  }
+  res.clearCookie(COOKIENAME).json("Logout satisfactorio!");
 }
 
 async function updateUser(req, res) {
