@@ -51,7 +51,7 @@ async function updateUser(req, res) {
   }
 }
 
-async function addWallet(req, res) {
+async function addWallet(req, res, next) {
   try {
     const user = await User.findById(req.userId);
     user.wallet.push(req.walletId);
@@ -59,7 +59,7 @@ async function addWallet(req, res) {
     const resUser = await User.findById(req.userId).populate("wallet");
     res.json({ walletId: req.walletId, userInfo: resUser });
   } catch (error) {
-    res.status(400).json(error.message);
+      next(error);
   }
 }
 
