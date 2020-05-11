@@ -1,76 +1,59 @@
 const { Wallet } = require("../models");
+const { WalletServices } = require("../services");
 
-async function getWalletInfo(req, res) {
+async function getWalletInfo(req, res, next) {
   try {
     const { id } = req.params;
-    const wallet = await Wallet.findById(id).populate("expenses");
-    if (!wallet) {
-      throw new Error("ID de Billetera no encontrada");
-    }
+    const wallet = await WalletServices.getById(id);
     res.json(wallet);
   } catch (error) {
-    res.json(error.message);
+    next(error);
   }
 }
 
 async function newWallet(req, res, next) {
   try {
-    const { balance, name, description, currency } = req.body;
-    const wallet = new Wallet({
-      balance,
-      name,
-      description,
-      currency,
-    });
-
-    await wallet.save();
+    const wallet = await WalletServices.create(req.body);
     req.walletId = wallet._id;
     next();
   } catch (error) {
-    res.status(401).json(error.message);
+    next(error);
   }
 }
 
-async function updateWalletBalance(req, res) {
+async function updateWalletBalance(req, res, next) {
   try {
     const { id } = req.params;
-    const wallet = await Wallet.findById(id);
-    wallet.balance += parseInt(req.body.amount);
-    await wallet.save();
-    res.json("Balance actualizado");
+    const { amount } = req.bodyu;
+    const wallet = await WalletServices.updateBalance(id, amount);
+    res.json(wallet);
   } catch (error) {
-    res.json(error.message);
+    next(error);
   }
 }
 
-async function deleteWallet(req, res) {
+async function deleteWallet(req, res, next) {
   try {
     const { id } = req.params;
-    const wallet = await Wallet.findByIdAndDelete(id);
-    if (!wallet) {
-      throw new Error("ID de Billetera no encontrada");
-    }
-    res.json("Billetera eliminada");
+    const message = await WalletServices.deleteById(id);
+    res.json(message);
   } catch (error) {
-    res.json(error.message);
+    next(error);
   }
 }
 
-async function addExpense(req, res) {
+async function addExpense(req, res, next) {
   try {
     const walletId = req.params.id;
-    const wallet = await Wallet.findById(walletId).populate("expenses");
-    if (!wallet) {
-      throw new Error("Id de Wallet no encontrada");
-    }
-    wallet.balance += req.expenseNetAmount;
-    wallet.expenses.push(req.expenseId);
-    await wallet.save();
-    const updatedWallet = await Wallet.findById(walletId).populate("expenses");
-    res.json({ wallet: updatedWallet, message: "Registro agregado" });
+    const expenseId = req.expenseId;
+    const wallet = await WalletServices.updateBalance(
+      walletId,
+      amount,
+      expenseId
+    );
+    res.json({ wallet, message: "Registro agregado" });
   } catch (error) {
-    console.log(error.message);
-    res.status(400).json(error.message);
+    next(error);
   }
 }
 
