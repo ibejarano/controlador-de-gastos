@@ -36,7 +36,6 @@ async function updateBalance(id, amount, expensesId = null) {
 }
 
 async function deleteById(id) {
-  const { id } = req.params;
   const wallet = await Wallet.findByIdAndDelete(id);
   if (!wallet) {
     const error = new Error("No se pudo eliminar la billetera");
