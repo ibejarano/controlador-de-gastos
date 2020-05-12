@@ -4,7 +4,12 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const { PORT, MONGO_URI } = require("./config");
-const { UserRoutes, WalletRoutes, AuthRoutes } = require("./routes");
+const {
+  UserRoutes,
+  WalletRoutes,
+  AuthRoutes,
+  BudgetRoutes,
+} = require("./routes");
 const { AuthUser } = require("./middlewares/auth.middleware");
 
 mongoose
@@ -46,6 +51,7 @@ app.use("/", AuthUser);
 
 app.use("/user", UserRoutes);
 app.use("/wallet", WalletRoutes);
+app.use("/budget", BudgetRoutes);
 
 app.use((err, req, res, next) => {
   console.log(err.message);
