@@ -35,14 +35,19 @@ async function login(data) {
 
 async function createSection(section, id) {
   const user = await User.findById(id);
-  if (user.sectionsSaved.includes(section)) {
+  if (user.sectionsSaved.includes(section.toLowerCase())) {
     const error = new Error("Esta seccion ya existe");
     error.status = 400;
     throw error;
   }
-  user.sectionsSaved.push(section);
+  user.sectionsSaved.push(section.toLowerCase());
   await user.save();
   return user;
+}
+
+async function getSectionsSaved(id) {
+  const { sectionsSaved } = await User.findById(id);
+  return sectionsSaved;
 }
 
 module.exports = {
@@ -50,4 +55,5 @@ module.exports = {
   register,
   login,
   createSection,
+  getSectionsSaved,
 };
