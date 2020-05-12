@@ -17,16 +17,7 @@ const ExpenseSchema = new Schema({
   },
   section: {
     type: String,
-    enum: [
-      "Food",
-      "House",
-      "Tax",
-      "Entertainment",
-      "Various",
-      "Transport",
-      "Car",
-    ],
-    default: "Various",
+    default: "General",
   },
   doneBy: {
     type: mongoose.Schema.Types.ObjectId,
@@ -38,8 +29,8 @@ const ExpenseSchema = new Schema({
   },
   atDate: {
     type: Date,
-    default: Date.now()
-  }
+    default: Date.now(),
+  },
 });
 
 module.exports = mongoose.model("Expense", ExpenseSchema);

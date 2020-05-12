@@ -41,9 +41,26 @@ async function updateLimit(req, res, next) {
   }
 }
 
+async function updateSection(req, res, next) {
+  try {
+    const budget = await BudgetServices.updateTracking(
+      req.userId,
+      req.section,
+      req.expenseNetAmount
+    );
+    if (budget) {
+      req.messages.push("Presupuesto actualizado");
+    }
+    res.json(req.messages);
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   getAllByOwner,
   create,
   deleteById,
   updateLimit,
+  updateSection,
 };

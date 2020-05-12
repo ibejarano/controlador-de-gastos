@@ -4,8 +4,12 @@ async function registerExpense(req, res, next) {
   try {
     const expense = new Expense({ ...req.body });
     await expense.save();
-    req.expenseNetAmount = req.body.isIncome ? req.body.amount : - req.body.amount
+    req.expenseNetAmount = req.body.isIncome
+      ? req.body.amount
+      : -req.body.amount;
     req.expenseId = expense.id;
+    req.section = expense.section;
+    req.messages = ["Gasto agregado exitosamente"];
     next();
   } catch (error) {
     res.status(400).json(error.message);

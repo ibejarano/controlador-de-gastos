@@ -48,10 +48,14 @@ async function addExpense(req, res, next) {
     const expenseId = req.expenseId;
     const wallet = await WalletServices.updateBalance(
       walletId,
-      amount,
+      req.expenseNetAmount,
       expenseId
     );
-    res.json({ wallet, message: "Registro agregado" });
+    if (!wallet) {
+      req.messages.push("No se pudo actualizar la billetera");
+    }
+    req.messages.push("Billetera actualizada satisfactoriamente");
+    next();
   } catch (error) {
     next(error);
   }
