@@ -33,8 +33,21 @@ async function login(data) {
   return { user, token };
 }
 
+async function createSection(section, id) {
+  const user = await User.findById(id);
+  if (user.sectionsSaved.includes(section)) {
+    const error = new Error("Esta seccion ya existe");
+    error.status = 400;
+    throw error;
+  }
+  user.sectionsSaved.push(section);
+  await user.save();
+  return user;
+}
+
 module.exports = {
   getAllUsers,
   register,
   login,
+  createSection,
 };

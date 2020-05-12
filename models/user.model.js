@@ -24,6 +24,13 @@ const UserSchema = new Schema({
       required: false,
     },
   ],
+  sectionsSaved: [
+    {
+      type: String,
+      default: "General",
+      required: true,
+    },
+  ],
 });
 
 UserSchema.pre("save", async function (next) {

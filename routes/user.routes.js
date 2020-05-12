@@ -8,9 +8,9 @@ router.put("/", User.updateUser);
 
 router.put("/:id/:wallet", User.addWallet);
 
-/* Reemplazar por logida de arriba */
-
 router.get("/logout", User.logout);
+
+router.post("/new-section", User.createSection);
 
 // router.delete("/", User.deleteUser);
 

@@ -59,7 +59,7 @@ async function addWallet(req, res, next) {
     const resUser = await User.findById(req.userId).populate("wallet");
     res.json({ walletId: req.walletId, userInfo: resUser });
   } catch (error) {
-      next(error);
+    next(error);
   }
 }
 
@@ -75,6 +75,18 @@ async function deleteUser(req, res) {
     res.json("Usuario eliminado!");
   } catch (error) {
     res.status(400).send(error.message);
+  }
+}
+async function createSection(req, res, next) {
+  try {
+    const { section } = req.query;
+    if (!section) {
+      throw new Error("Seccion indefinida");
+    }
+    const user = await UserServices.createSection(section, req.userId);
+    res.json(user);
+  } catch (error) {
+    next(error);
   }
 }
 
@@ -100,4 +112,5 @@ module.exports = {
   updateUser,
   addWallet,
   deleteUser,
+  createSection,
 };
