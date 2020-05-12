@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 
 exports.AuthUser = async (req, res, next) => {
   try {
-    const token = req.cookies["expenses-tracker-cookie"];
+    const token = req.cookies["controlador-gastos-ib"];
     if (!token) {
       throw new Error("Cookie no encontrada");
     }
@@ -10,6 +10,6 @@ exports.AuthUser = async (req, res, next) => {
     req.userId = data._id;
     next();
   } catch (err) {
-    res.status(401).send({ error: err.message });
+    next(err);
   }
 };
