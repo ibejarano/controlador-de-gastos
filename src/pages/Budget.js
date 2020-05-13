@@ -20,7 +20,7 @@ const BudgetContainer = styled.div`
   p {
     font-size: 14px;
     font-weight: bold;
-    margin: 0;
+    margin: 0.5em 0;
     width: 100%;
     text-align: center;
   }
@@ -51,7 +51,29 @@ const BudgetContainer = styled.div`
   }
 `;
 
+const ProgressBar = styled.div`
+  background: ${(props) => props.theme.color.purpleText};
+  width: 100%;
+  margin: 0;
+  border-radius: 1em;
+  height: 2em;
+  position: relative;
+
+  .filled-progress-bar {
+    background: ${(props) => (props.barWidth < 101 ? "#b368e1" : "red")};
+    min-width: 10%;
+    width: ${(props) => (props.barWidth < 100 ? `${props.barWidth}%` : "100%")};
+    margin: 0;
+    border-radius: 1em;
+    height: 2em;
+    position: relative;
+    top: 0;
+  }
+`;
+
 function DisplayBudget({ budget }) {
+  const progress = Math.floor((budget.current * 100) / budget.limit);
+  console.log(progress);
   return (
     <BudgetContainer>
       <h1>{budget.section}</h1>
@@ -66,6 +88,9 @@ function DisplayBudget({ budget }) {
           },
         ]}
       />
+      <ProgressBar barWidth={progress}>
+        <div className="filled-progress-bar"></div>
+      </ProgressBar>
     </BudgetContainer>
   );
 }
