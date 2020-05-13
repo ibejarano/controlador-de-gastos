@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import MainContainer from "./components/MainContainer";
 import LoginPage from "./pages/LoginPage";
 import Home from "./pages/Home";
+import BudgetPage from "./pages/Budget";
 import Logout from "./pages/Logout";
 import Navbar from "./components/Navbar";
 
@@ -42,6 +43,9 @@ function App() {
               <Switch>
                 <Route path="/logout">
                   <Logout setIsAuth={setIsAuth} />
+                </Route>
+                <Route path="/budgets">
+                  <BudgetPage data={[]} />
                 </Route>
                 <Route path="/">
                   <Home userInfo={user} setUserInfo={setUser} />
