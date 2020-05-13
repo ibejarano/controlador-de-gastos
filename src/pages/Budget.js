@@ -73,7 +73,6 @@ const ProgressBar = styled.div`
 
 function DisplayBudget({ budget }) {
   const progress = Math.floor((budget.current * 100) / budget.limit);
-  console.log(progress);
   return (
     <BudgetContainer>
       <h1>{budget.section}</h1>
