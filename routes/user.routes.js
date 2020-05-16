@@ -10,6 +10,8 @@ router.put("/:id/:wallet", User.addWallet);
 
 router.get("/logout", User.logout);
 
+router.get("/wallets", User.getWalletsId);
+
 router.post("/new-section", User.createSection);
 
 router.delete("/", User.deleteUser);

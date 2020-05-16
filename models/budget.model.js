@@ -9,7 +9,15 @@ const BudgetSchema = new Schema({
   },
   limit: {
     type: Number,
+    default: 0,
+  },
+  current: {
+    type: Number,
     required: true,
+  },
+  isConfigured: {
+    type: Boolean,
+    default: false,
   },
   currency: {
     type: String,

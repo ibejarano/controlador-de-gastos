@@ -57,6 +57,11 @@ async function getSectionsSaved(id) {
   return sectionsSaved;
 }
 
+async function getWalletsId(id) {
+  const { wallets, sectionsSaved } = await User.findById(id);
+  return { wallets, sectionsSaved };
+}
+
 module.exports = {
   getAllUsers,
   register,
@@ -64,4 +69,5 @@ module.exports = {
   get,
   createSection,
   getSectionsSaved,
+  getWalletsId,
 };

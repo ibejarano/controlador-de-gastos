@@ -24,6 +24,17 @@ async function getByCookie(req, res, next) {
   }
 }
 
+async function getWalletsId(req, res, next) {
+  try {
+    const { wallets, sectionsSaved } = await UserServices.getWalletsId(
+      req.userId
+    );
+    res.json({ wallets, sectionsSaved });
+  } catch (error) {
+    next(error);
+  }
+}
+
 async function register(req, res, next) {
   try {
     const { wallet } = await WalletServices.create({});
@@ -139,4 +150,5 @@ module.exports = {
   deleteUser,
   createSection,
   addBudget,
+  getWalletsId,
 };
