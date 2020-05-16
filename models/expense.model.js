@@ -11,26 +11,23 @@ const ExpenseSchema = new Schema({
     type: Number,
     required: true,
   },
-  isIncome: {
-    type: Boolean,
-    default: false,
-  },
   section: {
     type: String,
     default: "General",
   },
-  doneBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-  },
-  fromWallet: {
+  walletId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Wallet",
+    required: true
   },
-  atDate: {
+  createdAt: {
     type: Date,
     default: Date.now(),
   },
+  updatedAt: {
+    type: Date,
+    default: Date.now()
+  }
 });
 
 module.exports = mongoose.model("Expense", ExpenseSchema);
