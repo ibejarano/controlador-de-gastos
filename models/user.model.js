@@ -35,8 +35,16 @@ const UserSchema = new Schema({
   ],
   budgets: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Budget",
+      section: String,
+      limit: {
+        type: Number,
+        default: 0,
+      },
+      current: { type: Number, default: 0 },
+      isConfigured: {
+        type: Boolean,
+        default: false,
+      },
     },
   ],
 });
