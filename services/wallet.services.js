@@ -17,7 +17,7 @@ async function create(data) {
     currency,
   });
   const savedWallet = await wallet.save();
-  return savedWallet._id;
+  return { wallet: savedWallet };
 }
 
 async function updateBalance(id, amount, expensesId = null) {

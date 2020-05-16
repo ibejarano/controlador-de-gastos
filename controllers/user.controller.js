@@ -1,5 +1,5 @@
 const { User } = require("../models");
-const { UserServices } = require("../services");
+const { UserServices, WalletServices } = require("../services");
 
 const COOKIENAME = "controlador-gastos-ib";
 const COOKIESETTINGS = {
@@ -17,8 +17,10 @@ async function get(req, res, next) {
 
 async function register(req, res, next) {
   try {
+    const { wallet } = await WalletServices.create({});
+    req.body.wallets = [wallet._id];
     const { user, token } = await UserServices.register(req.body);
-    delete user.password;
+    user.wallets = [wallet];
     res.cookie(COOKIENAME, token, COOKIESETTINGS).status(201).json(user);
   } catch (err) {
     next(err);

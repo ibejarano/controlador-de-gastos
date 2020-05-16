@@ -12,7 +12,7 @@ router.get("/logout", User.logout);
 
 router.post("/new-section", User.createSection);
 
-// router.delete("/", User.deleteUser);
+router.delete("/", User.deleteUser);
 
 /* Expense related routes */
 
