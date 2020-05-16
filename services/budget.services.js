@@ -1,6 +1,6 @@
 const { Budget, User, Wallet } = require("../models");
 
-async function create(section, limit, currency) {
+async function create(section, limit, currency = "ars") {
   const budget = new Budget({
     section: section.toLowerCase(),
     limit,

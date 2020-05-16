@@ -1,5 +1,5 @@
 const { User } = require("../models");
-const { UserServices, WalletServices } = require("../services");
+const { UserServices, WalletServices, BudgetServices } = require("../services");
 
 const COOKIENAME = "controlador-gastos-ib";
 const COOKIESETTINGS = {
@@ -37,8 +37,22 @@ async function getWalletsId(req, res, next) {
 
 async function register(req, res, next) {
   try {
-    const { wallet } = await WalletServices.create({});
+    const wallet = await WalletServices.create({});
+    const sectionsDefault = [
+      "general",
+      "comida",
+      "hogar",
+      "viajes",
+      "servicios",
+    ];
     req.body.wallets = [wallet._id];
+    const budgets = await Promise.all(
+      sectionsDefault.map(
+        async (section) => await BudgetServices.create(section)
+      )
+    );
+    req.body.budgets = budgets;
+    req.body.sectionsSaved = sectionsDefault;
     const { user, token } = await UserServices.register(req.body);
     user.wallets = [wallet];
     res.cookie(COOKIENAME, token, COOKIESETTINGS).status(201).json(user);

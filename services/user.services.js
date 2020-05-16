@@ -20,8 +20,6 @@ async function getAllUsers() {
 }
 
 async function register(data) {
-  const sectionsSaved = ["comida", "hogar", "viajes", "servicios"];
-  data.sectionsSaved = sectionsSaved;
   const user = new User({ ...data });
   const saved = await user.save();
   const token = await saved.generateAuthToken();
