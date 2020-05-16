@@ -4,27 +4,20 @@ const { Schema } = mongoose;
 const WalletSchema = new Schema({
   name: {
     type: String,
-    required: true,
+    default: "Sin Nombre"
   },
   description: {
     type: String,
-    required: false,
-  },
-  balance: {
-    type: Number,
-    default: 0,
   },
   currency: {
     type: String,
-    enum: ["USD", "EUR", "ARS", "BRL"],
-    required: true,
+    enum: ["usd", "eur", "ars", "brl"],
+    default: "ars"
   },
-  expenses: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Expense",
-    },
-  ],
+  balance: {
+    type: Number,
+    default: 0
+  }
 });
 
 module.exports = mongoose.model("Wallet", WalletSchema);
