@@ -62,11 +62,23 @@ async function updateUser(req, res) {
   }
 }
 
+async function addBudget(req, res, next) {
+  try {
+    const budgetId = req.budgetId;
+    const user = await User.findById(req.userId);
+    user.budgets.push(budgetId);
+    await user.save();
+    res.json({ data: user, message: "Presupuesto agregado!" });
+  } catch (error) {
+    next(error);
+  }
+}
+
 async function addWallet(req, res, next) {
   try {
     const user = await User.findById(req.userId);
-    console.log(user)
-    console.log(req.walletId)
+    console.log(user);
+    console.log(req.walletId);
     user.wallets.push(req.walletId);
     await user.save();
     const resUser = await User.findById(req.userId).populate("wallet");
@@ -126,4 +138,5 @@ module.exports = {
   addWallet,
   deleteUser,
   createSection,
+  addBudget,
 };

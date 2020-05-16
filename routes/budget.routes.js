@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const { Budget } = require("../controllers");
+const { Budget, User } = require("../controllers");
 
 /* Crear Gasto o ingreso */
-router.post("/new", Budget.create);
+router.post("/new", Budget.create, User.addBudget);
 
 router.delete("/:id", Budget.deleteById);
 

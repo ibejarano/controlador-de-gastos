@@ -33,6 +33,12 @@ const UserSchema = new Schema({
       required: true,
     },
   ],
+  budgets: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Budget",
+    },
+  ],
 });
 
 UserSchema.pre("save", async function (next) {

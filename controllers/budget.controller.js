@@ -12,9 +12,10 @@ async function getAllByOwner(req, res, next) {
 
 async function create(req, res, next) {
   try {
-    const { name, limit } = req.body;
-    const budget = await BudgetServices.create(name, limit, req.userId);
-    res.json(budget);
+    const { section, limit, currency } = req.body;
+    const budget = await BudgetServices.create(section, limit, currency );
+    req.budgetId = budget._id;
+    next();
   } catch (error) {
     next(error);
   }

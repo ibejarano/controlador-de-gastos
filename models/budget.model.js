@@ -11,14 +11,9 @@ const BudgetSchema = new Schema({
     type: Number,
     required: true,
   },
-  current: {
-    type: Number,
-    default: 0,
-  },
-  ownedBy: {
-    type: mongoose.Types.ObjectId,
-    ref: "User",
-    required: true,
+  currency: {
+    type: String,
+    enum: ["ars", "usd", "eur", "brl"],
   },
 });
 

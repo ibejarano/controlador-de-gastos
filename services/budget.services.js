@@ -1,19 +1,10 @@
 const { Budget } = require("../models");
 
-async function create(section, limit) {
-  const budgets = await Budget.find({
-    ownedBy: id,
-    section: section.toLowerCase(),
-  });
-  if (budgets.length) {
-    const error = new Error("Ya existe un presupuesto para esta seccion");
-    error.status = 401;
-    throw error;
-  }
+async function create(section, limit, currency) {
   const budget = new Budget({
     section: section.toLowerCase(),
     limit,
-    ownedBy: ownerId,
+    currency,
   });
   await budget.save();
   return budget;
