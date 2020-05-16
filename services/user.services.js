@@ -60,6 +60,35 @@ async function getWalletsId(id) {
   return { wallets, sectionsSaved };
 }
 
+async function getBudget(userId, name) {
+  const { budgets } = await User.findById(userId, "budgets");
+  if (!budgets) {
+    const error = new Error("No existen presupuestos");
+    error.status = 500;
+    throw error;
+  }
+  let budget;
+  budgets.forEach((b) => {
+    if (b.section == name) {
+      budget = b;
+    }
+  });
+  if (!budget) {
+    budget = "No se encontro presupuesto para esta seccion";
+  }
+  return budget;
+}
+
+async function updateBudget(userId, expenses) {
+  const sectionName = expenses.section;
+  const budget = await getBudget(userId, sectionName);
+  if (budget.section) {
+    budget.current += expenses.amount;
+    await budget.save();
+  }
+  return budget;
+}
+
 module.exports = {
   getAllUsers,
   register,
@@ -68,4 +97,6 @@ module.exports = {
   createSection,
   getSectionsSaved,
   getWalletsId,
+  getBudget,
+  updateBudget,
 };

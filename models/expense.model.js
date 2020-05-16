@@ -13,7 +13,7 @@ const ExpenseSchema = new Schema({
   },
   section: {
     type: String,
-    default: "General",
+    default: "general",
   },
   createdAt: {
     type: Date,

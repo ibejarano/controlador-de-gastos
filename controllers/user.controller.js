@@ -18,7 +18,8 @@ async function get(req, res, next) {
 async function getByCookie(req, res, next) {
   try {
     const { user } = await UserServices.get(req.userId);
-    res.send(user);
+    const bud = await UserServices.getBudget(req.userId, "comida");
+    res.send({ user, bud });
   } catch (err) {
     next(err);
   }

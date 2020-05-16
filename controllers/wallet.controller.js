@@ -1,5 +1,5 @@
 const { Wallet } = require("../models");
-const { WalletServices } = require("../services");
+const { WalletServices, UserServices } = require("../services");
 
 async function getWalletInfo(req, res, next) {
   try {
@@ -48,7 +48,8 @@ async function addExpense(req, res, next) {
     const walletId = req.params.id;
     const expensesData = req.body;
     const wallet = await WalletServices.createExpense(expensesData, walletId);
-    res.status(201).json({ wallet });
+    const budget = await UserServices.updateBudget(req.userId, expensesData);
+    res.status(201).json({ wallet, budget });
   } catch (error) {
     next(error);
   }
