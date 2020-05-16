@@ -10,10 +10,24 @@ async function getAllByOwner(req, res, next) {
   }
 }
 
+async function getBySection(req, res, next) {
+  try {
+    const { section } = req.query;
+    console.log("section", section);
+    const resultadoTest = await BudgetServices.computeSectionBalance(
+      section,
+      req.userId
+    );
+    res.json(resultadoTest);
+  } catch (error) {
+    next(error);
+  }
+}
+
 async function create(req, res, next) {
   try {
     const { section, limit, currency } = req.body;
-    const budget = await BudgetServices.create(section, limit, currency );
+    const budget = await BudgetServices.create(section, limit, currency);
     req.budgetId = budget._id;
     next();
   } catch (error) {
@@ -64,4 +78,5 @@ module.exports = {
   deleteById,
   updateLimit,
   updateSection,
+  getBySection,
 };

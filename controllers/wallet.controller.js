@@ -4,7 +4,8 @@ const { WalletServices } = require("../services");
 async function getWalletInfo(req, res, next) {
   try {
     const { id } = req.params;
-    const wallet = await WalletServices.getById(id);
+    const { section } = req.query;
+    const wallet = await WalletServices.getById(id, section);
     res.json(wallet);
   } catch (error) {
     next(error);

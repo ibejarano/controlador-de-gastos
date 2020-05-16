@@ -1,4 +1,4 @@
-const { Budget } = require("../models");
+const { Budget, User, Wallet } = require("../models");
 
 async function create(section, limit, currency) {
   const budget = new Budget({
@@ -8,6 +8,20 @@ async function create(section, limit, currency) {
   });
   await budget.save();
   return budget;
+}
+
+async function computeSectionBalance(section, userId) {
+  const user = await User.findById(userId).populate("wallets");
+  const { wallets } = user;
+  console.log("lista con wallets", wallets);
+  const expensesFromSection = await wallets.map((walletId) => {
+    const expensesFinded = Wallet.findById(walletId).populate("expenses", {
+      select: "expenses.section",
+      match: section,
+    });
+    return expensesFinded;
+  });
+  return expensesFromSection;
 }
 
 async function deleteById(id) {
@@ -50,4 +64,5 @@ module.exports = {
   changeLimit,
   deleteById,
   updateTracking,
+  computeSectionBalance,
 };

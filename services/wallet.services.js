@@ -1,7 +1,15 @@
 const { Wallet, Expense } = require("../models");
 
-async function getById(id) {
-  const wallet = await Wallet.findById(id).populate("expenses");
+async function getById(id, sectionName) {
+  let wallet;
+  if (sectionName) {
+    wallet = await Wallet.findById(id).populate({
+      path: "expenses",
+      match: { section: sectionName },
+    });
+  } else {
+    wallet = await Wallet.findById(id).populate("expenses");
+  }
   if (!wallet) {
     throw new Error("ID de Billetera no encontrada");
   }
