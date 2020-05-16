@@ -4,6 +4,11 @@
 
 const { User } = require("../models");
 
+async function get(id) {
+  const user = await User.findById(id).populate("wallets");
+  return { user };
+}
+
 async function getAllUsers() {
   const users = await User.find();
   if (!users) {
@@ -15,6 +20,8 @@ async function getAllUsers() {
 }
 
 async function register(data) {
+  const sectionsSaved = ["comida", "hogar", "viajes", "servicios"];
+  data.sectionsSaved = sectionsSaved;
   const user = new User({ ...data });
   const saved = await user.save();
   const token = await saved.generateAuthToken();
@@ -54,6 +61,7 @@ module.exports = {
   getAllUsers,
   register,
   login,
+  get,
   createSection,
   getSectionsSaved,
 };

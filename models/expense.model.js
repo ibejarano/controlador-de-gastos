@@ -15,11 +15,6 @@ const ExpenseSchema = new Schema({
     type: String,
     default: "General",
   },
-  walletId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Wallet",
-    required: true
-  },
   createdAt: {
     type: Date,
     default: Date.now(),

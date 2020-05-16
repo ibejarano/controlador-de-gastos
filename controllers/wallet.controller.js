@@ -45,17 +45,9 @@ async function deleteWallet(req, res, next) {
 async function addExpense(req, res, next) {
   try {
     const walletId = req.params.id;
-    const expenseId = req.expenseId;
-    const wallet = await WalletServices.updateBalance(
-      walletId,
-      req.expenseNetAmount,
-      expenseId
-    );
-    if (!wallet) {
-      req.messages.push("No se pudo actualizar la billetera");
-    }
-    req.messages.push("Billetera actualizada satisfactoriamente");
-    next();
+    const expensesData = req.body;
+    const wallet = await WalletServices.createExpense(expensesData, walletId);
+    res.status(201).json({ wallet });
   } catch (error) {
     next(error);
   }

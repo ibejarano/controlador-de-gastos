@@ -15,6 +15,15 @@ async function get(req, res, next) {
   }
 }
 
+async function getByCookie(req, res, next) {
+  try {
+    const { user } = await UserServices.get(req.userId);
+    res.send(user);
+  } catch (err) {
+    next(err);
+  }
+}
+
 async function register(req, res, next) {
   try {
     const { wallet } = await WalletServices.create({});
@@ -56,7 +65,9 @@ async function updateUser(req, res) {
 async function addWallet(req, res, next) {
   try {
     const user = await User.findById(req.userId);
-    user.wallet.push(req.walletId);
+    console.log(user)
+    console.log(req.walletId)
+    user.wallets.push(req.walletId);
     await user.save();
     const resUser = await User.findById(req.userId).populate("wallet");
     res.json({ walletId: req.walletId, userInfo: resUser });
@@ -107,7 +118,7 @@ function checkUserIdProvided(clientReq) {
 }
 
 module.exports = {
-  get,
+  getByCookie,
   register,
   login,
   logout,

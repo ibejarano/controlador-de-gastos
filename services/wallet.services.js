@@ -1,10 +1,20 @@
-const { Wallet } = require("../models");
+const { Wallet, Expense } = require("../models");
 
 async function getById(id) {
   const wallet = await Wallet.findById(id).populate("expenses");
   if (!wallet) {
     throw new Error("ID de Billetera no encontrada");
   }
+  return wallet;
+}
+
+async function createExpense(expenseData, walletId) {
+  const expense = new Expense({ ...expenseData });
+  await expense.save();
+  const wallet = await Wallet.findById(walletId);
+  wallet.expenses.push(expense._id);
+  wallet.balance += expense.amount;
+  await wallet.save();
   return wallet;
 }
 
@@ -17,7 +27,7 @@ async function create(data) {
     currency,
   });
   const savedWallet = await wallet.save();
-  return { wallet: savedWallet };
+  return savedWallet;
 }
 
 async function updateBalance(id, amount, expensesId = null) {
@@ -47,6 +57,7 @@ async function deleteById(id) {
 
 module.exports = {
   create,
+  createExpense,
   getById,
   updateBalance,
   deleteById,

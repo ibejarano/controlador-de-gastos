@@ -2,11 +2,9 @@ const { Expense } = require("../models");
 
 async function registerExpense(req, res, next) {
   try {
+    req.body.amount = req.body.isIncome ? req.body.amount : -req.body.amount;
     const expense = new Expense({ ...req.body });
     await expense.save();
-    req.expenseNetAmount = req.body.isIncome
-      ? req.body.amount
-      : -req.body.amount;
     req.expenseId = expense.id;
     req.section = expense.section;
     req.messages = ["Gasto agregado exitosamente"];
