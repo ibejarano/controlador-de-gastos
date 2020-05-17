@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { login, register } from "../helpers/requests";
+import UserContext from "../context/UserContext";
 
 import SubmitButton from "../components/SubmitButton";
 import Error from "../components/Error";
@@ -45,7 +46,8 @@ const StyledForm = styled.form`
   }
 `;
 
-const LoginPage = ({ setIsAuth }) => {
+const LoginPage = () => {
+  const { dispatchUser } = useContext(UserContext);
   const [input, setInput] = useState({
     username: "",
     email: "test@mail.com",
@@ -74,12 +76,12 @@ const LoginPage = ({ setIsAuth }) => {
             onSubmit={async (e) => {
               e.preventDefault();
               setIsSubmitting(true);
+
               const { data, err } = await login(input);
-              if (data) {
-                setIsAuth(true);
-                setError(data.message);
-              } else {
+              if (err) {
                 setError(err.message || err.response.data.error);
+              } else {
+                dispatchUser({ type: "set-user", payload: data });
               }
               setIsSubmitting(false);
             }}
@@ -119,9 +121,7 @@ const LoginPage = ({ setIsAuth }) => {
               if (err) {
                 setError(err);
               } else {
-                console.log(data);
-                console.log(message);
-                setIsAuth(true);
+                dispatchUser({ type: "set-user", payload: data });
               }
               setIsSubmitting(false);
             }}
