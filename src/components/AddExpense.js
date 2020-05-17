@@ -54,7 +54,13 @@ const SubmitButton = ({ isSubmitting }) => {
   );
 };
 
-const AddExpense = ({ wallet, setWallet, closeAddExpenseDialog, setError, sectionsSaved }) => {
+const AddExpense = ({
+  wallet,
+  setWallet,
+  closeAddExpenseDialog,
+  setError,
+  sectionsSaved,
+}) => {
   const [fields, setFields] = useState({
     description: "",
     amount: "",
