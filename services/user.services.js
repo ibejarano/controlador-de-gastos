@@ -89,6 +89,7 @@ async function setBudgetLimit(userId, sectionName, limit) {
   user.budgets.forEach((b) => {
     if (b.section == sectionName) {
       b.limit = limit;
+      b.isConfigured = true;
     }
   });
 
