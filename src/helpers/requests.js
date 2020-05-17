@@ -89,3 +89,21 @@ export async function register(input) {
     return { err: err.response.data.error };
   }
 }
+
+export async function configureBudget(section, limit) {
+  try {
+    const { data } = await transport.post(`${endpoint}/user/budget-limit`, {
+      section,
+      limit,
+    });
+    return {
+      data,
+      message: `Presupuesto de la seccion ${section} actualizado correctamente`,
+    };
+  } catch (err) {
+    if (err.message) {
+      return { err: err.message };
+    }
+    return { err: err.response.data.error };
+  }
+}

@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import TitleContainer from "../components/TitleContainer";
 
 import OptionButton from "../components/OptionButton";
+
+import { configureBudget } from "../helpers/requests";
 
 const BudgetContainer = styled.div`
   background: ${(props) => props.theme.color.yellowText};
@@ -15,6 +17,7 @@ const BudgetContainer = styled.div`
   h1 {
     font-size: 18px;
     margin: 0;
+    text-transform: capitalize;
   }
 
   p {
@@ -87,31 +90,77 @@ function DisplayBudget({ budget }) {
           },
         ]}
       />
+
       <ProgressBar barWidth={progress}>
-        <div className="filled-progress-bar"></div>
+        {progress && <div className="filled-progress-bar"></div>}
       </ProgressBar>
     </BudgetContainer>
   );
 }
 
-function DisplayNoConfiguredBudget({ budget }) {
+function DisplayNoConfiguredBudget({ budget, setBudgets }) {
+  const [limit, setLimit] = useState(0);
+  const [openDialog, setOpenDialog] = useState(false);
+
+  const openFormDialog = (e) => {
+    e.preventDefault();
+    setOpenDialog(true);
+  };
+
+  const saveConfiguration = async (e) => {
+    e.preventDefault();
+    if (limit) {
+      const { section } = budget;
+      const { data, message } = await configureBudget(section, limit);
+      setBudgets(data.budgets);
+      console.log(data);
+      console.log(message);
+    }
+    setOpenDialog(false);
+  };
+
   return (
     <BudgetContainer>
       <h1>{budget.section}</h1>
-      <p>Presupuesto no configurado</p>
+      {!openDialog && <p>Presupuesto no configurado</p>}
+      {openDialog && (
+        <form onSubmit={saveConfiguration}>
+          <label>Nuevo Limite</label>
+          <input
+            type="number"
+            value={limit}
+            onChange={(e) => setLimit(e.target.value)}
+          />
+          <button type="submit">Guardar</button>
+        </form>
+      )}
+      <OptionButton
+        options={[
+          {
+            legend: "Cambiar limite",
+            onClick: openFormDialog,
+          },
+        ]}
+      />
     </BudgetContainer>
   );
 }
 
 export default function BudgetPage({ data }) {
+  const [budgets, setBudgets] = useState(data);
+
   return (
     <React.Fragment>
       <TitleContainer title="Presupuestos" />
-      {data.map((budget) => {
+      {budgets.map((budget) => {
         return budget.isConfigured ? (
           <DisplayBudget key={budget.section} budget={budget} />
         ) : (
-          <DisplayNoConfiguredBudget key={budget.section} budget={budget} />
+          <DisplayNoConfiguredBudget
+            key={budget.section}
+            budget={budget}
+            setBudgets={setBudgets}
+          />
         );
       })}
     </React.Fragment>
