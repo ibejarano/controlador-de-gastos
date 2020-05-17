@@ -14,6 +14,8 @@ router.get("/wallets", User.getWalletsId);
 
 router.post("/new-section", User.createSection);
 
+router.post("/budget-limit", User.setBudgetLimit)
+
 router.delete("/", User.deleteUser);
 
 /* Expense related routes */

@@ -79,6 +79,24 @@ async function getBudget(userId, name) {
   return budget;
 }
 
+async function setBudgetLimit(userId, sectionName, limit) {
+  const user = await User.findById(userId, "budgets");
+  if (!user.budgets) {
+    const error = new Error("No existen presupuestos");
+    error.status = 500;
+    throw error;
+  }
+  user.budgets.forEach((b) => {
+    if (b.section == sectionName) {
+      b.limit = limit;
+    }
+  });
+
+  await user.save();
+
+  return user;
+}
+
 async function updateBudget(userId, expenses) {
   const sectionName = expenses.section;
   const budget = await getBudget(userId, sectionName);
@@ -99,4 +117,5 @@ module.exports = {
   getWalletsId,
   getBudget,
   updateBudget,
+  setBudgetLimit,
 };

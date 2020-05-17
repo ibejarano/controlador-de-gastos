@@ -83,18 +83,6 @@ async function updateUser(req, res) {
   }
 }
 
-async function addBudget(req, res, next) {
-  try {
-    const budgetId = req.budgetId;
-    const user = await User.findById(req.userId);
-    user.budgets.push(budgetId);
-    await user.save();
-    res.json({ data: user, message: "Presupuesto agregado!" });
-  } catch (error) {
-    next(error);
-  }
-}
-
 async function addWallet(req, res, next) {
   try {
     const user = await User.findById(req.userId);
@@ -123,6 +111,17 @@ async function deleteUser(req, res) {
     res.status(400).send(error.message);
   }
 }
+
+async function setBudgetLimit(req, res, next) {
+  try {
+    const { section, limit } = req.body; // TODO: Se puede colocar todo en realidad para que updatee
+    const user = await UserServices.setBudgetLimit(req.userId, section, limit);
+    res.json(user);
+  } catch (error) {
+    next(error);
+  }
+}
+
 async function createSection(req, res, next) {
   try {
     const { section } = req.query;
@@ -159,6 +158,6 @@ module.exports = {
   addWallet,
   deleteUser,
   createSection,
-  addBudget,
   getWalletsId,
+  setBudgetLimit,
 };
