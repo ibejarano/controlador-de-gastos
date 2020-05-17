@@ -73,7 +73,7 @@ function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
 
-const ShowWalletDetails = () => {
+const ShowWalletDetails = ({ sectionsSaved }) => {
   const [addExpense, setAddExpense] = useState(false);
   const [wallet, setWallet] = useState({});
   const [loading, setLoading] = useState(true);
@@ -126,6 +126,7 @@ const ShowWalletDetails = () => {
               setWallet={setWallet}
               closeAddExpenseDialog={setAddExpense}
               setError={setError}
+              sectionsSaved={sectionsSaved}
             />
           )}
           <Link className="close" to="/">
@@ -145,7 +146,7 @@ const Home = ({ userInfo, setUserInfo }) => {
         <AddWallet setUserInfo={setUserInfo} />
       </Route>
       <Route path="/details">
-        <ShowWalletDetails />
+        <ShowWalletDetails sectionsSaved={userInfo.sectionsSaved} />
       </Route>
       <Route path="/">
         <ShowWallets userInfo={userInfo} setUserInfo={setUserInfo} />

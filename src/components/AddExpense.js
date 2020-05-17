@@ -31,33 +31,6 @@ const StyledDropdown = styled.div`
   }
 `;
 
-const OPTIONS_DROPDOWN = [
-  {
-    value: "Food",
-    label: "Comida",
-  },
-  {
-    value: "House",
-    label: "Hogar",
-  },
-  {
-    value: "Tax",
-    label: "Impuestos",
-  },
-  {
-    value: "Entertainment",
-    label: "Entretenimiento",
-  },
-  {
-    value: "Various",
-    label: "Varios",
-  },
-  {
-    value: "Transport",
-    label: "Transporte",
-  },
-];
-
 const StyledButton = styled.button`
   margin-top: 1.5em;
   padding: 0.7em;
@@ -81,7 +54,7 @@ const SubmitButton = ({ isSubmitting }) => {
   );
 };
 
-const AddExpense = ({ wallet, setWallet, closeAddExpenseDialog, setError }) => {
+const AddExpense = ({ wallet, setWallet, closeAddExpenseDialog, setError, sectionsSaved }) => {
   const [fields, setFields] = useState({
     description: "",
     amount: "",
@@ -128,7 +101,7 @@ const AddExpense = ({ wallet, setWallet, closeAddExpenseDialog, setError }) => {
       <label>Seccion</label>
       <StyledDropdown>
         <Dropdown
-          options={OPTIONS_DROPDOWN}
+          options={sectionsSaved}
           value={section}
           onChange={(e) => setFields({ ...fields, section: e.value })}
           placeholder="Selecciona una opcion..."
