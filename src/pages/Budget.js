@@ -94,13 +94,26 @@ function DisplayBudget({ budget }) {
   );
 }
 
+function DisplayNoConfiguredBudget({ budget }) {
+  return (
+    <BudgetContainer>
+      <h1>{budget.section}</h1>
+      <p>Presupuesto no configurado</p>
+    </BudgetContainer>
+  );
+}
+
 export default function BudgetPage({ data }) {
   return (
-    <div>
+    <React.Fragment>
       <TitleContainer title="Presupuestos" />
-      {data.map((budget) => (
-        <DisplayBudget key={budget.section} budget={budget} />
-      ))}
-    </div>
+      {data.map((budget) => {
+        return budget.isConfigured ? (
+          <DisplayBudget key={budget.section} budget={budget} />
+        ) : (
+          <DisplayNoConfiguredBudget key={budget.section} budget={budget} />
+        );
+      })}
+    </React.Fragment>
   );
 }

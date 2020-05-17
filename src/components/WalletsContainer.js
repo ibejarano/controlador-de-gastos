@@ -151,7 +151,7 @@ const StyledWallets = styled.div`
 const WalletsContainer = ({ userInfo, setUserInfo }) => {
   return (
     <StyledWallets>
-      {userInfo.wallet.map((singleWallet) => (
+      {userInfo.wallets.map((singleWallet) => (
         <WalletContainer
           key={singleWallet._id}
           singleWallet={singleWallet}

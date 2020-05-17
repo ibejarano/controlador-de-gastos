@@ -45,7 +45,7 @@ function App() {
                   <Logout setIsAuth={setIsAuth} />
                 </Route>
                 <Route path="/budgets">
-                  <BudgetPage data={[]} />
+                  <BudgetPage data={user.budgets} />
                 </Route>
                 <Route path="/">
                   <Home userInfo={user} setUserInfo={setUser} />
