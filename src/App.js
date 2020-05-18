@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useReducer } from "react";
 import { ThemeProvider } from "styled-components";
 import theme from "./themes/main";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -12,13 +12,16 @@ import Navbar from "./components/Navbar";
 
 import { getUserWithCookies } from "./helpers/requests";
 
+import UserContext from "./context/UserContext";
+import UserReducer from "./reducers/user";
+
 import "./App.css";
 
+const sessionUser = JSON.parse(sessionStorage.getItem("expenses-user"));
+
 function App() {
-  const [user, setUser] = useState(
-    JSON.parse(sessionStorage.getItem("expenses-user"))
-  );
-  const [isAuth, setIsAuth] = useState(false);
+  const initUser = { loggedIn: false, ...sessionUser };
+  const [user, dispatchUser] = useReducer(UserReducer, initUser);
 
   useEffect(() => {
     async function fetchData() {
@@ -26,35 +29,40 @@ function App() {
       if (err) {
         console.log(err.message);
       } else {
-        setUser(data.user);
+        // setUser(data.user);
         sessionStorage.setItem("expenses-user", JSON.stringify(data.user));
       }
     }
 
     fetchData();
-  }, [isAuth]);
+  }, []);
+
+  console.log(user)
 
   return (
     <Router>
       <ThemeProvider theme={theme}>
         <MainContainer>
-          {user && (
-            <React.Fragment>
-              <Switch>
-                <Route path="/logout">
-                  <Logout setIsAuth={setIsAuth} />
-                </Route>
-                <Route path="/budgets">
-                  <BudgetPage data={user.budgets} />
-                </Route>
-                <Route path="/">
-                  <Home userInfo={user} setUserInfo={setUser} />
-                </Route>
-              </Switch>
-              <Navbar />
-            </React.Fragment>
-          )}
-          {!user && <LoginPage setIsAuth={setIsAuth} />}
+          <UserContext.Provider value={{ user, dispatchUser }}>
+            {user.loggedIn ? (
+              <React.Fragment>
+                <Switch>
+                  <Route path="/logout">
+                    <Logout />
+                  </Route>
+                  <Route path="/budgets">
+                    <BudgetPage />
+                  </Route>
+                  <Route path="/">
+                    <Home />
+                  </Route>
+                </Switch>
+                <Navbar />
+              </React.Fragment>
+            ) : (
+              <LoginPage />
+            )}
+          </UserContext.Provider>
         </MainContainer>
       </ThemeProvider>
     </Router>

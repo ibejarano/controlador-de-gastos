@@ -76,7 +76,6 @@ const LoginPage = () => {
             onSubmit={async (e) => {
               e.preventDefault();
               setIsSubmitting(true);
-
               const { data, err } = await login(input);
               if (err) {
                 setError(err.message || err.response.data.error);
@@ -117,7 +116,7 @@ const LoginPage = () => {
             onSubmit={async (e) => {
               e.preventDefault();
               setIsSubmitting(true);
-              const { data, message, err } = await register(input);
+              const { data, err } = await register(input);
               if (err) {
                 setError(err);
               } else {

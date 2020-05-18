@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Route, Link, useLocation, Switch } from "react-router-dom";
 import styled from "styled-components";
 import { Circle } from "react-spinners-css";
@@ -12,6 +12,8 @@ import AddWallet from "../components/AddWallet";
 import BalanceCard from "../components/MonthBalance";
 import Expenses from "../components/Expenses";
 import Error from "../components/Error";
+
+import UserContext from "../context/UserContext";
 
 import { getWalletDetails } from "../helpers/requests";
 
@@ -139,20 +141,22 @@ const ShowWalletDetails = ({ sectionsSaved }) => {
   );
 };
 
-const Home = ({ userInfo, setUserInfo }) => {
+export default function HomePage() {
+  const { user } = useContext(UserContext);
   return (
     <Switch>
-      <Route path="/add-wallet">
+      {/* <Route path="/add-wallet">
         <AddWallet setUserInfo={setUserInfo} />
-      </Route>
-      <Route path="/details">
+      </Route> */}
+      {/* <Route path="/details">
         <ShowWalletDetails sectionsSaved={userInfo.sectionsSaved} />
-      </Route>
+      </Route> */}
       <Route path="/">
-        <ShowWallets userInfo={userInfo} setUserInfo={setUserInfo} />
+        <ShowWallets
+          userInfo={user}
+          //  setUserInfo={setUserInfo}
+        />
       </Route>
     </Switch>
   );
-};
-
-export default Home;
+}
