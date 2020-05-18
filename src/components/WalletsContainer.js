@@ -1,10 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 
+import TitleContainer from "./TitleContainer";
 import TitleAndSubtitle from "./TitleAndSubtitle";
 
 const StyledPlusLink = styled.div`
@@ -75,7 +75,7 @@ const StyledWalletContainer = styled.div`
   }
 `;
 
-const WalletContainer = ({ singleWallet, userInfo, setUserInfo }) => {
+const WalletContainer = ({ wallet, setUserInfo }) => {
   const [showMenu, setShowMenu] = React.useState(false);
   const openMenu = (e) => {
     e.preventDefault();
@@ -93,19 +93,19 @@ const WalletContainer = ({ singleWallet, userInfo, setUserInfo }) => {
     <StyledWalletContainer>
       <div className="wallet-title">
         <TitleAndSubtitle
-          title={singleWallet.name}
+          title={wallet.name}
           subtitle="Implementacion pendiente Descripcion"
           invert={true}
         />
       </div>
       <div className="wallet-balance">
         <TitleAndSubtitle
-          title={`Balance: $${singleWallet.balance}`}
-          subtitle={`Moneda: ${singleWallet.currency.toUpperCase()}`}
+          title={`Balance: $${wallet.balance}`}
+          // subtitle={`Moneda: ${singleWallet.currency.toUpperCase()}`}
           invert={true}
         />
       </div>
-      <Link className="details" to={`/details?walletId=${singleWallet._id}`}>
+      <Link className="details" to={`/details?walletId=${wallet._id}`}>
         Ver Detalles
       </Link>
       <button type="button" className="dropdown-options" onClick={openMenu}>
@@ -114,20 +114,20 @@ const WalletContainer = ({ singleWallet, userInfo, setUserInfo }) => {
       {showMenu && (
         <button
           className="option"
-          onClick={() => {
-            axios
-              .delete(`http://localhost:5000/wallet/${singleWallet._id}`)
-              .then((res) => {
-                console.log(res);
-                const filteredUserInfo = { ...userInfo };
-                const updatedWallet = filteredUserInfo.wallet.filter(
-                  (wallet) => wallet._id !== singleWallet._id
-                );
-                filteredUserInfo.wallet = updatedWallet;
-                setUserInfo(filteredUserInfo);
-              })
-              .catch(console.log);
-          }}
+          // TODO Mejorar esto para que no acepte userinfo
+          // onClick={() => {
+          //   axios
+          //     .delete(`http://localhost:5000/wallet/${singleWallet._id}`)
+          //     .then((res) => {
+          //       const filteredUserInfo = { ...userInfo };
+          //       const updatedWallet = filteredUserInfo.wallet.filter(
+          //         (wallet) => wallet._id !== singleWallet._id
+          //       );
+          //       filteredUserInfo.wallet = updatedWallet;
+          //       setUserInfo(filteredUserInfo);
+          //     })
+          //     .catch(console.log);
+          // }}
         >
           Borrar Billetera
         </button>
@@ -148,23 +148,31 @@ const StyledWallets = styled.div`
   }
 `;
 
-const WalletsContainer = ({ userInfo, setUserInfo }) => {
+const WalletsContainer = ({ wallets, username }) => {
   return (
-    <StyledWallets>
-      {userInfo.wallets.map((singleWallet) => (
-        <WalletContainer
-          key={singleWallet._id}
-          singleWallet={singleWallet}
-          userInfo={userInfo}
-          setUserInfo={setUserInfo}
-        />
-      ))}
-      <Link to="/add-wallet">
-        <StyledPlusLink>
-          <h1>+</h1>
-        </StyledPlusLink>
-      </Link>
-    </StyledWallets>
+    <React.Fragment>
+      <TitleContainer username={username} />
+      <TitleAndSubtitle
+        title="Cuentas"
+        subtitle="Seleccione una para ver el estado"
+      />
+      {wallets.length && (
+        <StyledWallets>
+          {wallets.map((wallet) => (
+            <WalletContainer
+              key={wallet._id}
+              wallet={wallet}
+              // setUserInfo={setUserInfo}
+            />
+          ))}
+          <Link to="/add-wallet">
+            <StyledPlusLink>
+              <h1>+</h1>
+            </StyledPlusLink>
+          </Link>
+        </StyledWallets>
+      )}
+    </React.Fragment>
   );
 };
 

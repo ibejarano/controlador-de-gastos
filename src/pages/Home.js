@@ -5,30 +5,16 @@ import { Circle } from "react-spinners-css";
 
 import WalletsContainer from "../components/WalletsContainer";
 import TitleContainer from "../components/TitleContainer";
-import TitleAndSubtitle from "../components/TitleAndSubtitle";
 
 import Add from "../components/AddExpense";
-import AddWallet from "../components/AddWallet";
 import BalanceCard from "../components/MonthBalance";
 import Expenses from "../components/Expenses";
 import Error from "../components/Error";
+import AddWallet from "../components/AddWallet";
 
 import UserContext from "../context/UserContext";
 
 import { getWalletDetails } from "../helpers/requests";
-
-const ShowWallets = ({ userInfo, setUserInfo }) => (
-  <React.Fragment>
-    <TitleContainer username={userInfo.username} />
-    <TitleAndSubtitle
-      title="Cuentas"
-      subtitle="Seleccione una para ver el estado"
-    />
-    {userInfo && (
-      <WalletsContainer userInfo={userInfo} setUserInfo={setUserInfo} />
-    )}
-  </React.Fragment>
-);
 
 const StyledWalletDetails = styled.div`
   background: ${(props) => props.theme.color.walletColor};
@@ -145,17 +131,14 @@ export default function HomePage() {
   const { user } = useContext(UserContext);
   return (
     <Switch>
-      {/* <Route path="/add-wallet">
-        <AddWallet setUserInfo={setUserInfo} />
-      </Route> */}
-      {/* <Route path="/details">
-        <ShowWalletDetails sectionsSaved={userInfo.sectionsSaved} />
-      </Route> */}
+      <Route path="/add-wallet">
+        <AddWallet />
+      </Route>
+      <Route path="/details">
+        <ShowWalletDetails sectionsSaved={user.sectionsSaved} />
+      </Route>
       <Route path="/">
-        <ShowWallets
-          userInfo={user}
-          //  setUserInfo={setUserInfo}
-        />
+        <WalletsContainer username={user.username} wallets={user.wallets} />
       </Route>
     </Switch>
   );

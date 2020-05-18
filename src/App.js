@@ -29,21 +29,18 @@ function App() {
       if (err) {
         console.log(err.message);
       } else {
-        // setUser(data.user);
-        sessionStorage.setItem("expenses-user", JSON.stringify(data.user));
+        dispatchUser({ type: "set-user", payload: data.user });
       }
     }
 
     fetchData();
   }, []);
 
-  console.log(user)
-
   return (
     <Router>
       <ThemeProvider theme={theme}>
         <MainContainer>
-          <UserContext.Provider value={{ user, dispatchUser }}>
+          <UserContext.Provider value={{ user : user, dispatchUser }}>
             {user.loggedIn ? (
               <React.Fragment>
                 <Switch>

@@ -80,6 +80,7 @@ const LoginPage = () => {
               if (err) {
                 setError(err.message || err.response.data.error);
               } else {
+                console.log(data);
                 dispatchUser({ type: "set-user", payload: data });
               }
               setIsSubmitting(false);
