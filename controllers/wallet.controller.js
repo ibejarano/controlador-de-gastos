@@ -1,4 +1,3 @@
-const { Wallet } = require("../models");
 const { WalletServices, UserServices } = require("../services");
 
 async function getWalletInfo(req, res, next) {

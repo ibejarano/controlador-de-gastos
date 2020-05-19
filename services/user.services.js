@@ -101,13 +101,13 @@ async function setBudgetLimit(userId, sectionName, limit) {
 async function updateBudget(userId, expenses) {
   const user = await User.findById(userId);
   const sectionName = expenses.section;
-  const indexOfBudget = user.budgets.map((b) => b.section == sectionName);
+  const indexOfBudget = user.budgets.findIndex((b) => b.section == sectionName);
   if (indexOfBudget < 0) {
     return {};
   }
-  user.budgets[indexOfBudget].current += expenses.amount;
+  user.budgets[indexOfBudget].current += parseInt(expenses.amount);
   await user.save();
-  return budget;
+  return user.budgets[indexOfBudget];
 }
 
 module.exports = {
