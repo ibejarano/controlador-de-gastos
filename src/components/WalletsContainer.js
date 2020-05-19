@@ -90,8 +90,9 @@ const WalletContainer = ({ wallet, dispatch }) => {
     document.removeEventListener("click", closeMenu);
   };
 
-  const openWallet = () => {
-    dispatch({ type: "open-wallet" });
+  const openWallet = async () => {
+    console.log("aca tengo que hacer un request de los detalles");
+    dispatch({ type: "open-wallet", payload: wallet });
   };
 
   return (

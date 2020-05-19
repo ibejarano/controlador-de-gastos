@@ -15,8 +15,9 @@ export default function UserReducer(state, action) {
       wallets[j] = wallet;
       return { ...state, budgets: budgets, wallets: wallets };
     case "open-wallet":
-      return { ...state, openWallet: true };
+      return { ...state, openWallet: true, wallet: action.payload };
     case "close-wallet":
+      delete state.wallet;
       return { ...state, openWallet: false };
     default:
       console.log(`no rule defined for ${action.type} action type`);

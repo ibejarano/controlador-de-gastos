@@ -6,20 +6,29 @@ const initUser = {
   wallets: [
     {
       _id: 1,
-      name: "hook local wallet",
+      name: "Wallet A Hook",
       balance: 1500,
-      description: "nadaa",
+      description: "Description A",
+      expenses: [
+        {
+          _id: 1,
+          description: "papel",
+          amount: 130,
+          section: "comida",
+          createdAt: Date.now(),
+        },
+      ],
+    },
+    {
+      _id: 2,
+      name: "wallet B Hook",
+      balance: 2300,
+      description: "Description wallet b",
       expenses: [],
     },
   ],
   budgets: [],
   sectionsSaved: ["comida", "general"],
-  wallet: {
-    name: "hook local wallet",
-    balance: 1500,
-    description: "nadaa",
-    expenses: [],
-  },
   openWallet: false,
 };
 

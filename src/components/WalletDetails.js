@@ -1,8 +1,10 @@
-import React, { useQuery, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Error from "./Error";
 import { useUser } from "../context/UserContext";
 import TitleContainer from "./common/Title";
+import Balance from "./Balance";
+import Expenses from './Expenses'
 
 const StyledWalletDetails = styled.div`
   background: ${(props) => props.theme.color.walletColor};
@@ -58,15 +60,15 @@ export default function WalletDetails() {
     <React.Fragment>
       <TitleContainer title={`Billetera: ${wallet.name}`} />
       <StyledWalletDetails>
-        {/* {wallet.expenses && !addExpense && <BalanceCard wallet={wallet} />} */}
-        {/* {wallet.expenses && !addExpense && (
+        {<Balance wallet={wallet} />}
+        {wallet.expenses && (
           <React.Fragment>
-            <button className="add" onClick={() => setAddExpense(true)}>
+            <button className="add" onClick={() => console.log("Adding expenses click!")}>
               Agregar nuevo registro
             </button>
             <Expenses expenses={wallet.expenses} />
           </React.Fragment>
-        )} */}
+        )}
         {/* {addExpense && (
             <AddExpense
               walletId={wallet._id}
