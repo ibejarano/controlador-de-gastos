@@ -28,7 +28,7 @@ async function createExpense(expenseData, walletId) {
     {
       new: true,
     }
-  );
+  ).populate("expenses");
   return wallet;
 }
 
