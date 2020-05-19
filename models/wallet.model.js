@@ -8,6 +8,7 @@ const WalletSchema = new Schema({
   },
   description: {
     type: String,
+    default: "Sin descripcion",
   },
   currency: {
     type: String,

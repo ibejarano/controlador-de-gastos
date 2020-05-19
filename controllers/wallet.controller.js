@@ -14,8 +14,8 @@ async function getWalletInfo(req, res, next) {
 async function newWallet(req, res, next) {
   try {
     const wallet = await WalletServices.create(req.body);
-    req.walletId = wallet._id;
-    next();
+    const user = await UserServices.addWallet(req.userId, wallet._id);
+    res.status(201).json(user);
   } catch (error) {
     next(error);
   }

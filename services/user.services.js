@@ -60,6 +60,15 @@ async function getWalletsId(id) {
   return { wallets, sectionsSaved };
 }
 
+async function addWallet(id, walletId) {
+  const user = await User.findByIdAndUpdate(
+    id,
+    { $push: { wallets: walletId._id } },
+    { new: true }
+  ).populate("wallets");
+  return user;
+}
+
 async function getBudget(userId, name) {
   const { budgets } = await User.findById(userId, "budgets");
   if (!budgets) {
@@ -121,4 +130,5 @@ module.exports = {
   getBudget,
   updateBudget,
   setBudgetLimit,
+  addWallet,
 };
