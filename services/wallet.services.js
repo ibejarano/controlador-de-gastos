@@ -19,10 +19,16 @@ async function getById(id, sectionName) {
 async function createExpense(expenseData, walletId) {
   const expense = new Expense({ ...expenseData });
   await expense.save();
-  const wallet = await Wallet.findById(walletId);
-  wallet.expenses.push(expense._id);
-  wallet.balance += expense.amount;
-  await wallet.save();
+  const wallet = await Wallet.findByIdAndUpdate(
+    walletId,
+    {
+      $push: { expenses: expense._id },
+      $inc: { balance: expense.amount },
+    },
+    {
+      new: true,
+    }
+  );
   return wallet;
 }
 

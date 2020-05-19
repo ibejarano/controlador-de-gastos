@@ -108,7 +108,7 @@ async function setBudgetLimit(userId, sectionName, limit) {
 }
 
 async function updateBudget(userId, expenses) {
-  const user = await User.findById(userId);
+  const user = await User.findByIdAndUpdate(userId);
   const sectionName = expenses.section;
   const indexOfBudget = user.budgets.findIndex((b) => b.section == sectionName);
   if (indexOfBudget < 0) {
