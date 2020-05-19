@@ -4,7 +4,7 @@ import Dropdown from "react-dropdown";
 import { addExpense } from "../helpers/requests";
 import { DualRing } from "react-spinners-css";
 
-import { UserProvider } from "../context/UserContext";
+import { useUser } from "../context/UserContext";
 
 const StyledForm = styled.form`
   background: ${(props) => props.theme.color.yellowText};
@@ -56,18 +56,16 @@ const SubmitButton = ({ isSubmitting }) => {
   );
 };
 
-const AddExpense = ({
-  walletId,
-  closeAddExpenseDialog,
-  setError,
-  sectionsSaved,
-}) => {
+const AddExpense = ({ walletId, setError }) => {
+  const {
+    user: { sectionsSaved },
+    dispatch,
+  } = useUser();
   const [fields, setFields] = useState({
-    description: "",
-    amount: "",
-    section: "",
+    description: "papa",
+    amount: 150,
+    section: "comida",
   });
-  const { dispatchUser } = useContext(UserContext);
   const { description, amount, section } = fields;
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -80,13 +78,13 @@ const AddExpense = ({
       onSubmit={async (e) => {
         e.preventDefault();
         setIsSubmitting(true);
-        const { data, err } = await addExpense(walletId, fields);
-        if (err) {
-          setError(err.response.data.error);
-        } else {
-          dispatchUser({ type: "update-wallet-budget", payload: data });
-          closeAddExpenseDialog(false);
-        }
+        // const { data, err } = await addExpense(walletId, fields);
+        // if (err) {
+        //   setError(err.response.data.error);
+        // } else {
+        console.log("sending expenses....", fields);
+        dispatch({ type: "update-wallet", payload: fields });
+        // }
         setIsSubmitting(false);
       }}
     >

@@ -4,7 +4,8 @@ import Error from "./Error";
 import { useUser } from "../context/UserContext";
 import TitleContainer from "./common/Title";
 import Balance from "./Balance";
-import Expenses from './Expenses'
+import Expenses from "./Expenses";
+import AddExpenseForm from "./AddExpense";
 
 const StyledWalletDetails = styled.div`
   background: ${(props) => props.theme.color.walletColor};
@@ -50,10 +51,10 @@ const StyledWalletDetails = styled.div`
 `;
 
 export default function WalletDetails() {
-  const addExpense = false;
+  const [openAddExpense, setOpenAddExpense] = useState(false);
   const [error, setError] = useState(null);
   const {
-    user: { wallet },
+    user: { wallet, sectionsSaved },
     dispatch,
   } = useUser();
   return (
@@ -61,22 +62,22 @@ export default function WalletDetails() {
       <TitleContainer title={`Billetera: ${wallet.name}`} />
       <StyledWalletDetails>
         {<Balance wallet={wallet} />}
-        {wallet.expenses && (
+        {!openAddExpense && (
           <React.Fragment>
-            <button className="add" onClick={() => console.log("Adding expenses click!")}>
+            <button className="add" onClick={() => setOpenAddExpense(true)}>
               Agregar nuevo registro
             </button>
             <Expenses expenses={wallet.expenses} />
           </React.Fragment>
         )}
-        {/* {addExpense && (
-            <AddExpense
-              walletId={wallet._id}
-              closeAddExpenseDialog={setAddExpense}
-              setError={setError}
-              sectionsSaved={sectionsSaved}
-            />
-          )} */}
+        {openAddExpense && (
+          <AddExpenseForm
+            walletId={wallet._id}
+            closeAddExpenseDialog={setOpenAddExpense}
+            setError={setError}
+            sectionsSaved={sectionsSaved}
+          />
+        )}
         <button
           type="button"
           className="close"
