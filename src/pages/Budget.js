@@ -3,6 +3,7 @@ import styled from "styled-components";
 import TitleContainer from "../components/TitleContainer";
 
 import OptionButton from "../components/OptionButton";
+import { useUser } from "../context/UserContext";
 
 import { configureBudget } from "../helpers/requests";
 
@@ -98,7 +99,7 @@ function DisplayBudget({ budget }) {
   );
 }
 
-function DisplayNoConfiguredBudget({ budget, setBudgets }) {
+function DisplayNoConfiguredBudget({ budget, dispatch }) {
   const [limit, setLimit] = useState(0);
   const [openDialog, setOpenDialog] = useState(false);
 
@@ -112,7 +113,7 @@ function DisplayNoConfiguredBudget({ budget, setBudgets }) {
     if (limit) {
       const { section } = budget;
       const { data, message } = await configureBudget(section, limit);
-      setBudgets(data.budgets);
+      // setBudgets(data.budgets);
       console.log(data);
       console.log(message);
     }
@@ -146,8 +147,11 @@ function DisplayNoConfiguredBudget({ budget, setBudgets }) {
   );
 }
 
-export default function BudgetPage({ data }) {
-  const [budgets, setBudgets] = useState(data);
+export default function BudgetPage() {
+  const {
+    user: { budgets },
+    dispatch,
+  } = useUser();
 
   return (
     <React.Fragment>
@@ -159,7 +163,7 @@ export default function BudgetPage({ data }) {
           <DisplayNoConfiguredBudget
             key={budget.section}
             budget={budget}
-            setBudgets={setBudgets}
+            dispatch={dispatch}
           />
         );
       })}
