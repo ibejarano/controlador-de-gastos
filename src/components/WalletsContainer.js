@@ -75,7 +75,7 @@ const StyledWalletContainer = styled.div`
   }
 `;
 
-const WalletContainer = ({ wallet, setUserInfo }) => {
+const WalletContainer = ({ wallet }) => {
   const [showMenu, setShowMenu] = React.useState(false);
   const openMenu = (e) => {
     e.preventDefault();

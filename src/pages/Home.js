@@ -6,7 +6,7 @@ import { Circle } from "react-spinners-css";
 import WalletsContainer from "../components/WalletsContainer";
 import TitleContainer from "../components/TitleContainer";
 
-import Add from "../components/AddExpense";
+import AddExpense from "../components/AddExpense";
 import BalanceCard from "../components/MonthBalance";
 import Expenses from "../components/Expenses";
 import Error from "../components/Error";
@@ -109,9 +109,8 @@ const ShowWalletDetails = ({ sectionsSaved }) => {
             </React.Fragment>
           )}
           {addExpense && (
-            <Add
-              wallet={wallet}
-              setWallet={setWallet}
+            <AddExpense
+              walletId={wallet._id}
               closeAddExpenseDialog={setAddExpense}
               setError={setError}
               sectionsSaved={sectionsSaved}

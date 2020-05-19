@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import Dropdown from "react-dropdown";
 import { addExpense } from "../helpers/requests";
 import { DualRing } from "react-spinners-css";
+
+import UserContext from "../context/UserContext";
 
 const StyledForm = styled.form`
   background: ${(props) => props.theme.color.yellowText};
@@ -55,8 +57,7 @@ const SubmitButton = ({ isSubmitting }) => {
 };
 
 const AddExpense = ({
-  wallet,
-  setWallet,
+  walletId,
   closeAddExpenseDialog,
   setError,
   sectionsSaved,
@@ -65,9 +66,8 @@ const AddExpense = ({
     description: "",
     amount: "",
     section: "",
-    fromWallet: wallet._id,
   });
-
+  const { dispatchUser } = useContext(UserContext);
   const { description, amount, section } = fields;
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -80,11 +80,11 @@ const AddExpense = ({
       onSubmit={async (e) => {
         e.preventDefault();
         setIsSubmitting(true);
-        const { data, err } = await addExpense(wallet._id, fields);
+        const { data, err } = await addExpense(walletId, fields);
         if (err) {
           setError(err.response.data.error);
         } else {
-          setWallet(data.wallet);
+          dispatchUser({ type: "update-wallet-budget", payload: data });
           closeAddExpenseDialog(false);
         }
         setIsSubmitting(false);
