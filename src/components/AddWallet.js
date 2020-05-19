@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Redirect } from "react-router-dom";
 import Dropdown from "react-dropdown";
 
-import UserContext from "../context/UserContext";
+import { UserProvider } from "../context/UserContext";
 
 import { addWallet } from "../helpers/requests";
 

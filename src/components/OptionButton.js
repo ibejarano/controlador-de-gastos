@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 
-export default function OptionButton({ options }) {
+export default function OptionButton({ actions }) {
   const [showMenu, setShowMenu] = useState(false);
 
   const openMenu = (e) => {
@@ -18,9 +18,9 @@ export default function OptionButton({ options }) {
     document.removeEventListener("click", closeMenu);
   };
 
-  const Options = options.map((opts) => (
-    <button key={opts.legend} className="option" onClick={opts.onClick}>
-      {opts.legend}
+  const Options = actions.map((action) => (
+    <button key={action.legend} className="option" onClick={action.onClick}>
+      {action.legend}
     </button>
   ));
 

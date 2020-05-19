@@ -4,7 +4,7 @@ import Dropdown from "react-dropdown";
 import { addExpense } from "../helpers/requests";
 import { DualRing } from "react-spinners-css";
 
-import UserContext from "../context/UserContext";
+import { UserProvider } from "../context/UserContext";
 
 const StyledForm = styled.form`
   background: ${(props) => props.theme.color.yellowText};

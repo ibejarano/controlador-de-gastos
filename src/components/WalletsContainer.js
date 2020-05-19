@@ -6,6 +6,7 @@ import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 
 import TitleContainer from "./TitleContainer";
 import TitleAndSubtitle from "./TitleAndSubtitle";
+import WalletDetails from "./WalletDetails";
 
 const StyledPlusLink = styled.div`
   font-size: 2em;
@@ -75,7 +76,7 @@ const StyledWalletContainer = styled.div`
   }
 `;
 
-const WalletContainer = ({ wallet }) => {
+const WalletContainer = ({ wallet, dispatch }) => {
   const [showMenu, setShowMenu] = React.useState(false);
   const openMenu = (e) => {
     e.preventDefault();
@@ -89,13 +90,17 @@ const WalletContainer = ({ wallet }) => {
     document.removeEventListener("click", closeMenu);
   };
 
+  const openWallet = () => {
+    dispatch({ type: "open-wallet" });
+  };
+
   return (
     <StyledWalletContainer>
       <div className="wallet-title">
         <TitleAndSubtitle
           title={wallet.name}
-          subtitle="Implementacion pendiente Descripcion"
-          invert={true}
+          subtitle={wallet.description}
+          invert
         />
       </div>
       <div className="wallet-balance">
@@ -105,9 +110,9 @@ const WalletContainer = ({ wallet }) => {
           invert={true}
         />
       </div>
-      <Link className="details" to={`/details?walletId=${wallet._id}`}>
+      <button type="button" className="details" onClick={openWallet}>
         Ver Detalles
-      </Link>
+      </button>
       <button type="button" className="dropdown-options" onClick={openMenu}>
         <FontAwesomeIcon icon={faEllipsisV} />
       </button>
@@ -148,7 +153,7 @@ const StyledWallets = styled.div`
   }
 `;
 
-const WalletsContainer = ({ wallets, username }) => {
+const WalletsContainer = ({ wallets, username, dispatch, openWallet }) => {
   return (
     <React.Fragment>
       <TitleContainer username={username} />
@@ -162,7 +167,7 @@ const WalletsContainer = ({ wallets, username }) => {
             <WalletContainer
               key={wallet._id}
               wallet={wallet}
-              // setUserInfo={setUserInfo}
+              dispatch={dispatch}
             />
           ))}
           <Link to="/add-wallet">
@@ -172,6 +177,7 @@ const WalletsContainer = ({ wallets, username }) => {
           </Link>
         </StyledWallets>
       )}
+      {openWallet && <WalletDetails />}
     </React.Fragment>
   );
 };

@@ -8,12 +8,16 @@ export default function UserReducer(state, action) {
       return { ...newState };
     case "update-wallet-budget":
       const { wallet, budget } = action.payload;
-      const {wallets, budgets} = state;
-      const i = budgets.indexOf(bud => bud.section === budget.section);
+      const { wallets, budgets } = state;
+      const i = budgets.indexOf((bud) => bud.section === budget.section);
       budgets[i] = budget;
-      const j = wallets.indexOf(wall => wall._id === wallet._id)
-      wallets[j] = wallet
+      const j = wallets.indexOf((wall) => wall._id === wallet._id);
+      wallets[j] = wallet;
       return { ...state, budgets: budgets, wallets: wallets };
+    case "open-wallet":
+      return { ...state, openWallet: true };
+    case "close-wallet":
+      return { ...state, openWallet: false };
     default:
       console.log(`no rule defined for ${action.type} action type`);
   }

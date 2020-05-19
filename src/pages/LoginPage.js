@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { login, register } from "../helpers/requests";
-import UserContext from "../context/UserContext";
+import { UserProvider } from "../context/UserContext";
 
 import SubmitButton from "../components/SubmitButton";
 import Error from "../components/Error";
