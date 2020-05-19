@@ -1,27 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
-
-import TitleContainer from "./TitleContainer";
-import TitleAndSubtitle from "./TitleAndSubtitle";
-import WalletDetails from "./WalletDetails";
-
-const StyledPlusLink = styled.div`
-  font-size: 2em;
-  border-radius: 50%;
-  background: ${(props) => props.theme.color.yellowText};
-  width: 100px;
-  height: 100px;
-  cursor: pointer;
-  margin-bottom: 1em;
-  text-decoration: none;
-  h1 {
-    margin: auto;
-    text-align: center;
-  }
-`;
+import TitleAndSubtitle from "./common/TitleAndSubtitle";
 
 const StyledWalletContainer = styled.div`
   background: ${(props) => props.theme.color.yellowText};
@@ -76,7 +58,7 @@ const StyledWalletContainer = styled.div`
   }
 `;
 
-const WalletContainer = ({ wallet, dispatch }) => {
+export default function WalletContainer({ wallet, dispatch }) {
   const [showMenu, setShowMenu] = React.useState(false);
   const openMenu = (e) => {
     e.preventDefault();
@@ -97,17 +79,15 @@ const WalletContainer = ({ wallet, dispatch }) => {
 
   return (
     <StyledWalletContainer>
-      <div className="wallet-title">
-        <TitleAndSubtitle
-          title={wallet.name}
-          subtitle={wallet.description}
-          invert
-        />
-      </div>
+      <TitleAndSubtitle
+        title={`${wallet.name}`}
+        subtitle={`${wallet.description}`}
+        invert={true}
+      />
       <div className="wallet-balance">
         <TitleAndSubtitle
           title={`Balance: $${wallet.balance}`}
-          // subtitle={`Moneda: ${singleWallet.currency.toUpperCase()}`}
+          // subtitle={`${wallet.description}`}
           invert={true}
         />
       </div>
@@ -140,47 +120,4 @@ const WalletContainer = ({ wallet, dispatch }) => {
       )}
     </StyledWalletContainer>
   );
-};
-
-const StyledWallets = styled.div`
-  display: flex;
-  flex-flow: column wrap;
-  align-items: center;
-
-  @media (min-width: 600px) {
-    flex-flow: row wrap;
-    justify-content: space-around;
-    padding: 0 4em;
-  }
-`;
-
-const WalletsContainer = ({ wallets, username, dispatch, openWallet }) => {
-  return (
-    <React.Fragment>
-      <TitleContainer username={username} />
-      <TitleAndSubtitle
-        title="Cuentas"
-        subtitle="Seleccione una para ver el estado"
-      />
-      {wallets.length && (
-        <StyledWallets>
-          {wallets.map((wallet) => (
-            <WalletContainer
-              key={wallet._id}
-              wallet={wallet}
-              dispatch={dispatch}
-            />
-          ))}
-          <Link to="/add-wallet">
-            <StyledPlusLink>
-              <h1>+</h1>
-            </StyledPlusLink>
-          </Link>
-        </StyledWallets>
-      )}
-      {openWallet && <WalletDetails />}
-    </React.Fragment>
-  );
-};
-
-export default WalletsContainer;
+}
