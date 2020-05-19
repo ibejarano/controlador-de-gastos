@@ -99,12 +99,14 @@ async function setBudgetLimit(userId, sectionName, limit) {
 }
 
 async function updateBudget(userId, expenses) {
+  const user = await User.findById(userId);
   const sectionName = expenses.section;
-  const budget = await getBudget(userId, sectionName);
-  if (budget.section) {
-    budget.current += expenses.amount;
-    await budget.save();
+  const indexOfBudget = user.budgets.map((b) => b.section == sectionName);
+  if (indexOfBudget < 0) {
+    return {};
   }
+  user.budgets[indexOfBudget].current += expenses.amount;
+  await user.save();
   return budget;
 }
 
