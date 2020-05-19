@@ -3,7 +3,7 @@
 export default function UserReducer(state, action) {
   switch (action.type) {
     case "set-user":
-      const newState = { loggedIn: true, ...action.payload };
+      const newState = { loggedIn: true, ...action.payload, title:'Bienvenid@!'  };
       sessionStorage.setItem("expenses-user", JSON.stringify(newState));
       return { ...newState };
     case "update-wallet-budget":
@@ -15,10 +15,19 @@ export default function UserReducer(state, action) {
       wallets[j] = wallet;
       return { ...state, budgets: budgets, wallets: wallets };
     case "open-wallet":
-      return { ...state, openWallet: true, wallet: action.payload };
+      return {
+        ...state,
+        openWallet: true,
+        wallet: action.payload,
+        title: action.payload.name,
+      };
     case "close-wallet":
       delete state.wallet;
-      return { ...state, openWallet: false };
+      return {
+        ...state,
+        openWallet: false,
+        title: `Bienvenid@ ${state.username}`,
+      };
     case "update-wallet":
       console.log("payload", action.payload);
       console.log("state", state);

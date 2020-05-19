@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useUser } from "../context/UserContext";
 import { Link } from "react-router-dom";
 
@@ -40,7 +40,7 @@ export default function HomePage() {
 
   return (
     <React.Fragment>
-      <TitleContainer username={user.username} />
+      <TitleContainer title={user.title} />
       <TitleAndSubtitle
         title="Cuentas"
         subtitle="Seleccione una para ver el estado"
