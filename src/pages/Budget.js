@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import TitleContainer from "../components/TitleContainer";
 
-import OptionButton from "../components/OptionButton";
+import DotsButton from "../components/common/DotsButton";
 import { useUser } from "../context/UserContext";
 
 import { configureBudget } from "../helpers/requests";
@@ -83,7 +83,7 @@ function DisplayBudget({ budget }) {
       <p>
         ${budget.current} / ${budget.limit}
       </p>
-      <OptionButton
+      <DotsButton
         options={[
           {
             legend: "Actualizar",
@@ -112,10 +112,8 @@ function DisplayNoConfiguredBudget({ budget, dispatch }) {
     e.preventDefault();
     if (limit) {
       const { section } = budget;
-      const { data, message } = await configureBudget(section, limit);
-      // setBudgets(data.budgets);
-      console.log(data);
-      console.log(message);
+      const { data } = await configureBudget(section, limit);
+      dispatch({ type: "set-user", payload: data });
     }
     setOpenDialog(false);
   };
@@ -135,7 +133,7 @@ function DisplayNoConfiguredBudget({ budget, dispatch }) {
           <button type="submit">Guardar</button>
         </form>
       )}
-      <OptionButton
+      <DotsButton
         options={[
           {
             legend: "Cambiar limite",
