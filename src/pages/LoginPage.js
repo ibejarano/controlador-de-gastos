@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { Redirect } from "react-router-dom";
 import { login, register } from "../helpers/requests";
 import { useUser } from "../context/UserContext";
 
@@ -47,7 +48,7 @@ const StyledForm = styled.form`
 `;
 
 const LoginPage = () => {
-  console.log("porque no render?")
+  const [redirect, setRedirect] = useState(null);
   const { dispatch } = useUser();
   const [input, setInput] = useState({
     username: "",
@@ -82,6 +83,7 @@ const LoginPage = () => {
                 setError(err.message || err.response.data.error);
               } else {
                 dispatch({ type: "set-user", payload: data });
+                setRedirect("/wallets");
               }
               setIsSubmitting(false);
             }}
@@ -122,6 +124,7 @@ const LoginPage = () => {
                 setError(err);
               } else {
                 dispatch({ type: "set-user", payload: data });
+                setRedirect("/wallets");
               }
               setIsSubmitting(false);
             }}
@@ -159,6 +162,7 @@ const LoginPage = () => {
           />
         </div>
         {error && <Error error={error} />}
+        {redirect && <Redirect to={redirect} />}
       </FormsContainer>
     </React.Fragment>
   );

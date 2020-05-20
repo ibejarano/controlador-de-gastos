@@ -6,6 +6,8 @@ export default function UserReducer(state, action) {
       const newState = { loggedIn: true, ...action.payload };
       sessionStorage.setItem("expenses-user", JSON.stringify(newState));
       return { ...newState };
+    case "set-budgets":
+      return { ...state, budgets: action.payload, loggedIn: true };
     case "update-wallet-budget":
       const { wallet, budget } = action.payload;
       const { wallets, budgets } = state;

@@ -26,13 +26,12 @@ function App() {
         <MainContainer>
           <UserProvider>
             <Switch>
-              <PrivateRoute path="/logout" component={Logout} />
-              <PrivateRoute path="/budgets" component={BudgetPage} />
-              <Route exact path="/login">
+              <Route exact path="/">
                 <LoginPage />
               </Route>
-              <PrivateRoute exact path="/" component={Home} />
+              <PrivateRoutes />
             </Switch>
+            <RenderSomething />
           </UserProvider>
         </MainContainer>
       </ThemeProvider>
@@ -40,24 +39,30 @@ function App() {
   );
 }
 
-function PrivateRoute({ component: Component, ...rest }) {
+function RenderSomething() {
+  const { user } = useUser();
+  console.log(user);
+  return <h1 style={{ color: "white" }}>Something!</h1>;
+}
+
+function PrivateRoutes() {
   const {
     user: { loggedIn },
   } = useUser();
+  if (!loggedIn) return <Redirect to="/" />;
   return (
-    <Route
-      {...rest}
-      render={(props) =>
-        loggedIn ? (
-          <React.Fragment>
-            <Component {...props} />
-            <Navbar />
-          </React.Fragment>
-        ) : (
-          <Redirect to="/login" />
-        )
-      }
-    />
+    <React.Fragment>
+      <Route exact path="/wallets">
+        <Home />
+      </Route>
+      <Route exact path="/logout">
+        <Logout />
+      </Route>
+      <Route exact path="/budgets">
+        <BudgetPage />
+      </Route>
+      <Navbar />
+    </React.Fragment>
   );
 }
 

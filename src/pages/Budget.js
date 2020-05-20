@@ -75,8 +75,35 @@ const ProgressBar = styled.div`
   }
 `;
 
+function ConfigureBudgetDialog({ setOpenDialog, section, currentLimit = 0 }) {
+  const [limit, setLimit] = useState(currentLimit);
+  const { dispatch } = useUser();
+  const saveConfiguration = async (e) => {
+    e.preventDefault();
+    if (limit) {
+      const { data } = await configureBudget(section, limit);
+      dispatch({ type: "set-budget", payload: data.budgets });
+    }
+    setOpenDialog(false);
+  };
+
+  return (
+    <form onSubmit={saveConfiguration}>
+      <label>Nuevo Limite</label>
+      <input
+        type="number"
+        value={limit}
+        onChange={(e) => setLimit(e.target.value)}
+      />
+      <button type="submit">Guardar</button>
+    </form>
+  );
+}
+
 function DisplayBudget({ budget }) {
   const progress = Math.floor((budget.current * 100) / budget.limit);
+  const [openDialog, setOpenDialog] = useState(false);
+
   return (
     <BudgetContainer>
       <h1>{budget.section}</h1>
@@ -87,11 +114,17 @@ function DisplayBudget({ budget }) {
         options={[
           {
             legend: "Actualizar",
-            onClick: () => console.log("Actualizar Budget a implementar!"),
+            onClick: () => setOpenDialog(true),
           },
         ]}
       />
-
+      {openDialog && (
+        <ConfigureBudgetDialog
+          setOpenDialog={setOpenDialog}
+          currentlimit={budget.limit}
+          section={budget.section}
+        />
+      )}
       <ProgressBar barWidth={progress}>
         {progress && <div className="filled-progress-bar"></div>}
       </ProgressBar>
@@ -99,45 +132,24 @@ function DisplayBudget({ budget }) {
   );
 }
 
-function DisplayNoConfiguredBudget({ budget, dispatch }) {
-  const [limit, setLimit] = useState(0);
+function DisplayNoConfiguredBudget({ budget }) {
   const [openDialog, setOpenDialog] = useState(false);
-
-  const openFormDialog = (e) => {
-    e.preventDefault();
-    setOpenDialog(true);
-  };
-
-  const saveConfiguration = async (e) => {
-    e.preventDefault();
-    if (limit) {
-      const { section } = budget;
-      const { data } = await configureBudget(section, limit);
-      dispatch({ type: "set-user", payload: data });
-    }
-    setOpenDialog(false);
-  };
 
   return (
     <BudgetContainer>
       <h1>{budget.section}</h1>
       {!openDialog && <p>Presupuesto no configurado</p>}
       {openDialog && (
-        <form onSubmit={saveConfiguration}>
-          <label>Nuevo Limite</label>
-          <input
-            type="number"
-            value={limit}
-            onChange={(e) => setLimit(e.target.value)}
-          />
-          <button type="submit">Guardar</button>
-        </form>
+        <ConfigureBudgetDialog
+          setOpenDialog={setOpenDialog}
+          section={budget.section}
+        />
       )}
       <DotsButton
         options={[
           {
             legend: "Cambiar limite",
-            onClick: openFormDialog,
+            onClick: () => setOpenDialog(true),
           },
         ]}
       />
@@ -148,7 +160,6 @@ function DisplayNoConfiguredBudget({ budget, dispatch }) {
 export default function BudgetPage() {
   const {
     user: { budgets },
-    dispatch,
   } = useUser();
 
   return (
@@ -158,11 +169,7 @@ export default function BudgetPage() {
         return budget.isConfigured ? (
           <DisplayBudget key={budget.section} budget={budget} />
         ) : (
-          <DisplayNoConfiguredBudget
-            key={budget.section}
-            budget={budget}
-            dispatch={dispatch}
-          />
+          <DisplayNoConfiguredBudget key={budget.section} budget={budget} />
         );
       })}
     </React.Fragment>
