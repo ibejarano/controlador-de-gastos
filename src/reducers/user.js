@@ -31,8 +31,9 @@ export default function UserReducer(state, action) {
         title: `Bienvenid@ ${state.username}`,
       };
     case "update-wallet":
-      state.wallet.expenses.push(action.payload);
-      return { ...state };
+      const idx = state.wallets.indexOf((w) => w === action.payload._id);
+      state.wallets[idx] = action.payload;
+      return { ...state, wallet: action.payload };
     case "delete-wallet":
       const walletidToDelete = action.payload;
       const filteredWallet = state.wallets.filter(

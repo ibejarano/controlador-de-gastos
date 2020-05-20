@@ -73,9 +73,8 @@ export default function WalletDetails() {
         {openAddExpense && (
           <AddExpenseForm
             walletId={wallet._id}
-            closeAddExpenseDialog={setOpenAddExpense}
+            setOpenAddExpense={setOpenAddExpense}
             setError={setError}
-            sectionsSaved={sectionsSaved}
           />
         )}
         <button

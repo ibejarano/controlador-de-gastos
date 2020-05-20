@@ -56,7 +56,7 @@ const SubmitButton = ({ isSubmitting }) => {
   );
 };
 
-const AddExpense = ({ walletId, setError }) => {
+const AddExpense = ({ walletId, setError, setOpenAddExpense }) => {
   const {
     user: { sectionsSaved },
     dispatch,
@@ -82,7 +82,9 @@ const AddExpense = ({ walletId, setError }) => {
         if (err) {
           setError(err.response.data.error);
         } else {
-          dispatch({ type: "update-wallet", payload: data });
+          console.log(data)
+          dispatch({ type: "update-wallet", payload: data.wallet });
+          setOpenAddExpense(false);
         }
         setIsSubmitting(false);
       }}
