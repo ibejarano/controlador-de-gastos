@@ -35,6 +35,7 @@ async function updateWalletBalance(req, res, next) {
 async function deleteWallet(req, res, next) {
   try {
     const { id } = req.params;
+    console.log(id)
     const message = await WalletServices.deleteById(id);
     res.json(message);
   } catch (error) {

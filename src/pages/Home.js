@@ -40,7 +40,7 @@ export default function HomePage() {
 
   return (
     <React.Fragment>
-      <TitleContainer title={user.title} />
+      <TitleContainer title={`Bienvenid@! ${user.username}`} />
       <TitleAndSubtitle
         title="Cuentas"
         subtitle="Seleccione una para ver el estado"

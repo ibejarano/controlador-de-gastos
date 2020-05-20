@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-
+import axios from "axios";
 import { getWalletDetails } from "../helpers/requests";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import TitleAndSubtitle from "./common/TitleAndSubtitle";
+
+import DotsButton from "./common/DotsButton";
 
 const StyledWalletContainer = styled.div`
   background: ${(props) => props.theme.color.yellowText};
@@ -61,22 +61,17 @@ const StyledWalletContainer = styled.div`
 `;
 
 export default function WalletContainer({ wallet, dispatch }) {
-  const [showMenu, setShowMenu] = React.useState(false);
-  const openMenu = (e) => {
-    e.preventDefault();
-    setShowMenu(true);
-    document.addEventListener("click", closeMenu);
-  };
-
-  const closeMenu = () => {
-    setShowMenu(false);
-
-    document.removeEventListener("click", closeMenu);
-  };
 
   const openWallet = async (walletId) => {
     const { data } = await getWalletDetails(walletId);
     dispatch({ type: "open-wallet", payload: data });
+  };
+
+  const deleteWallet = async () => {
+    await axios.delete(`http://localhost:5000/wallet/${wallet._id}`, {
+      withCredentials: true,
+    });
+    dispatch({ type: "delete-wallet", payload: wallet._id });
   };
 
   return (
@@ -100,30 +95,14 @@ export default function WalletContainer({ wallet, dispatch }) {
       >
         Ver Detalles
       </button>
-      <button type="button" className="dropdown-options" onClick={openMenu}>
-        <FontAwesomeIcon icon={faEllipsisV} />
-      </button>
-      {showMenu && (
-        <button
-          className="option"
-          // TODO Mejorar esto para que no acepte userinfo
-          // onClick={() => {
-          //   axios
-          //     .delete(`http://localhost:5000/wallet/${singleWallet._id}`)
-          //     .then((res) => {
-          //       const filteredUserInfo = { ...userInfo };
-          //       const updatedWallet = filteredUserInfo.wallet.filter(
-          //         (wallet) => wallet._id !== singleWallet._id
-          //       );
-          //       filteredUserInfo.wallet = updatedWallet;
-          //       setUserInfo(filteredUserInfo);
-          //     })
-          //     .catch(console.log);
-          // }}
-        >
-          Borrar Billetera
-        </button>
-      )}
+      <DotsButton
+        options={[
+          {
+            legend: "Borrar billetera",
+            onClick: deleteWallet,
+          },
+        ]}
+      />
     </StyledWalletContainer>
   );
 }

@@ -7,6 +7,7 @@ export default function OptionButton({ options }) {
   const [showMenu, setShowMenu] = useState(false);
 
   const openMenu = (e) => {
+    console.log("ya click me!")
     e.preventDefault();
     setShowMenu(true);
     document.addEventListener("click", closeMenu);

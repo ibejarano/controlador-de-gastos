@@ -33,6 +33,12 @@ export default function UserReducer(state, action) {
     case "update-wallet":
       state.wallet.expenses.push(action.payload);
       return { ...state };
+    case "delete-wallet":
+      const walletidToDelete = action.payload;
+      const filteredWallet = state.wallets.filter(
+        (w) => w._id !== walletidToDelete
+      );
+      return { ...state, wallets: filteredWallet };
     default:
       console.log(`no rule defined for ${action.type} action type`);
   }
