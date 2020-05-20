@@ -1,7 +1,7 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { login, register } from "../helpers/requests";
-import { UserProvider } from "../context/UserContext";
+import { useUser } from "../context/UserContext";
 
 import SubmitButton from "../components/SubmitButton";
 import Error from "../components/Error";
@@ -47,11 +47,12 @@ const StyledForm = styled.form`
 `;
 
 const LoginPage = () => {
-  const { dispatchUser } = useContext(UserContext);
+  console.log("porque no render?")
+  const { dispatch } = useUser();
   const [input, setInput] = useState({
     username: "",
-    email: "test@mail.com",
-    password: "test",
+    email: "budgets@testnew2",
+    password: "testpass",
     confPassword: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -80,8 +81,7 @@ const LoginPage = () => {
               if (err) {
                 setError(err.message || err.response.data.error);
               } else {
-                console.log(data);
-                dispatchUser({ type: "set-user", payload: data });
+                dispatch({ type: "set-user", payload: data });
               }
               setIsSubmitting(false);
             }}
@@ -121,7 +121,7 @@ const LoginPage = () => {
               if (err) {
                 setError(err);
               } else {
-                dispatchUser({ type: "set-user", payload: data });
+                dispatch({ type: "set-user", payload: data });
               }
               setIsSubmitting(false);
             }}

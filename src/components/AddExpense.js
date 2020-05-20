@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Dropdown from "react-dropdown";
 import { addExpense } from "../helpers/requests";
@@ -78,13 +78,12 @@ const AddExpense = ({ walletId, setError }) => {
       onSubmit={async (e) => {
         e.preventDefault();
         setIsSubmitting(true);
-        // const { data, err } = await addExpense(walletId, fields);
-        // if (err) {
-        //   setError(err.response.data.error);
-        // } else {
-        console.log("sending expenses....", fields);
-        dispatch({ type: "update-wallet", payload: fields });
-        // }
+        const { data, err } = await addExpense(walletId, fields);
+        if (err) {
+          setError(err.response.data.error);
+        } else {
+          dispatch({ type: "update-wallet", payload: data });
+        }
         setIsSubmitting(false);
       }}
     >

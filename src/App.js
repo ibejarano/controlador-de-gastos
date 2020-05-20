@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from "react";
+import React from "react";
 import { ThemeProvider } from "styled-components";
 import theme from "./themes/main";
 import {
@@ -9,53 +9,30 @@ import {
 } from "react-router-dom";
 
 import MainContainer from "./components/MainContainer";
-// import LoginPage from "./pages/LoginPage";
+import LoginPage from "./pages/LoginPage";
 import Home from "./pages/Home";
 import BudgetPage from "./pages/Budget";
-// import Logout from "./pages/Logout";
+import Logout from "./pages/Logout";
 import Navbar from "./components/Navbar";
 
-import { getUserWithCookies } from "./helpers/requests";
-
-import { UserProvider } from "./context/UserContext";
+import { UserProvider, useUser } from "./context/UserContext";
 
 import "./App.css";
 
-const sessionUser = JSON.parse(sessionStorage.getItem("expenses-user"));
-
 function App() {
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     const { data, err } = await getUserWithCookies();
-  //     if (err) {
-  //       console.log(err.message);
-  //     } else {
-  //       dispatchUser({ type: "set-user", payload: data.user });
-  //     }
-  //   }
-
-  //   fetchData();
-  // }, []);
-
   return (
     <Router>
       <ThemeProvider theme={theme}>
         <MainContainer>
           <UserProvider>
-            <React.Fragment>
-              <Switch>
-                {/* <Route path="/logout">
-                  <Logout />
-                </Route> */}
-                <Route path="/budgets">
-                  <BudgetPage />
-                </Route>
-                <Route path="/">
-                  <Home />
-                </Route>
-              </Switch>
-              <Navbar />
-            </React.Fragment>
+            <Switch>
+              <PrivateRoute path="/logout" component={Logout} />
+              <PrivateRoute path="/budgets" component={BudgetPage} />
+              <Route exact path="/login">
+                <LoginPage />
+              </Route>
+              <PrivateRoute exact path="/" component={Home} />
+            </Switch>
           </UserProvider>
         </MainContainer>
       </ThemeProvider>
@@ -64,11 +41,21 @@ function App() {
 }
 
 function PrivateRoute({ component: Component, ...rest }) {
+  const {
+    user: { loggedIn },
+  } = useUser();
   return (
     <Route
       {...rest}
       render={(props) =>
-        false ? <Component {...props} /> : <Redirect to="/login" />
+        loggedIn ? (
+          <React.Fragment>
+            <Component {...props} />
+            <Navbar />
+          </React.Fragment>
+        ) : (
+          <Redirect to="/login" />
+        )
       }
     />
   );
