@@ -45,22 +45,20 @@ export default function HomePage() {
         title="Cuentas"
         subtitle="Seleccione una para ver el estado"
       />
-      {user.wallets.length && (
-        <StyledWallets>
-          {user.wallets.map((wallet) => (
-            <WalletContainer
-              key={wallet._id}
-              wallet={wallet}
-              dispatch={dispatch}
-            />
-          ))}
-          <Link to="/add-wallet">
-            <StyledPlusLink>
-              <h1>+</h1>
-            </StyledPlusLink>
-          </Link>
-        </StyledWallets>
-      )}
+      <StyledWallets>
+        {user.wallets.map((wallet) => (
+          <WalletContainer
+            key={wallet._id}
+            wallet={wallet}
+            dispatch={dispatch}
+          />
+        ))}
+        <Link to="/add-wallet">
+          <StyledPlusLink>
+            <h1>+</h1>
+          </StyledPlusLink>
+        </Link>
+      </StyledWallets>
       {user.openWallet && <WalletDetails />}
     </React.Fragment>
   );
