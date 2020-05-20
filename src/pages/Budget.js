@@ -82,7 +82,7 @@ function ConfigureBudgetDialog({ setOpenDialog, section, currentLimit = 0 }) {
     e.preventDefault();
     if (limit) {
       const { data } = await configureBudget(section, limit);
-      dispatch({ type: "set-budget", payload: data.budgets });
+      dispatch({ type: "set-budgets", payload: data.budgets });
     }
     setOpenDialog(false);
   };
@@ -125,9 +125,11 @@ function DisplayBudget({ budget }) {
           section={budget.section}
         />
       )}
-      <ProgressBar barWidth={progress}>
-        {progress && <div className="filled-progress-bar"></div>}
-      </ProgressBar>
+      {!openDialog && (
+        <ProgressBar barWidth={progress}>
+          {progress && <div className="filled-progress-bar"></div>}
+        </ProgressBar>
+      )}
     </BudgetContainer>
   );
 }
