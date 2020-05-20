@@ -31,18 +31,11 @@ function App() {
               </Route>
               <PrivateRoutes />
             </Switch>
-            <RenderSomething />
           </UserProvider>
         </MainContainer>
       </ThemeProvider>
     </Router>
   );
-}
-
-function RenderSomething() {
-  const { user } = useUser();
-  console.log(user);
-  return <h1 style={{ color: "white" }}>Something!</h1>;
 }
 
 function PrivateRoutes() {

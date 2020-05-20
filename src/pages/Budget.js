@@ -121,7 +121,7 @@ function DisplayBudget({ budget }) {
       {openDialog && (
         <ConfigureBudgetDialog
           setOpenDialog={setOpenDialog}
-          currentlimit={budget.limit}
+          currentLimit={budget.limit}
           section={budget.section}
         />
       )}
