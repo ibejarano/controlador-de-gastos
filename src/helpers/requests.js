@@ -30,6 +30,7 @@ export async function addWallet(fields) {
 export async function getWalletDetails(walletId) {
   try {
     const { data } = await transport.get(`${endpoint}/wallet/${walletId}`);
+    console.log(data);
     return { data };
   } catch (err) {
     return { err };

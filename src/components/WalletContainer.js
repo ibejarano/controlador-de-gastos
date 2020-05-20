@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
+import { getWalletDetails } from "../helpers/requests";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 import TitleAndSubtitle from "./common/TitleAndSubtitle";
@@ -72,9 +74,9 @@ export default function WalletContainer({ wallet, dispatch }) {
     document.removeEventListener("click", closeMenu);
   };
 
-  const openWallet = async () => {
-    console.log("aca tengo que hacer un request de los detalles");
-    dispatch({ type: "open-wallet", payload: wallet });
+  const openWallet = async (walletId) => {
+    const { data } = await getWalletDetails(walletId);
+    dispatch({ type: "open-wallet", payload: data });
   };
 
   return (
@@ -91,7 +93,11 @@ export default function WalletContainer({ wallet, dispatch }) {
           invert={true}
         />
       </div>
-      <button type="button" className="details" onClick={openWallet}>
+      <button
+        type="button"
+        className="details"
+        onClick={() => openWallet(wallet._id)}
+      >
         Ver Detalles
       </button>
       <button type="button" className="dropdown-options" onClick={openMenu}>
