@@ -46,7 +46,7 @@ export default function HomePage() {
         subtitle="Seleccione una para ver el estado"
       />
       <StyledWallets>
-        {user.wallets.map((wallet) => (
+        {user.wallets?.map((wallet) => (
           <WalletContainer
             key={wallet._id}
             wallet={wallet}

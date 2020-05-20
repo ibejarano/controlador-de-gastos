@@ -14,6 +14,7 @@ import Home from "./pages/Home";
 import BudgetPage from "./pages/Budget";
 import Logout from "./pages/Logout";
 import Navbar from "./components/Navbar";
+import AddWallet from "./components/AddWallet";
 
 import { UserProvider, useUser } from "./context/UserContext";
 
@@ -45,6 +46,9 @@ function PrivateRoutes() {
   if (!loggedIn) return <Redirect to="/" />;
   return (
     <React.Fragment>
+      <Route path="/add-wallet">
+        <AddWallet />
+      </Route>
       <Route exact path="/wallets">
         <Home />
       </Route>
