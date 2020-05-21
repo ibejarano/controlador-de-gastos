@@ -18,8 +18,6 @@ import AddWallet from "./components/AddWallet";
 
 import { UserProvider, useUser } from "./context/UserContext";
 
-import "./App.css";
-
 function App() {
   return (
     <Router>
