@@ -91,6 +91,7 @@ export default function WalletDetails({ walletId }) {
             walletId={wallet._id}
             setOpenAddExpense={setOpenAddExpense}
             setError={setError}
+            setWallet={setWallet}
           />
         )}
       </StyledWalletDetails>
