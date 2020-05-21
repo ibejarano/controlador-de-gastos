@@ -15,10 +15,21 @@ async function get(req, res, next) {
   }
 }
 
-async function getByCookie(req, res, next) {
+async function getWallets(req, res, next) {
   try {
-    const { user } = await UserServices.get(req.userId);
-    res.send({ user });
+    const {
+      user: { wallets },
+    } = await UserServices.getWallets(req.userId);
+    res.send(wallets);
+  } catch (err) {
+    next(err);
+  }
+}
+
+async function getBudgets(req, res, next) {
+  try {
+    const { budgets } = await UserServices.getBudgets(req.userId);
+    res.send(budgets);
   } catch (err) {
     next(err);
   }
@@ -149,7 +160,8 @@ function checkUserIdProvided(clientReq) {
 }
 
 module.exports = {
-  getByCookie,
+  getWallets,
+  getBudgets,
   register,
   login,
   logout,

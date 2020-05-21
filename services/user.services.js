@@ -4,9 +4,14 @@
 
 const { User } = require("../models");
 
-async function get(id) {
-  const user = await User.findById(id).populate("wallets");
+async function getWallets(id) {
+  const user = await User.findById(id).populate("wallets").select("wallets");
   return { user };
+}
+
+async function getBudgets(id) {
+  const { budgets } = await User.findById(id).select("budgets");
+  return { budgets };
 }
 
 async function getAllUsers() {
@@ -123,7 +128,8 @@ module.exports = {
   getAllUsers,
   register,
   login,
-  get,
+  getWallets,
+  getBudgets,
   createSection,
   getSectionsSaved,
   getWalletsId,
