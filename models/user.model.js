@@ -70,7 +70,7 @@ UserSchema.statics.authenticate = async (email, password) => {
     err.status = 401;
     throw err;
   }
-  const verifiedUser = await User.findById(user._id ).select('_id username')
+  const verifiedUser = await User.findById(user._id ).select('_id username sectionsSaved')
   return verifiedUser;
 };
 
