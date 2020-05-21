@@ -58,7 +58,7 @@ UserSchema.pre("save", async function (next) {
 });
 
 UserSchema.statics.authenticate = async (email, password) => {
-  const user = await User.findOne({ email }).populate("wallets");
+  const user = await User.findOne({ email }).select('_id password');
   if (!user) {
     const err = new Error("Usuario y/o password invalido");
     err.status = 401;
@@ -70,7 +70,8 @@ UserSchema.statics.authenticate = async (email, password) => {
     err.status = 401;
     throw err;
   }
-  return user;
+  const verifiedUser = await User.findById(user._id ).select('_id username')
+  return verifiedUser;
 };
 
 UserSchema.methods.generateAuthToken = async function () {
