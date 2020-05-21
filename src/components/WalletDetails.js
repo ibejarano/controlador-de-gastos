@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Error from "./Error";
 import { useUser } from "../context/UserContext";
-import TitleContainer from "./common/Title";
 import Balance from "./Balance";
 import Expenses from "./Expenses";
 import AddExpenseForm from "./AddExpense";
+
+import { getWalletDetails } from "../helpers/requests";
 
 const StyledWalletDetails = styled.div`
   background: ${(props) => props.theme.color.walletColor};
@@ -50,33 +51,34 @@ const StyledWalletDetails = styled.div`
   }
 `;
 
-export default function WalletDetails() {
+export default function WalletDetails({ walletId }) {
   const [openAddExpense, setOpenAddExpense] = useState(false);
   const [error, setError] = useState(null);
-  const {
-    user: { wallet, sectionsSaved },
-    dispatch,
-  } = useUser();
+  const [wallet, setWallet] = useState(null);
+  const { dispatch } = useUser();
+
+  useEffect(() => {
+    async function fetchWalletDetails() {
+      const { data } = await getWalletDetails(walletId);
+      setWallet(data);
+    }
+
+    fetchWalletDetails();
+  }, [walletId]);
+
   return (
     <React.Fragment>
-      <TitleContainer title={`Billetera: ${wallet.name}`} />
       <StyledWalletDetails>
-        {<Balance wallet={wallet} />}
-        {!openAddExpense && (
+        {wallet && (
           <React.Fragment>
+            <Balance wallet={wallet} />
             <button className="add" onClick={() => setOpenAddExpense(true)}>
               Agregar nuevo registro
             </button>
             <Expenses expenses={wallet.expenses} />
           </React.Fragment>
         )}
-        {openAddExpense && (
-          <AddExpenseForm
-            walletId={wallet._id}
-            setOpenAddExpense={setOpenAddExpense}
-            setError={setError}
-          />
-        )}
+
         <button
           type="button"
           className="close"
@@ -84,6 +86,13 @@ export default function WalletDetails() {
         >
           X
         </button>
+        {openAddExpense && (
+          <AddExpenseForm
+            walletId={wallet._id}
+            setOpenAddExpense={setOpenAddExpense}
+            setError={setError}
+          />
+        )}
       </StyledWalletDetails>
       {error && <Error error={error} />}
     </React.Fragment>

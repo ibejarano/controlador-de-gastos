@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { getWalletDetails } from "../helpers/requests";
 
 import TitleAndSubtitle from "./common/TitleAndSubtitle";
 
@@ -61,10 +60,11 @@ const StyledWalletContainer = styled.div`
 `;
 
 export default function WalletContainer({ wallet, dispatch }) {
-
   const openWallet = async (walletId) => {
-    const { data } = await getWalletDetails(walletId);
-    dispatch({ type: "open-wallet", payload: data });
+    dispatch({
+      type: "open-wallet",
+      payload: { name: wallet.name, id: wallet._id },
+    });
   };
 
   const deleteWallet = async () => {

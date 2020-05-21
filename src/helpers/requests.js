@@ -9,10 +9,10 @@ const transport = axios.create({
   withCredentials: true,
 });
 
-export async function getUserWithCookies() {
+export async function getWallets() {
   try {
     const { data } = await transport.get(`${endpoint}/user`);
-    return { data };
+    return data;
   } catch (error) {
     return { err: error };
   }
@@ -30,7 +30,6 @@ export async function addWallet(fields) {
 export async function getWalletDetails(walletId) {
   try {
     const { data } = await transport.get(`${endpoint}/wallet/${walletId}`);
-    console.log(data);
     return { data };
   } catch (err) {
     return { err };

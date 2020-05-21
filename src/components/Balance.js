@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import TitleAndSubtitle from './TitleAndSubtitle';
+import TitleAndSubtitle from "./TitleAndSubtitle";
 
 const BalanceCardContainer = styled.div`
   border-radius: 20px;
@@ -25,7 +25,7 @@ const BalanceItem = styled.div`
   width: 90px;
   height: 70px;
   border-radius: 10px;
-  background: ${props =>
+  background: ${(props) =>
     props.primary
       ? props.theme.color.greenCard
       : props.warning
@@ -40,10 +40,13 @@ const BalanceItem = styled.div`
 `;
 
 export default function MonthBalance({ wallet }) {
-  const totalExpenses = wallet.expenses.reduce((acc, exp) => (acc += exp.amount), 0);
+  const totalExpenses = wallet.expenses.reduce(
+    (acc, exp) => (acc += exp.amount),
+    0
+  );
   return (
     <BalanceCardContainer>
-      <TitleAndSubtitle title="Balance de saldos"  />
+      <TitleAndSubtitle title="Balance de saldos" />
       <div className="container-balance">
         <BalanceItem className="balance-item" primary>
           <h3>Ingresos</h3>

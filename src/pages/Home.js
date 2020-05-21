@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useUser } from "../context/UserContext";
 import { Link } from "react-router-dom";
 
@@ -7,6 +7,8 @@ import styled from "styled-components";
 import TitleContainer from "../components/common/Title";
 import TitleAndSubtitle from "../components/common/TitleAndSubtitle";
 import WalletDetails from "../components/WalletDetails";
+
+import { getWallets } from "../helpers/requests";
 
 const StyledWallets = styled.div`
   display: flex;
@@ -37,16 +39,25 @@ const StyledPlusLink = styled.div`
 
 export default function HomePage() {
   const { user, dispatch } = useUser();
+  const [wallets, setWallets] = useState([]);
+  useEffect(() => {
+    async function fetchWallets() {
+      const fetchedWallets = await getWallets();
+      setWallets(fetchedWallets);
+    }
+
+    fetchWallets();
+  }, []);
 
   return (
     <React.Fragment>
-      <TitleContainer title={`Bienvenid@! ${user.username}`} />
+      <TitleContainer title={user.title} />
       <TitleAndSubtitle
         title="Cuentas"
         subtitle="Seleccione una para ver el estado"
       />
       <StyledWallets>
-        {user.wallets?.map((wallet) => (
+        {wallets?.map((wallet) => (
           <WalletContainer
             key={wallet._id}
             wallet={wallet}
@@ -59,7 +70,7 @@ export default function HomePage() {
           </StyledPlusLink>
         </Link>
       </StyledWallets>
-      {user.openWallet && <WalletDetails />}
+      {user.openWallet && <WalletDetails walletId={user.walletId} />}
     </React.Fragment>
   );
 }
