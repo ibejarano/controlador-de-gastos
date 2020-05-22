@@ -43,6 +43,7 @@ export default function HomePage() {
     dispatch,
   } = useUser();
   const [wallets, setWallets] = useState([]);
+
   useEffect(() => {
     async function fetchWallets() {
       const fetchedWallets = await getWallets();
@@ -52,7 +53,7 @@ export default function HomePage() {
       fetchWallets();
       dispatch({ type: "update-wallet" });
     }
-  }, [refresh]);
+  }, [refresh, openWallet]);
 
   return (
     <React.Fragment>

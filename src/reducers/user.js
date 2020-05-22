@@ -13,7 +13,7 @@ export default function UserReducer(state, action) {
       sessionStorage.setItem("expenses-user", JSON.stringify(newState));
       return { ...newState };
     case "update-wallet":
-      return { ...state, refresh: false };
+      return { ...state, refresh: true };
     case "set-budgets":
       return { ...state, budgets: action.payload };
     case "update-wallet-budget":

@@ -81,7 +81,6 @@ export default function AddWallet() {
         onSubmit={async (e) => {
           e.preventDefault();
           const { err, data } = await addWallet(fields);
-          console.log("receiving...", data, err)
           if (err) {
             setError(err.response.data.error);
           } else {
