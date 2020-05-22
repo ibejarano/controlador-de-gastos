@@ -68,6 +68,7 @@ export default function HomePage() {
             key={wallet._id}
             wallet={wallet}
             dispatch={dispatch}
+            setWallets={setWallets}
           />
         ))}
         <Link to="/add-wallet">

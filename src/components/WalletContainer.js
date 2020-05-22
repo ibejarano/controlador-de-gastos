@@ -59,7 +59,7 @@ const StyledWalletContainer = styled.div`
   }
 `;
 
-export default function WalletContainer({ wallet, dispatch }) {
+export default function WalletContainer({ wallet, dispatch, setWallets }) {
   const openWallet = async (walletId) => {
     dispatch({
       type: "open-wallet",
@@ -68,10 +68,15 @@ export default function WalletContainer({ wallet, dispatch }) {
   };
 
   const deleteWallet = async () => {
-    await axios.delete(`http://localhost:5000/wallet/${wallet._id}`, {
-      withCredentials: true,
-    });
-    dispatch({ type: "delete-wallet", payload: wallet._id });
+    const { data } = await axios.delete(
+      `http://localhost:5000/wallet/${wallet._id}`,
+      {
+        withCredentials: true,
+      }
+    );
+    console.log(data);
+    setWallets(data);
+    // dispatch({ type: "update-wallet" });
   };
 
   return (
