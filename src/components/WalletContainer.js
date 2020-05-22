@@ -63,7 +63,7 @@ export default function WalletContainer({ wallet, dispatch }) {
   const openWallet = async (walletId) => {
     dispatch({
       type: "open-wallet",
-      payload: { name: wallet.name, id: wallet._id },
+      payload: { name: wallet.name, id: walletId },
     });
   };
 

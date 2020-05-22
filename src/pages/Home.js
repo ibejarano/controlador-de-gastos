@@ -38,26 +38,31 @@ const StyledPlusLink = styled.div`
 `;
 
 export default function HomePage() {
-  const { user, dispatch } = useUser();
+  const {
+    user: { refresh, title, openWallet, walletId },
+    dispatch,
+  } = useUser();
   const [wallets, setWallets] = useState([]);
   useEffect(() => {
     async function fetchWallets() {
       const fetchedWallets = await getWallets();
       setWallets(fetchedWallets);
     }
-
-    fetchWallets();
-  }, []);
+    if (refresh) {
+      fetchWallets();
+      dispatch({ type: "update-wallet" });
+    }
+  }, [refresh]);
 
   return (
     <React.Fragment>
-      <TitleContainer title={user.title} />
+      <TitleContainer title={title} />
       <TitleAndSubtitle
         title="Cuentas"
         subtitle="Seleccione una para ver el estado"
       />
       <StyledWallets>
-        {wallets?.map((wallet) => (
+        {wallets.map((wallet) => (
           <WalletContainer
             key={wallet._id}
             wallet={wallet}
@@ -70,7 +75,7 @@ export default function HomePage() {
           </StyledPlusLink>
         </Link>
       </StyledWallets>
-      {user.openWallet && <WalletDetails walletId={user.walletId} />}
+      {openWallet && <WalletDetails walletId={walletId} />}
     </React.Fragment>
   );
 }
