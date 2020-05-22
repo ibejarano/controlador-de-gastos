@@ -107,3 +107,15 @@ export async function configureBudget(section, limit) {
     return { err: err.response.data.error };
   }
 }
+
+export async function getBudgets() {
+  try {
+    const { data } = await transport.get(`${endpoint}/user/budgets`);
+    return { data };
+  } catch (err) {
+    if (err.message) {
+      return { err: err.message };
+    }
+    return { err: err.response.data.error };
+  }
+}

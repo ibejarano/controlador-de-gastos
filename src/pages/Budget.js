@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import TitleContainer from "../components/TitleContainer";
 
 import DotsButton from "../components/common/DotsButton";
 import { useUser } from "../context/UserContext";
 
-import { configureBudget } from "../helpers/requests";
+import { configureBudget, getBudgets } from "../helpers/requests";
 
 const BudgetContainer = styled.div`
   background: ${(props) => props.theme.color.yellowText};
@@ -160,9 +160,20 @@ function DisplayNoConfiguredBudget({ budget }) {
 }
 
 export default function BudgetPage() {
-  const {
-    user: { budgets },
-  } = useUser();
+  const [budgets, setBudgets] = useState([]);
+  const [isLoading, setIsloading] = useState(true);
+
+  useEffect(() => {
+    async function fetchBudgets() {
+      const { data } = await getBudgets();
+      console.log('getting budgets!')
+      setBudgets(data);
+    }
+    if (isLoading) {
+      fetchBudgets();
+      setIsloading(false);
+    }
+  }, []);
 
   return (
     <React.Fragment>
