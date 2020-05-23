@@ -10,14 +10,12 @@ import { getWalletDetails } from "../helpers/requests";
 
 const StyledWalletDetails = styled.div`
   background: ${(props) => props.theme.color.walletColor};
-  border-radius: 3em;
-  padding: 24px;
-  margin-left: 0 !important ;
-  margin-right: 0 !important ;
+  border-radius: 1.5em 1.5em 0em 0em;
+  padding: 12px;
   height: 100vh;
-  position: absolute;
+  position: fixed;
   top: 10vh;
-  width: 300px;
+  margin: 0 auto;
 
   button.add {
     background: ${(props) => props.theme.color.mainBackground};
@@ -27,7 +25,6 @@ const StyledWalletDetails = styled.div`
     margin-bottom: 1em;
     font-weight: bold;
     font-size: 1em;
-    transition: transform 0.2s ease-in-out;
   }
 
   a.close {
@@ -40,9 +37,6 @@ const StyledWalletDetails = styled.div`
     font-weight: bold;
     font-size: 1.5em;
     transition: transform 0.2s ease-in-out;
-  }
-  button:hover {
-    transform: scale(1.2);
   }
 
   @media (min-width: 600px) {

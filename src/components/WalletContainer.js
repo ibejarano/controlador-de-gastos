@@ -10,7 +10,7 @@ const StyledWalletContainer = styled.div`
   background: ${(props) => props.theme.color.yellowText};
   /* height: 100px; */
   border-radius: 10px;
-  padding: 1em;
+  padding: 0.5em;
   position: relative;
   min-width: 280px;
   margin-bottom: 2em;
