@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { Redirect } from "react-router-dom";
 import { login, register } from "../helpers/requests";
+import { useUser } from "../context/UserContext";
 
 import SubmitButton from "../components/SubmitButton";
 import Error from "../components/Error";
@@ -45,11 +47,13 @@ const StyledForm = styled.form`
   }
 `;
 
-const LoginPage = ({ setIsAuth }) => {
+const LoginPage = () => {
+  const [redirect, setRedirect] = useState(null);
+  const { dispatch } = useUser();
   const [input, setInput] = useState({
     username: "",
-    email: "test@mail.com",
-    password: "test",
+    email: "budgets@testnew2",
+    password: "testpass",
     confPassword: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -75,11 +79,11 @@ const LoginPage = ({ setIsAuth }) => {
               e.preventDefault();
               setIsSubmitting(true);
               const { data, err } = await login(input);
-              if (data) {
-                setIsAuth(true);
-                setError(data.message);
-              } else {
+              if (err) {
                 setError(err.message || err.response.data.error);
+              } else {
+                dispatch({ type: "set-user", payload: data });
+                setRedirect("/wallets");
               }
               setIsSubmitting(false);
             }}
@@ -115,13 +119,12 @@ const LoginPage = ({ setIsAuth }) => {
             onSubmit={async (e) => {
               e.preventDefault();
               setIsSubmitting(true);
-              const { data, message, err } = await register(input);
+              const { data, err } = await register(input);
               if (err) {
                 setError(err);
               } else {
-                console.log(data);
-                console.log(message);
-                setIsAuth(true);
+                dispatch({ type: "set-user", payload: data });
+                setRedirect("/wallets");
               }
               setIsSubmitting(false);
             }}
@@ -159,6 +162,7 @@ const LoginPage = ({ setIsAuth }) => {
           />
         </div>
         {error && <Error error={error} />}
+        {redirect && <Redirect to={redirect} />}
       </FormsContainer>
     </React.Fragment>
   );

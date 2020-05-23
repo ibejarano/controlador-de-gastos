@@ -12,7 +12,7 @@ import {
 const sections = [
   {
     name: "Inicio",
-    url: "/",
+    url: "/wallets",
     icon: faHome,
   },
   {

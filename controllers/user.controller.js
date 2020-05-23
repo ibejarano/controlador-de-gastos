@@ -1,57 +1,83 @@
 const { User } = require("../models");
+const { UserServices, WalletServices } = require("../services");
+
+const COOKIENAME = "controlador-gastos-ib";
+const COOKIESETTINGS = {
+  httpOnly: true,
+};
 
 async function get(req, res, next) {
   try {
-    const user = await User.findById(req.userId).populate("wallet");
-    res.send({ user });
+    const users = await UserServices.getAllUsers();
+    res.send(users);
   } catch (err) {
-    // res.status(500).json(err.message);
     next(err);
   }
 }
 
-async function register(req, res) {
-  /* TODO1 Encriptar password  */
-  /*  form validation desde front end*/
+async function getWallets(req, res, next) {
   try {
-    const user = new User({ ...req.body });
-    await user.save();
-    const token = await user.generateAuthToken();
-    res
-      .cookie("expenses-tracker-cookie", token, {
-        httpOnly: true,
-      })
-      .status(401)
-      .json({ message: "Nuevo usuario registrado!" });
+    const {
+      user: { wallets },
+    } = await UserServices.getWallets(req.userId);
+    res.send(wallets);
   } catch (err) {
-    res.json({ err: err.message });
+    next(err);
   }
 }
 
-async function login(req, res) {
+async function getBudgets(req, res, next) {
   try {
-    const { email, password } = req.body;
-    const user = await User.authenticate(email, password);
-    const token = await user.generateAuthToken();
-    res
-      .cookie("expenses-tracker-cookie", token, {
-        httpOnly: true,
-      })
-      .json({ message: "Login satisfactorio! Bienvenid@!" });
+    const { budgets } = await UserServices.getBudgets(req.userId);
+    res.send(budgets);
   } catch (err) {
-    res.status(401).json(err);
+    next(err);
+  }
+}
+
+async function getWalletsId(req, res, next) {
+  try {
+    const { wallets, sectionsSaved } = await UserServices.getWalletsId(
+      req.userId
+    );
+    res.json({ wallets, sectionsSaved });
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function register(req, res, next) {
+  try {
+    const wallet = await WalletServices.create({});
+    const sectionsDefault = [
+      "general",
+      "comida",
+      "hogar",
+      "viajes",
+      "servicios",
+    ];
+    req.body.wallets = [wallet._id];
+    req.body.sectionsSaved = sectionsDefault;
+    req.body.budgets = sectionsDefault.map((section) => ({ section }));
+    const { user, token } = await UserServices.register(req.body);
+    user.wallets = [wallet];
+    res.cookie(COOKIENAME, token, COOKIESETTINGS).status(201).json(user);
+  } catch (err) {
+    next(err);
+  }
+}
+
+async function login(req, res, next) {
+  try {
+    const { user, token } = await UserServices.login(req.body);
+    res.cookie(COOKIENAME, token, COOKIESETTINGS).status(201).json(user);
+  } catch (err) {
+    next(err);
   }
 }
 
 async function logout(req, res) {
-  try {
-    const user = await User.findById(req.userId);
-    user.token = "";
-    await user.save();
-    res.clearCookie("expenses-tracker-cookie").json("Logout satisfactorio!");
-  } catch (err) {
-    res.status(400).json(err.message);
-  }
+  res.clearCookie(COOKIENAME).json("Logout satisfactorio!");
 }
 
 async function updateUser(req, res) {
@@ -67,15 +93,17 @@ async function updateUser(req, res) {
   }
 }
 
-async function addWallet(req, res) {
+async function addWallet(req, res, next) {
   try {
     const user = await User.findById(req.userId);
-    user.wallet.push(req.walletId);
+    console.log(user);
+    console.log(req.walletId);
+    user.wallets.push(req.walletId);
     await user.save();
     const resUser = await User.findById(req.userId).populate("wallet");
     res.json({ walletId: req.walletId, userInfo: resUser });
   } catch (error) {
-    res.status(400).json(error.message);
+    next(error);
   }
 }
 
@@ -94,6 +122,29 @@ async function deleteUser(req, res) {
   }
 }
 
+async function setBudgetLimit(req, res, next) {
+  try {
+    const { section, limit } = req.body; // TODO: Se puede colocar todo en realidad para que updatee
+    const user = await UserServices.setBudgetLimit(req.userId, section, limit);
+    res.json(user);
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function createSection(req, res, next) {
+  try {
+    const { section } = req.query;
+    if (!section) {
+      throw new Error("Seccion indefinida");
+    }
+    const user = await UserServices.createSection(section, req.userId);
+    res.json(user);
+  } catch (error) {
+    next(error);
+  }
+}
+
 /*Helpers functions */
 
 function checkUserIdProvided(clientReq) {
@@ -109,11 +160,15 @@ function checkUserIdProvided(clientReq) {
 }
 
 module.exports = {
-  get,
+  getWallets,
+  getBudgets,
   register,
   login,
   logout,
   updateUser,
   addWallet,
   deleteUser,
+  createSection,
+  getWalletsId,
+  setBudgetLimit,
 };

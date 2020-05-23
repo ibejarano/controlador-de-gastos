@@ -11,32 +11,15 @@ const ExpenseSchema = new Schema({
     type: Number,
     required: true,
   },
-  isIncome: {
-    type: Boolean,
-    default: false,
-  },
   section: {
     type: String,
-    enum: [
-      "Food",
-      "House",
-      "Tax",
-      "Entertainment",
-      "Various",
-      "Transport",
-      "Car",
-    ],
-    default: "Various",
+    default: "general",
   },
-  doneBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+  createdAt: {
+    type: Date,
+    default: Date.now(),
   },
-  fromWallet: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Wallet",
-  },
-  atDate: {
+  updatedAt: {
     type: Date,
     default: Date.now()
   }

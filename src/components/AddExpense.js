@@ -4,6 +4,8 @@ import Dropdown from "react-dropdown";
 import { addExpense } from "../helpers/requests";
 import { DualRing } from "react-spinners-css";
 
+import { useUser } from "../context/UserContext";
+
 const StyledForm = styled.form`
   background: ${(props) => props.theme.color.yellowText};
   display: flex;
@@ -31,33 +33,6 @@ const StyledDropdown = styled.div`
   }
 `;
 
-const OPTIONS_DROPDOWN = [
-  {
-    value: "Food",
-    label: "Comida",
-  },
-  {
-    value: "House",
-    label: "Hogar",
-  },
-  {
-    value: "Tax",
-    label: "Impuestos",
-  },
-  {
-    value: "Entertainment",
-    label: "Entretenimiento",
-  },
-  {
-    value: "Various",
-    label: "Varios",
-  },
-  {
-    value: "Transport",
-    label: "Transporte",
-  },
-];
-
 const StyledButton = styled.button`
   margin-top: 1.5em;
   padding: 0.7em;
@@ -81,14 +56,15 @@ const SubmitButton = ({ isSubmitting }) => {
   );
 };
 
-const AddExpense = ({ wallet, setWallet, closeAddExpenseDialog, setError }) => {
+const AddExpense = ({ walletId, setError, setOpenAddExpense, setWallet }) => {
+  const {
+    user: { sectionsSaved },
+  } = useUser();
   const [fields, setFields] = useState({
-    description: "",
-    amount: "",
-    section: "",
-    fromWallet: wallet._id,
+    description: "papa",
+    amount: 150,
+    section: "comida",
   });
-
   const { description, amount, section } = fields;
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -101,12 +77,12 @@ const AddExpense = ({ wallet, setWallet, closeAddExpenseDialog, setError }) => {
       onSubmit={async (e) => {
         e.preventDefault();
         setIsSubmitting(true);
-        const { data, err } = await addExpense(wallet._id, fields);
+        const { data, err } = await addExpense(walletId, fields);
         if (err) {
           setError(err.response.data.error);
         } else {
           setWallet(data.wallet);
-          closeAddExpenseDialog(false);
+          setOpenAddExpense(false);
         }
         setIsSubmitting(false);
       }}
@@ -128,7 +104,7 @@ const AddExpense = ({ wallet, setWallet, closeAddExpenseDialog, setError }) => {
       <label>Seccion</label>
       <StyledDropdown>
         <Dropdown
-          options={OPTIONS_DROPDOWN}
+          options={sectionsSaved}
           value={section}
           onChange={(e) => setFields({ ...fields, section: e.value })}
           placeholder="Selecciona una opcion..."

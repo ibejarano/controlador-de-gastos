@@ -1,59 +1,63 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { ThemeProvider } from "styled-components";
 import theme from "./themes/main";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 
 import MainContainer from "./components/MainContainer";
 import LoginPage from "./pages/LoginPage";
 import Home from "./pages/Home";
+import BudgetPage from "./pages/Budget";
 import Logout from "./pages/Logout";
 import Navbar from "./components/Navbar";
+import AddWallet from "./components/AddWallet";
 
-import { getUserWithCookies } from "./helpers/requests";
-
-import "./App.css";
+import { UserProvider, useUser } from "./context/UserContext";
 
 function App() {
-  const [user, setUser] = useState(
-    JSON.parse(sessionStorage.getItem("expenses-user"))
-  );
-  const [isAuth, setIsAuth] = useState(false);
-
-  useEffect(() => {
-    async function fetchData() {
-      const { data, err } = await getUserWithCookies();
-      if (err) {
-        console.log(err.message);
-      } else {
-        setUser(data.user);
-        sessionStorage.setItem("expenses-user", JSON.stringify(data.user));
-      }
-    }
-
-    fetchData();
-  }, [isAuth]);
-
   return (
     <Router>
       <ThemeProvider theme={theme}>
         <MainContainer>
-          {user && (
-            <React.Fragment>
-              <Switch>
-                <Route path="/logout">
-                  <Logout setIsAuth={setIsAuth} />
-                </Route>
-                <Route path="/">
-                  <Home userInfo={user} setUserInfo={setUser} />
-                </Route>
-              </Switch>
-              <Navbar />
-            </React.Fragment>
-          )}
-          {!user && <LoginPage setIsAuth={setIsAuth} />}
+          <UserProvider>
+            <Switch>
+              <Route exact path="/">
+                <LoginPage />
+              </Route>
+              <PrivateRoutes />
+            </Switch>
+          </UserProvider>
         </MainContainer>
       </ThemeProvider>
     </Router>
+  );
+}
+
+function PrivateRoutes() {
+  const {
+    user: { loggedIn },
+  } = useUser();
+  if (!loggedIn) return <Redirect to="/" />;
+  return (
+    <React.Fragment>
+      <Route path="/add-wallet">
+        <AddWallet />
+      </Route>
+      <Route exact path="/wallets">
+        <Home />
+      </Route>
+      <Route exact path="/logout">
+        <Logout />
+      </Route>
+      <Route exact path="/budgets">
+        <BudgetPage />
+      </Route>
+      <Navbar />
+    </React.Fragment>
   );
 }
 

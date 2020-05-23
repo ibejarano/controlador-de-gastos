@@ -2,17 +2,22 @@ const express = require("express");
 const router = express.Router();
 const { User } = require("../controllers");
 
-router.get("/", User.get);
+router.get("/", User.getWallets);
+router.get("/budgets", User.getBudgets);
 
 router.put("/", User.updateUser);
 
 router.put("/:id/:wallet", User.addWallet);
 
-/* Reemplazar por logida de arriba */
-
 router.get("/logout", User.logout);
 
-// router.delete("/", User.deleteUser);
+router.get("/wallets", User.getWalletsId);
+
+router.post("/new-section", User.createSection);
+
+router.post("/budget-limit", User.setBudgetLimit)
+
+router.delete("/", User.deleteUser);
 
 /* Expense related routes */
 

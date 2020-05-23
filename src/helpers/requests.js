@@ -9,10 +9,10 @@ const transport = axios.create({
   withCredentials: true,
 });
 
-export async function getUserWithCookies() {
+export async function getWallets() {
   try {
     const { data } = await transport.get(`${endpoint}/user`);
-    return { data };
+    return data;
   } catch (error) {
     return { err: error };
   }
@@ -82,6 +82,36 @@ export async function register(input) {
       input
     );
     return { data, message };
+  } catch (err) {
+    if (err.message) {
+      return { err: err.message };
+    }
+    return { err: err.response.data.error };
+  }
+}
+
+export async function configureBudget(section, limit) {
+  try {
+    const { data } = await transport.post(`${endpoint}/user/budget-limit`, {
+      section,
+      limit,
+    });
+    return {
+      data,
+      message: `Presupuesto de la seccion ${section} actualizado correctamente`,
+    };
+  } catch (err) {
+    if (err.message) {
+      return { err: err.message };
+    }
+    return { err: err.response.data.error };
+  }
+}
+
+export async function getBudgets() {
+  try {
+    const { data } = await transport.get(`${endpoint}/user/budgets`);
+    return { data };
   } catch (err) {
     if (err.message) {
       return { err: err.message };

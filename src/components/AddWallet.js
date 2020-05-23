@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { Redirect } from "react-router-dom";
 import Dropdown from "react-dropdown";
 
+import { useUser } from "../context/UserContext";
+
 import { addWallet } from "../helpers/requests";
 
 import TitleContainer from "./TitleContainer";
@@ -52,12 +54,13 @@ const SubmitButton = () => {
   return <StyledButton type="submit">Agregar</StyledButton>;
 };
 
-const AddWallet = ({ setUserInfo }) => {
+export default function AddWallet() {
+  const { dispatch } = useUser();
   const [fields, setFields] = useState({
     name: "TEST",
     description: "TEST DESCRIPTION",
     balance: 12200.0,
-    currency: "ARS",
+    currency: "ars",
   });
   const [error, setError] = useState(null);
 
@@ -81,8 +84,11 @@ const AddWallet = ({ setUserInfo }) => {
           if (err) {
             setError(err.response.data.error);
           } else {
-            setUserInfo(data.userInfo);
-            setRedirect(`/details?walletId=${data.walletId}`);
+            dispatch({
+              type: "set-user",
+              payload: data,
+            });
+            setRedirect("/wallets");
           }
         }}
       >
@@ -116,6 +122,4 @@ const AddWallet = ({ setUserInfo }) => {
       {error && <Error error={error} />}
     </React.Fragment>
   );
-};
-
-export default AddWallet;
+}

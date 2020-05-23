@@ -4,7 +4,11 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const { PORT, MONGO_URI } = require("./config");
-const { UserRoutes, WalletRoutes, AuthRoutes } = require("./routes");
+const {
+  UserRoutes,
+  WalletRoutes,
+  AuthRoutes
+} = require("./routes");
 const { AuthUser } = require("./middlewares/auth.middleware");
 
 mongoose
@@ -49,7 +53,7 @@ app.use("/wallet", WalletRoutes);
 
 app.use((err, req, res, next) => {
   console.log(err.message);
-  res.status(401).json(err.message);
+  res.status(err.status || 500).json(err.message);
 });
 
 /* iniciar servidor */

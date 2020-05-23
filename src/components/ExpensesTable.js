@@ -53,7 +53,7 @@ const ExpensesTable = ({ expenses }) => (
           <td align="center">{exp.amount}</td>
           <td align="center">{exp.section}</td>
           {/* <td align="center">{exp.fromWallet.splice}</td> */}
-          <td align="center">{new Date(exp.atDate).toLocaleDateString()}</td>
+          <td align="center">{new Date(exp.createdAt).toLocaleDateString()}</td>
         </tr>
       ))}
     </tbody>
