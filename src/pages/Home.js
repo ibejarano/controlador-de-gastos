@@ -77,7 +77,7 @@ export default function HomePage() {
           </StyledPlusLink>
         </Link>
       </StyledWallets>
-      {openWallet && <WalletDetails walletId={walletId} />}
+      <WalletDetails walletId={walletId} />
     </React.Fragment>
   );
 }

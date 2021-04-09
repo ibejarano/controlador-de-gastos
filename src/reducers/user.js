@@ -37,6 +37,7 @@ export default function UserReducer(state, action) {
         openWallet: false,
         title: `Bienvenid@ ${state.username}`,
         refresh: true,
+        walletId: null,
       };
     case "delete-wallet":
       const walletidToDelete = action.payload;

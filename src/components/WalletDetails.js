@@ -14,8 +14,9 @@ const StyledWalletDetails = styled.div`
   padding: 12px;
   height: 100vh;
   position: fixed;
-  top: 10vh;
+  top: ${(props) => (props.walletId ? `10vh` : `100vh`)};
   margin: 0 auto;
+  transition: all 0.5s ease;
 
   button.add {
     background: ${(props) => props.theme.color.mainBackground};
@@ -46,6 +47,7 @@ const StyledWalletDetails = styled.div`
 `;
 
 export default function WalletDetails({ walletId }) {
+  console.log("mostrando...", walletId);
   const [openAddExpense, setOpenAddExpense] = useState(false);
   const [error, setError] = useState(null);
   const [wallet, setWallet] = useState(null);
@@ -62,7 +64,7 @@ export default function WalletDetails({ walletId }) {
 
   return (
     <React.Fragment>
-      <StyledWalletDetails>
+      <StyledWalletDetails walletId={walletId}>
         {wallet && (
           <React.Fragment>
             <Balance wallet={wallet} />
