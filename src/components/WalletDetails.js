@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faWindowClose } from "@fortawesome/free-solid-svg-icons";
+
 import Error from "./Error";
 import { useUser } from "../context/UserContext";
 import Balance from "./Balance";
@@ -67,7 +70,13 @@ export default function WalletDetails({ walletId }) {
           </React.Fragment>
         )}
 
-        <Button onClick={() => dispatch({ type: "close-wallet" })}>X</Button>
+        <Button onClick={() => dispatch({ type: "close-wallet" })} style={{
+          position: "absolute",
+          top: "10px",
+          left: "80%",
+        }} >
+          <FontAwesomeIcon icon={faWindowClose} />
+        </Button>
         {openAddExpense && (
           <AddExpenseForm
             walletId={wallet._id}
