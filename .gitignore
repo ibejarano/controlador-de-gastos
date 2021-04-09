@@ -3,3 +3,4 @@ node_modules/
 client/node_modules/
 build/
 *-lock.json
+yarn.lock
