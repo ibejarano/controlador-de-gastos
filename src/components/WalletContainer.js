@@ -3,6 +3,7 @@ import styled from "styled-components";
 import axios from "axios";
 
 import TitleAndSubtitle from "./common/TitleAndSubtitle";
+import Button from "./common/Button";
 
 import DotsButton from "./common/DotsButton";
 
@@ -93,13 +94,7 @@ export default function WalletContainer({ wallet, dispatch, setWallets }) {
           invert={true}
         />
       </div>
-      <button
-        type="button"
-        className="details"
-        onClick={() => openWallet(wallet._id)}
-      >
-        Ver Detalles
-      </button>
+      <Button onClick={() => openWallet(wallet._id)}>Ver Detalles</Button>
       <DotsButton
         options={[
           {

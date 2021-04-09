@@ -5,6 +5,7 @@ import { useUser } from "../context/UserContext";
 import Balance from "./Balance";
 import Expenses from "./Expenses";
 import AddExpenseForm from "./AddExpense";
+import Button from "./common/Button";
 
 import { getWalletDetails } from "../helpers/requests";
 
@@ -14,19 +15,10 @@ const StyledWalletDetails = styled.div`
   padding: 12px;
   height: 100vh;
   position: fixed;
+  min-width: 76%;
   top: ${(props) => (props.walletId ? `10vh` : `100vh`)};
   margin: 0 auto;
   transition: all 0.5s ease;
-
-  button.add {
-    background: ${(props) => props.theme.color.mainBackground};
-    color: ${(props) => props.theme.color.yellowText};
-    border: none;
-    padding: 0.3em;
-    margin-bottom: 1em;
-    font-weight: bold;
-    font-size: 1em;
-  }
 
   a.close {
     position: absolute;
@@ -68,20 +60,14 @@ export default function WalletDetails({ walletId }) {
         {wallet && (
           <React.Fragment>
             <Balance wallet={wallet} />
-            <button className="add" onClick={() => setOpenAddExpense(true)}>
+            <Button onClick={() => setOpenAddExpense(true)}>
               Agregar nuevo registro
-            </button>
+            </Button>
             <Expenses expenses={wallet.expenses} />
           </React.Fragment>
         )}
 
-        <button
-          type="button"
-          className="close"
-          onClick={() => dispatch({ type: "close-wallet" })}
-        >
-          X
-        </button>
+        <Button onClick={() => dispatch({ type: "close-wallet" })}>X</Button>
         {openAddExpense && (
           <AddExpenseForm
             walletId={wallet._id}
