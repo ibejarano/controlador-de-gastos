@@ -75,6 +75,7 @@ const StyledNav = styled.nav`
   bottom: 0;
   width: 100%;
   justify-content: space-around;
+  margin-left: -1em;
   background: ${(props) => props.theme.color.yellowText};
 
   @media (min-width: 600px) {

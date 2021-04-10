@@ -9,12 +9,11 @@ import DotsButton from "./common/DotsButton";
 
 const StyledWalletContainer = styled.div`
   background: ${(props) => props.theme.color.yellowText};
-  /* height: 100px; */
   border-radius: 10px;
   padding: 0.5em;
   position: relative;
-  min-width: 280px;
   margin-bottom: 2em;
+  width: 100%;
 
   .wallet-title {
     padding: 0;

@@ -15,12 +15,11 @@ import { getWalletDetails } from "../helpers/requests";
 const StyledWalletDetails = styled.div`
   background: ${(props) => props.theme.color.walletColor};
   border-radius: 1.5em 1.5em 0em 0em;
-  padding: 12px;
+  padding: 1em 2em;
   height: 100vh;
   position: fixed;
-  min-width: 76%;
   top: ${(props) => (props.walletId ? `10vh` : `100vh`)};
-  margin: 0 auto;
+  left: 0;
   transition: all 0.5s ease;
 
   a.close {
@@ -70,11 +69,14 @@ export default function WalletDetails({ walletId }) {
           </React.Fragment>
         )}
 
-        <Button onClick={() => dispatch({ type: "close-wallet" })} style={{
-          position: "absolute",
-          top: "10px",
-          left: "80%",
-        }} >
+        <Button
+          onClick={() => dispatch({ type: "close-wallet" })}
+          style={{
+            position: "absolute",
+            top: "10px",
+            left: "80%",
+          }}
+        >
           <FontAwesomeIcon icon={faWindowClose} />
         </Button>
         {openAddExpense && (

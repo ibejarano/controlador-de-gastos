@@ -64,14 +64,31 @@ const ProgressBar = styled.div`
   position: relative;
 
   .filled-progress-bar {
-    background: ${(props) => (props.barWidth < 101 ? "#b368e1" : "red")};
+    background: ${(props) =>
+      props.barWidth < 101
+        ? "linear-gradient(270deg,  #e73c7e, #a65cdc)"
+        : "red"};
     min-width: 10%;
     width: ${(props) => (props.barWidth < 100 ? `${props.barWidth}%` : "100%")};
     margin: 0;
     border-radius: 1em;
     height: 2em;
     position: relative;
+    background-size: 400% 400%;
     top: 0;
+    animation: MoveGradient 2s ease infinite;
+  }
+
+  @keyframes MoveGradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
   }
 `;
 
@@ -166,7 +183,7 @@ export default function BudgetPage() {
   useEffect(() => {
     async function fetchBudgets() {
       const { data } = await getBudgets();
-      console.log('getting budgets!')
+      console.log("getting budgets!");
       setBudgets(data);
     }
     if (isLoading) {

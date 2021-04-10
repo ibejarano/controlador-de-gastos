@@ -22,14 +22,14 @@ const app = express();
 
 const ORIGIN_URL =
   process.env.NODE_ENV == "development"
-    ? "http://localhost:3000"
+    ? "http://192.168.0.153:3000"
     : "https://new-expenses-manager.herokuapp.com/";
+
+console.log(ORIGIN_URL)
 
 const corsOptions = {
   origin: [ORIGIN_URL],
-  methods: "GET,HEAD,POST,PATCH,DELETE,PUT,OPTIONS",
   credentials: true,
-  allowedHeaders: "Content-Type, Authorization, X-Requested-With",
 };
 
 app.use(cors(corsOptions));
