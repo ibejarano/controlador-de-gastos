@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Redirect, Link } from "react-router-dom";
-import { login } from "../helpers/requests";
+import { Redirect } from "react-router-dom";
+import { register } from "../helpers/requests";
 import { useUser } from "../context/UserContext";
 
 import Error from "../components/Error";
@@ -23,11 +23,11 @@ const LoginPage = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
 
-  const submitLogin = async (input) => {
+  const submitRegister = async (input) => {
     setIsSubmitting(true);
-    const { data, err } = await login(input);
+    const { data, err } = await register(input);
     if (err) {
-      setError(err.message || err.response.data.error);
+      setError(err);
     } else {
       dispatch({ type: "set-user", payload: data });
       setRedirect("/wallets");
@@ -39,18 +39,16 @@ const LoginPage = () => {
     <React.Fragment>
       <TitleContainer title="Bienvenid@!" />
       <FormsContainer>
-        <TitleAndSubtitle title="Login" />
+        <TitleAndSubtitle title="Registro" />
         <Form
           isSubmitting={isSubmitting}
-          onSubmit={submitLogin}
-          formId="login-form"
+          onSubmit={submitRegister}
+          formId="register-form"
+          register
         />
         {error && <Error error={error} />}
         {redirect && <Redirect to={redirect} />}
       </FormsContainer>
-      <Link to="/register">
-        <TitleAndSubtitle title="Click aqui para registrarse" />
-      </Link>
     </React.Fragment>
   );
 };

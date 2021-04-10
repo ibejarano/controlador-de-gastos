@@ -10,6 +10,7 @@ import {
 
 import MainContainer from "./components/MainContainer";
 import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
 import Home from "./pages/Home";
 import BudgetPage from "./pages/Budget";
 import Logout from "./pages/Logout";
@@ -25,6 +26,9 @@ function App() {
         <MainContainer>
           <UserProvider>
             <Switch>
+              <Route exact path="/register">
+                <RegisterPage />
+              </Route>
               <Route exact path="/">
                 <LoginPage />
               </Route>

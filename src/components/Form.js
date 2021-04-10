@@ -31,10 +31,10 @@ const StyledForm = styled.form`
 
 const Form = ({ onSubmit, isSubmitting, formId, register }) => {
   const [input, setInput] = useState({
-    username: "",
-    email: "budgets@testnew2",
-    password: "testpass",
-    confPassword: "",
+    username: "Nacho Dev",
+    email: "test@test.dev",
+    password: "testing",
+    confPassword: "testing",
   });
 
   const handleChange = (e) => {
@@ -94,7 +94,7 @@ const Form = ({ onSubmit, isSubmitting, formId, register }) => {
         )}
       </StyledForm>
       <SubmitButton
-        text="Ingresar"
+        text={ register ? "Registrarse" : "Ingresar" }
         fontSize="18px"
         form={formId}
         fullWidth
