@@ -42,32 +42,31 @@ const StyledWalletDetails = styled.div`
 `;
 
 export default function WalletDetails({ walletId }) {
-  const [openAddExpense, setOpenAddExpense] = useState(false);
-  const [error, setError] = useState(null);
   const [wallet, setWallet] = useState(null);
   const { dispatch } = useUser();
 
   useEffect(() => {
     async function fetchWalletDetails() {
       const { data } = await getWalletDetails(walletId);
+      console.log("Getting wallet");
       setWallet(data);
     }
-
-    fetchWalletDetails();
+    if (walletId) {
+      fetchWalletDetails();
+    }
   }, [walletId]);
 
   return (
     <React.Fragment>
       <StyledWalletDetails walletId={walletId}>
-        {wallet && (
-          <React.Fragment>
-            <Balance wallet={wallet} />
-            <Button onClick={() => setOpenAddExpense(true)}>
-              Agregar nuevo registro
-            </Button>
-            <Expenses expenses={wallet.expenses} />
-          </React.Fragment>
-        )}
+        <React.Fragment>
+          {wallet && (
+            <React.Fragment>
+              <Balance wallet={wallet} setWallet={setWallet} />
+              <Expenses expenses={wallet.expenses} />
+            </React.Fragment>
+          )}
+        </React.Fragment>
         <Button
           onClick={() => dispatch({ type: "close-wallet" })}
           style={{
@@ -78,16 +77,7 @@ export default function WalletDetails({ walletId }) {
         >
           <FontAwesomeIcon icon={faWindowClose} size="lg" />
         </Button>
-        {openAddExpense && (
-          <AddExpenseForm
-            walletId={wallet._id}
-            setOpenAddExpense={setOpenAddExpense}
-            setError={setError}
-            setWallet={setWallet}
-          />
-        )}
       </StyledWalletDetails>
-      {error && <Error error={error} />}
     </React.Fragment>
   );
 }

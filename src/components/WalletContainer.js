@@ -74,26 +74,27 @@ export default function WalletContainer({ wallet, dispatch, setWallets }) {
         withCredentials: true,
       }
     );
-    console.log(data);
     setWallets(data);
     // dispatch({ type: "update-wallet" });
   };
 
+  const { _id, name, description, balance } = wallet;
+
   return (
     <StyledWalletContainer>
       <TitleAndSubtitle
-        title={`${wallet.name}`}
-        subtitle={`${wallet.description}`}
+        title={`${name}`}
+        subtitle={`${description}`}
         invert={true}
       />
       <div className="wallet-balance">
         <TitleAndSubtitle
-          title={`Balance: $${wallet.balance}`}
+          title={`Balance: $${balance}`}
           // subtitle={`${wallet.description}`}
           invert={true}
         />
       </div>
-      <Button onClick={() => openWallet(wallet._id)}>Ver Detalles</Button>
+      <Button onClick={() => openWallet(_id)}>Ver Detalles</Button>
       <DotsButton
         options={[
           {
