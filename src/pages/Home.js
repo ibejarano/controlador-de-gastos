@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useUser } from "../context/UserContext";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
 
+import { useUser } from "../context/UserContext";
 import WalletContainer from "../components/WalletContainer";
 import styled from "styled-components";
 import TitleContainer from "../components/common/Title";
@@ -19,21 +21,6 @@ const StyledWallets = styled.div`
     flex-flow: row wrap;
     justify-content: space-around;
     padding: 0 4em;
-  }
-`;
-
-const StyledPlusLink = styled.div`
-  font-size: 2em;
-  border-radius: 50%;
-  background: ${(props) => props.theme.color.yellowText};
-  width: 100px;
-  height: 100px;
-  cursor: pointer;
-  margin-bottom: 1em;
-  text-decoration: none;
-  h1 {
-    margin: auto;
-    text-align: center;
   }
 `;
 
@@ -72,9 +59,7 @@ export default function HomePage() {
           />
         ))}
         <Link to="/add-wallet">
-          <StyledPlusLink>
-            <h1>+</h1>
-          </StyledPlusLink>
+          <FontAwesomeIcon icon={faPlusSquare} size="4x" color="yellow" />
         </Link>
       </StyledWallets>
       <WalletDetails walletId={walletId} />
