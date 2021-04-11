@@ -3,12 +3,12 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWindowClose } from "@fortawesome/free-solid-svg-icons";
 
-import Error from "./Error";
 import { useUser } from "../context/UserContext";
 import Balance from "./Balance";
 import Expenses from "./Expenses";
 import AddExpenseForm from "./AddExpense";
 import Button from "./common/Button";
+import Modal from "./common/Modal";
 
 import { getWalletDetails } from "../helpers/requests";
 
@@ -43,6 +43,8 @@ const StyledWalletDetails = styled.div`
 
 export default function WalletDetails({ walletId }) {
   const [wallet, setWallet] = useState(null);
+  const [modal, toggleModal] = useState(false);
+  const [isIncome, setIsIncome] = useState(false);
   const { dispatch } = useUser();
 
   useEffect(() => {
@@ -62,7 +64,12 @@ export default function WalletDetails({ walletId }) {
         <React.Fragment>
           {wallet && (
             <React.Fragment>
-              <Balance wallet={wallet} setWallet={setWallet} />
+              <Balance
+                wallet={wallet}
+                setWallet={setWallet}
+                toggleModal={toggleModal}
+                setIsIncome={setIsIncome}
+              />
               <Expenses expenses={wallet.expenses} />
             </React.Fragment>
           )}
@@ -78,6 +85,16 @@ export default function WalletDetails({ walletId }) {
           <FontAwesomeIcon icon={faWindowClose} size="lg" />
         </Button>
       </StyledWalletDetails>
+      {modal && (
+        <Modal>
+          <AddExpenseForm
+            walletId={walletId}
+            setWallet={setWallet}
+            toggleModal={toggleModal}
+            isIncome={isIncome}
+          />
+        </Modal>
+      )}
     </React.Fragment>
   );
 }

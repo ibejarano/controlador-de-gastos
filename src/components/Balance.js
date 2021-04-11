@@ -41,11 +41,15 @@ const BalanceItem = styled.div`
   }
 `;
 
-export default function MonthBalance({ wallet }) {
+export default function MonthBalance({ wallet, toggleModal, setIsIncome }) {
   const { expenses, balance } = wallet;
-  const totalExpenses = expenses.reduce((acc, exp) => (acc += exp.amount), 0);
+  const totalExpenses = expenses
+    .filter((exp) => exp.amount < 0)
+    .reduce((acc, exp) => (acc += exp.amount), 0);
 
-  const totalIncomes = 0;
+  const totalIncomes = expenses
+    .filter((exp) => exp.amount > 0)
+    .reduce((acc, exp) => (acc += exp.amount), 0);
 
   return (
     <BalanceCardContainer>
@@ -59,14 +63,28 @@ export default function MonthBalance({ wallet }) {
             <h3>Ingresos</h3>
             <h3>{totalIncomes}</h3>
           </div>
-          <FontAwesomeIcon icon={faPlusSquare} size="2x" onClick={()=>alert("hola!")} />
+          <FontAwesomeIcon
+            icon={faPlusSquare}
+            size="2x"
+            onClick={() => {
+              setIsIncome(true);
+              toggleModal(true);
+            }}
+          />
         </BalanceItem>
         <BalanceItem warning>
           <div style={{ width: "80%" }}>
             <h3> Gastos </h3>
             <h3>{totalExpenses}</h3>
           </div>
-          <FontAwesomeIcon icon={faPlusSquare} size="2x" />
+          <FontAwesomeIcon
+            icon={faPlusSquare}
+            size="2x"
+            onClick={() => {
+              setIsIncome(false);
+              toggleModal(true);
+            }}
+          />
         </BalanceItem>
       </div>
     </BalanceCardContainer>

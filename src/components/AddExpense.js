@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Dropdown from "react-dropdown";
+
+import Button from "../components/common/Button";
 import { addExpense } from "../helpers/requests";
 import { DualRing } from "react-spinners-css";
 
@@ -33,30 +35,19 @@ const StyledDropdown = styled.div`
   }
 `;
 
-const StyledButton = styled.button`
-  margin-top: 1.5em;
-  padding: 0.7em;
-  background: ${(props) => props.theme.color.mainBackground};
-  color: ${(props) => props.theme.color.yellowText};
-  font-weight: bold;
-  border: none;
-  border-radius: 10px;
-  height: 45px;
-`;
-
 const SubmitButton = ({ isSubmitting }) => {
   return (
-    <StyledButton type="submit">
+    <Button type="submit">
       {isSubmitting ? (
         <DualRing style={{ padding: 0, marginTop: 0 }} size={25} />
       ) : (
         "Agregar"
       )}
-    </StyledButton>
+    </Button>
   );
 };
 
-const AddExpense = ({ walletId, setWallet }) => {
+const AddExpense = ({ walletId, setWallet, toggleModal, isIncome = false }) => {
   const {
     user: { sectionsSaved },
   } = useUser();
@@ -77,6 +68,7 @@ const AddExpense = ({ walletId, setWallet }) => {
       onSubmit={async (e) => {
         e.preventDefault();
         setIsSubmitting(true);
+        fields["amount"] = isIncome ? fields["amount"] : -1 * fields["amount"];
         const { data, err } = await addExpense(walletId, fields);
         if (err) {
           alert(err.response.data.error);
@@ -84,8 +76,10 @@ const AddExpense = ({ walletId, setWallet }) => {
           setWallet(data.wallet);
         }
         setIsSubmitting(false);
+        toggleModal(false);
       }}
     >
+      <h3>{isIncome ? "Nuevo ingreso" : "Nuevo gasto"}</h3>
       <label>Descripcion</label>
       <input
         name="description"
@@ -110,6 +104,7 @@ const AddExpense = ({ walletId, setWallet }) => {
         />
       </StyledDropdown>
       <SubmitButton isSubmitting={isSubmitting} />
+      <Button onClick={() => toggleModal(false)}>Cancelar</Button>
     </StyledForm>
   );
 };
