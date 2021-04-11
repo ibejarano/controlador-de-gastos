@@ -1,30 +1,32 @@
 import React from "react";
 import styled from "styled-components";
-
-import TitleAndSubtitle from "./TitleAndSubtitle";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
 
 const BalanceCardContainer = styled.div`
   border-radius: 20px;
   display: flex;
   flex-flow: row wrap;
-  /* justify-content: center; */
-  height: 150px;
 
   .container-balance {
     margin: 0;
     width: 100%;
     display: flex;
     flex-flow: row nowrap;
-    justify-content: space-around;
+    justify-content: space-between;
   }
 `;
 
 const BalanceItem = styled.div`
   font-size: 14px;
   color: white;
-  width: 90px;
-  height: 70px;
+  width: 45%;
   border-radius: 10px;
+  margin-bottom: 1em;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: stretch;
+  align-items: center;
   background: ${(props) =>
     props.primary
       ? props.theme.color.greenCard
@@ -40,25 +42,31 @@ const BalanceItem = styled.div`
 `;
 
 export default function MonthBalance({ wallet }) {
-  const totalExpenses = wallet.expenses.reduce(
-    (acc, exp) => (acc += exp.amount),
-    0
-  );
+  const { expenses, balance } = wallet;
+  const totalExpenses = expenses.reduce((acc, exp) => (acc += exp.amount), 0);
+
+  const totalIncomes = 0;
+
   return (
     <BalanceCardContainer>
-      <TitleAndSubtitle title="Balance de saldos" />
+      <BalanceItem neutral style={{ width: "100%" }}>
+        <h3> Balance </h3>
+        <h3>{balance}</h3>
+      </BalanceItem>
       <div className="container-balance">
-        <BalanceItem className="balance-item" primary>
-          <h3>Ingresos</h3>
-          <h3>{wallet.balance}</h3>
+        <BalanceItem primary>
+          <div style={{ width: "80%" }}>
+            <h3>Ingresos</h3>
+            <h3>{totalIncomes}</h3>
+          </div>
+          <FontAwesomeIcon icon={faPlusSquare} size="2x" onClick={()=>alert("hola!")} />
         </BalanceItem>
-        <BalanceItem className="balance-item" warning>
-          <h3> Gastos </h3>
-          <h3>{totalExpenses}</h3>
-        </BalanceItem>
-        <BalanceItem className="balance-item" neutral>
-          <h3> Total </h3>
-          <h3>{wallet.balance - totalExpenses}</h3>
+        <BalanceItem warning>
+          <div style={{ width: "80%" }}>
+            <h3> Gastos </h3>
+            <h3>{totalExpenses}</h3>
+          </div>
+          <FontAwesomeIcon icon={faPlusSquare} size="2x" />
         </BalanceItem>
       </div>
     </BalanceCardContainer>

@@ -19,7 +19,7 @@ const ExpensesStyled = styled.div`
 export default function Expenses({ expenses }) {
   return (
     <ExpensesStyled>
-      <TitleAndSubtitle title="Registro de ingresos y gastos" />
+      <TitleAndSubtitle title="Historial" />
       <ExpensesTable expenses={expenses} />
     </ExpensesStyled>
   );

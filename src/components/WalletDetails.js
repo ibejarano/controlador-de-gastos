@@ -21,6 +21,7 @@ const StyledWalletDetails = styled.div`
   top: ${(props) => (props.walletId ? `10vh` : `100vh`)};
   left: 0;
   transition: all 0.5s ease;
+  width: 100%;
 
   a.close {
     position: absolute;
@@ -41,7 +42,6 @@ const StyledWalletDetails = styled.div`
 `;
 
 export default function WalletDetails({ walletId }) {
-  console.log("mostrando...", walletId);
   const [openAddExpense, setOpenAddExpense] = useState(false);
   const [error, setError] = useState(null);
   const [wallet, setWallet] = useState(null);
@@ -68,16 +68,15 @@ export default function WalletDetails({ walletId }) {
             <Expenses expenses={wallet.expenses} />
           </React.Fragment>
         )}
-
         <Button
           onClick={() => dispatch({ type: "close-wallet" })}
           style={{
             position: "absolute",
             top: "10px",
-            left: "80%",
+            left: "92%",
           }}
         >
-          <FontAwesomeIcon icon={faWindowClose} />
+          <FontAwesomeIcon icon={faWindowClose} size="lg" />
         </Button>
         {openAddExpense && (
           <AddExpenseForm
