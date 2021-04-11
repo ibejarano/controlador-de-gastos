@@ -9,6 +9,7 @@ import Expenses from "./Expenses";
 import AddExpenseForm from "./AddExpense";
 import Button from "./common/Button";
 import Modal from "./common/Modal";
+import TitleAndSubtitle from "./TitleAndSubtitle";
 
 import { getWalletDetails } from "../helpers/requests";
 
@@ -50,7 +51,6 @@ export default function WalletDetails({ walletId }) {
   useEffect(() => {
     async function fetchWalletDetails() {
       const { data } = await getWalletDetails(walletId);
-      console.log("Getting wallet");
       setWallet(data);
     }
     if (walletId) {
@@ -70,6 +70,8 @@ export default function WalletDetails({ walletId }) {
                 toggleModal={toggleModal}
                 setIsIncome={setIsIncome}
               />
+              <TitleAndSubtitle title="Historial" />
+
               <Expenses expenses={wallet.expenses} />
             </React.Fragment>
           )}

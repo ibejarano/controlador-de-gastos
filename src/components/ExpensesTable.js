@@ -8,11 +8,11 @@ const StyledTable = styled.table`
   border-radius: 10px;
 
   th {
-    font-size: 10px;
+    font-size: 12px;
     padding-top: 12px;
   }
   td {
-    font-size: 10px;
+    font-size: 12px;
     text-align: center;
     height: 100%;
     border-right: 1px solid black;
@@ -52,7 +52,6 @@ const ExpensesTable = ({ expenses }) => (
           <td align="center">{exp.description}</td>
           <td align="center">{exp.amount}</td>
           <td align="center">{exp.section}</td>
-          {/* <td align="center">{exp.fromWallet.splice}</td> */}
           <td align="center">{new Date(exp.createdAt).toLocaleDateString()}</td>
         </tr>
       ))}

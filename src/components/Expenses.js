@@ -1,26 +1,7 @@
 import React from "react";
-import styled from "styled-components";
 
 import ExpensesTable from "./ExpensesTable";
-import TitleAndSubtitle from "./TitleAndSubtitle";
-
-const ExpensesStyled = styled.div`
-  display: flex;
-  flex-flow: row wrap;
-  align-content: center;
-  padding-bottom: 20px;
-  padding: 0;
-
-  @media (min-width: 600px){
-    flex-flow: column nowrap;
-  }
-`;
 
 export default function Expenses({ expenses }) {
-  return (
-    <ExpensesStyled>
-      <TitleAndSubtitle title="Historial" />
-      <ExpensesTable expenses={expenses} />
-    </ExpensesStyled>
-  );
+  return <ExpensesTable expenses={expenses} />;
 }
