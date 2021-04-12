@@ -14,6 +14,7 @@ import RegisterPage from "./pages/RegisterPage";
 import Home from "./pages/Home";
 import BudgetPage from "./pages/Budget";
 import Logout from "./pages/Logout";
+import Info from './pages/Info'
 import Navbar from "./components/Navbar";
 import AddWallet from "./components/AddWallet";
 
@@ -59,6 +60,9 @@ function PrivateRoutes() {
       </Route>
       <Route exact path="/budgets">
         <BudgetPage />
+      </Route>
+      <Route exact path="/info">
+        <Info />
       </Route>
       <Navbar />
     </React.Fragment>
