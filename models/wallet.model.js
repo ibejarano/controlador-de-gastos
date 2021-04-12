@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 const WalletSchema = new Schema({
   name: {
     type: String,
-    default: "Sin Nombre",
+    required: true,
   },
   description: {
     type: String,

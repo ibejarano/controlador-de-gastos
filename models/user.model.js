@@ -23,7 +23,6 @@ const UserSchema = new Schema({
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Wallet",
-      required: true,
       autopopulate: true,
     },
   ],
@@ -58,7 +57,7 @@ UserSchema.pre("save", async function (next) {
 });
 
 UserSchema.statics.authenticate = async (email, password) => {
-  const user = await User.findOne({ email }).select('_id password');
+  const user = await User.findOne({ email }).select("_id password");
   if (!user) {
     const err = new Error("Usuario y/o password invalido");
     err.status = 401;
@@ -70,7 +69,9 @@ UserSchema.statics.authenticate = async (email, password) => {
     err.status = 401;
     throw err;
   }
-  const verifiedUser = await User.findById(user._id ).select('_id username sectionsSaved')
+  const verifiedUser = await User.findById(user._id).select(
+    "_id username sectionsSaved"
+  );
   return verifiedUser;
 };
 
