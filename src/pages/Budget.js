@@ -92,7 +92,12 @@ const ProgressBar = styled.div`
   }
 `;
 
-function ConfigureBudgetDialog({ setOpenDialog, section, currentLimit = 0 }) {
+function ConfigureBudgetDialog({
+  setOpenDialog,
+  section,
+  setLoading,
+  currentLimit = 0,
+}) {
   const [limit, setLimit] = useState(currentLimit);
   const { dispatch } = useUser();
   const saveConfiguration = async (e) => {
@@ -100,6 +105,7 @@ function ConfigureBudgetDialog({ setOpenDialog, section, currentLimit = 0 }) {
     if (limit) {
       const { data } = await configureBudget(section, limit);
       dispatch({ type: "set-budgets", payload: data.budgets });
+      setLoading(true);
     }
     setOpenDialog(false);
   };
@@ -117,7 +123,7 @@ function ConfigureBudgetDialog({ setOpenDialog, section, currentLimit = 0 }) {
   );
 }
 
-function DisplayBudget({ budget }) {
+function DisplayBudget({ budget, setLoading }) {
   const progress = Math.floor((budget.current * 100) / budget.limit);
   const [openDialog, setOpenDialog] = useState(false);
 
@@ -140,6 +146,7 @@ function DisplayBudget({ budget }) {
           setOpenDialog={setOpenDialog}
           currentLimit={budget.limit}
           section={budget.section}
+          setLoading={setLoading}
         />
       )}
       {!openDialog && (
@@ -151,7 +158,7 @@ function DisplayBudget({ budget }) {
   );
 }
 
-function DisplayNoConfiguredBudget({ budget }) {
+function DisplayNoConfiguredBudget({ budget, setLoading }) {
   const [openDialog, setOpenDialog] = useState(false);
 
   return (
@@ -162,6 +169,7 @@ function DisplayNoConfiguredBudget({ budget }) {
         <ConfigureBudgetDialog
           setOpenDialog={setOpenDialog}
           section={budget.section}
+          setLoading={setLoading}
         />
       )}
       <DotsButton
@@ -178,28 +186,35 @@ function DisplayNoConfiguredBudget({ budget }) {
 
 export default function BudgetPage() {
   const [budgets, setBudgets] = useState([]);
-  const [isLoading, setIsloading] = useState(true);
+  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchBudgets() {
       const { data } = await getBudgets();
-      console.log("getting budgets!");
       setBudgets(data);
     }
     if (isLoading) {
       fetchBudgets();
-      setIsloading(false);
+      setLoading(false);
     }
-  }, []);
+  }, [isLoading]);
 
   return (
     <React.Fragment>
       <TitleContainer title="Presupuestos" />
       {budgets.map((budget) => {
         return budget.isConfigured ? (
-          <DisplayBudget key={budget.section} budget={budget} />
+          <DisplayBudget
+            key={budget.section}
+            budget={budget}
+            setLoading={setLoading}
+          />
         ) : (
-          <DisplayNoConfiguredBudget key={budget.section} budget={budget} />
+          <DisplayNoConfiguredBudget
+            key={budget.section}
+            budget={budget}
+            setLoading={setLoading}
+          />
         );
       })}
     </React.Fragment>

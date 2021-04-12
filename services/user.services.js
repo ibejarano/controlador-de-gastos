@@ -119,7 +119,10 @@ async function updateBudget(userId, expenses) {
   if (indexOfBudget < 0) {
     return {};
   }
-  user.budgets[indexOfBudget].current += parseInt(expenses.amount);
+  const amount = parseInt(expenses.amount);
+  if (amount < 0) {
+    user.budgets[indexOfBudget].current += -amount;
+  }
   await user.save();
   return user.budgets[indexOfBudget];
 }
