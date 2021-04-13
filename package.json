@@ -4,10 +4,10 @@
   "description": "Expenses tracker to be free",
   "main": "index.js",
   "scripts": {
-    "start": "react-scripts build",
-    "poststart": "env NODE_ENV=production node index.js",
+    "start": "react-scripts build && env NODE_ENV=production node index.js",
     "devServer": "env NODE_ENV=development  nodemon --ignore './src' index.js",
     "devClient": "react-scripts start",
+    "devBuild": "react-scripts build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Ignacio Bejarano",

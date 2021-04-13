@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-const { PORT, MONGO_URI } = require("./config");
+const { MONGO_URI } = require("./config");
 const {
   UserRoutes,
   WalletRoutes,
@@ -24,8 +24,6 @@ const ORIGIN_URL =
   process.env.NODE_ENV == "development"
     ? "http://192.168.0.153:3000"
     : "https://new-expenses-manager.herokuapp.com/";
-
-console.log(ORIGIN_URL)
 
 const corsOptions = {
   origin: [ORIGIN_URL],
@@ -58,8 +56,8 @@ app.use((err, req, res, next) => {
 
 /* iniciar servidor */
 
-app.listen(PORT, () => {
+app.listen(process.env.PORT || 5000, () => {
   console.log(
-    `Server is up and running on port: ${PORT} \n Running a in a ${process.env.NODE_ENV} build`
+    `Server is up and running on port: ${process.env.PORT || 5000} \n Running a in a ${process.env.NODE_ENV} build`
   );
 });
