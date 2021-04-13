@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "postinstall": "react-scripts build",
-    "start":"env NODE_ENV=development node index.js" ,
+    "start":"env NODE_ENV=production node index.js",
     "devServer": "env NODE_ENV=development  nodemon --ignore './src' index.js",
     "devClient": "react-scripts start",
     "devBuild": "react-scripts build",
