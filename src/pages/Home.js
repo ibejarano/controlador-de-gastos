@@ -40,7 +40,8 @@ export default function HomePage() {
       fetchWallets();
       dispatch({ type: "update-wallet" });
     }
-  }, [refresh, openWallet]);
+    console.log("effecting...")
+  }, [refresh, openWallet, dispatch]);
 
   return (
     <React.Fragment>
