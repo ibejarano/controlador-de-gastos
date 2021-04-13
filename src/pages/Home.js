@@ -40,7 +40,6 @@ export default function HomePage() {
       fetchWallets();
       dispatch({ type: "update-wallet" });
     }
-    console.log("effecting...")
   }, [refresh, openWallet, dispatch]);
 
   return (
