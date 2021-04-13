@@ -48,7 +48,6 @@ async function getWalletsId(req, res, next) {
 
 async function register(req, res, next) {
   try {
-    const wallet = await WalletServices.create({});
     const sectionsDefault = [
       "general",
       "comida",
@@ -56,11 +55,9 @@ async function register(req, res, next) {
       "viajes",
       "servicios",
     ];
-    req.body.wallets = [wallet._id];
     req.body.sectionsSaved = sectionsDefault;
     req.body.budgets = sectionsDefault.map((section) => ({ section }));
     const { user, token } = await UserServices.register(req.body);
-    user.wallets = [wallet];
     res.cookie(COOKIENAME, token, COOKIESETTINGS).status(201).json(user);
   } catch (err) {
     next(err);
