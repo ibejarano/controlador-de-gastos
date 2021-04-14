@@ -7,14 +7,16 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
+import "react-toastify/dist/ReactToastify.css";
 import MainContainer from "./components/MainContainer";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import Home from "./pages/Home";
 import BudgetPage from "./pages/Budget";
 import Logout from "./pages/Logout";
-import Info from './pages/Info'
+import Info from "./pages/Info";
 import Navbar from "./components/Navbar";
 import AddWallet from "./components/AddWallet";
 
@@ -36,6 +38,7 @@ function App() {
               <PrivateRoutes />
             </Switch>
           </UserProvider>
+          <ToastContainer />
         </MainContainer>
       </ThemeProvider>
     </Router>

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { toast } from "react-toastify";
 import { Redirect } from "react-router-dom";
 import { register } from "../helpers/requests";
 import { useUser } from "../context/UserContext";
 
-import Error from "../components/Error";
 import TitleContainer from "../components/TitleContainer";
 import TitleAndSubtitle from "../components/TitleAndSubtitle";
 import Form from "../components/Form";
@@ -21,13 +21,14 @@ const LoginPage = () => {
   const { dispatch } = useUser();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState(null);
 
   const submitRegister = async (input) => {
     setIsSubmitting(true);
     const { data, err } = await register(input);
     if (err) {
-      setError(err);
+      toast.error(err.message || err.response.data.error, {
+        position: "bottom-center",
+      });
     } else {
       dispatch({ type: "set-user", payload: data });
       setRedirect("/wallets");
@@ -46,7 +47,6 @@ const LoginPage = () => {
           formId="register-form"
           register
         />
-        {error && <Error error={error} />}
         {redirect && <Redirect to={redirect} />}
       </FormsContainer>
     </React.Fragment>

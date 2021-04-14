@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { Redirect } from "react-router-dom";
 import Dropdown from "react-dropdown";
+import { toast } from "react-toastify";
 
 import { useUser } from "../context/UserContext";
 
 import { addWallet } from "../helpers/requests";
 
 import TitleContainer from "./TitleContainer";
-import Error from "./Error";
 
 const StyledForm = styled.form`
   background: ${(props) => props.theme.color.yellowText};
@@ -62,10 +62,8 @@ export default function AddWallet() {
     balance: 12200.0,
     currency: "ars",
   });
-  const [error, setError] = useState(null);
 
   const [redirect, setRedirect] = useState(null);
-
   const { description, balance, currency, name } = fields;
 
   const handleChange = (e) => {
@@ -82,7 +80,7 @@ export default function AddWallet() {
           e.preventDefault();
           const { err, data } = await addWallet(fields);
           if (err) {
-            setError(err.response.data.error);
+            toast.error(err.response.data.error);
           } else {
             dispatch({
               type: "set-user",
@@ -119,7 +117,6 @@ export default function AddWallet() {
         </StyledDropdown>
         <SubmitButton />
       </StyledForm>
-      {error && <Error error={error} />}
     </React.Fragment>
   );
 }
