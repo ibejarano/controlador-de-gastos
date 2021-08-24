@@ -81,7 +81,7 @@ export default function WalletContainer({ wallet, dispatch, setWallets }) {
   const { _id, name, description, balance } = wallet;
 
   return (
-    <StyledWalletContainer>
+    <StyledWalletContainer onClick={() => openWallet(_id)}>
       <TitleAndSubtitle
         title={`${name}`}
         subtitle={`${description}`}
@@ -94,15 +94,6 @@ export default function WalletContainer({ wallet, dispatch, setWallets }) {
           invert={true}
         />
       </div>
-      <Button onClick={() => openWallet(_id)}>Ver Detalles</Button>
-      <DotsButton
-        options={[
-          {
-            legend: "Borrar billetera",
-            onClick: deleteWallet,
-          },
-        ]}
-      />
     </StyledWalletContainer>
   );
 }

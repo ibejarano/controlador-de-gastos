@@ -3,7 +3,7 @@ import axios from "axios";
 const endpoint =
   process.env.NODE_ENV === "production"
     ? process.env.REACT_APP_ENDPOINT
-    : "http://192.168.0.153:5000";
+    : "http://192.168.0.148:5000";
 
 const transport = axios.create({
   withCredentials: true,
