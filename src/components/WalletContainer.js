@@ -1,11 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import axios from "axios";
+// import axios from "axios";
 
 import TitleAndSubtitle from "./common/TitleAndSubtitle";
-import Button from "./common/Button";
-
-import DotsButton from "./common/DotsButton";
 
 const StyledWalletContainer = styled.div`
   background: ${(props) => props.theme.color.yellowText};
@@ -14,6 +11,9 @@ const StyledWalletContainer = styled.div`
   position: relative;
   margin-bottom: 2em;
   width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
 
   .wallet-title {
     padding: 0;
@@ -57,6 +57,16 @@ const StyledWalletContainer = styled.div`
     padding: 0.25em 0.4em;
     border: none;
   }
+
+  .wallet-balance {
+    background: ${(props) => props.theme.color.purpleText};
+    display: flex;
+    flex-flow: column wrap;
+    padding: 0px 25px;
+    border-radius: 10px;
+    width: 100px;
+    text-align: center;
+  }
 `;
 
 export default function WalletContainer({ wallet, dispatch, setWallets }) {
@@ -67,16 +77,16 @@ export default function WalletContainer({ wallet, dispatch, setWallets }) {
     });
   };
 
-  const deleteWallet = async () => {
-    const { data } = await axios.delete(
-      `http://localhost:5000/wallet/${wallet._id}`,
-      {
-        withCredentials: true,
-      }
-    );
-    setWallets(data);
-    // dispatch({ type: "update-wallet" });
-  };
+  // const deleteWallet = async () => {
+  //   const { data } = await axios.delete(
+  //     `http://localhost:5000/wallet/${wallet._id}`,
+  //     {
+  //       withCredentials: true,
+  //     }
+  //   );
+  //   setWallets(data);
+  //   // dispatch({ type: "update-wallet" });
+  // };
 
   const { _id, name, description, balance } = wallet;
 
@@ -89,9 +99,8 @@ export default function WalletContainer({ wallet, dispatch, setWallets }) {
       />
       <div className="wallet-balance">
         <TitleAndSubtitle
-          title={`Balance: $${balance}`}
-          // subtitle={`${wallet.description}`}
-          invert={true}
+          title={`$${balance}`}
+          subtitle="Balance"
         />
       </div>
     </StyledWalletContainer>
