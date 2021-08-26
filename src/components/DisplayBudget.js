@@ -107,20 +107,32 @@ export default function DisplayBudget({ budgets, setLoading }) {
   return (
     <BudgetContainer>
       {budgets.map(({ section, current, limit }) => (
-        <div className="container_budget" key={section} onClick={() => handleClick(section, limit)}>
+        <div
+          className="container_budget"
+          key={section}
+          onClick={() => handleClick(section, limit)}
+        >
           <p>
             {section} ${current} / ${limit}
           </p>
-          <ProgressBar barWidth={Math.floor((current * 100) / limit)}>
-            {Math.floor((current * 100) / limit) && (
-              <div className="filled-progress-bar"></div>
-            )}
-          </ProgressBar>
+          {limit > 0 ? (
+            <ProgressBar barWidth={Math.floor((current * 100) / limit)}>
+              {Math.floor((current * 100) / limit) && (
+                <div className="filled-progress-bar"></div>
+              )}
+            </ProgressBar>
+          ) : (
+            <p>Presupuesto no asignado</p>
+          )}
         </div>
       ))}
       {isModal && (
         <Modal>
-          <EditBudget setLoading={setLoading} setOpenDialog={setIsModal} {...currBudget} />
+          <EditBudget
+            setLoading={setLoading}
+            setOpenDialog={setIsModal}
+            {...currBudget}
+          />
         </Modal>
       )}
     </BudgetContainer>
