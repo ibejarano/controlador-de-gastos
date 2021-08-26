@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 import Modal from "../components/common/Modal";
+import Slider from "../components/Slider";
 import EditBudget from "./EditBudget";
 
 const BudgetContainer = styled.div`
@@ -96,11 +97,11 @@ const ProgressBar = styled.div`
 `;
 
 export default function DisplayBudget({ budgets, setLoading }) {
-  const [isModal, setIsModal] = useState(false);
+  const [openSlider, setOpenSlider] = useState(false);
   const [currBudget, setcurrBudget] = useState({});
 
   const handleClick = (section, limit) => {
-    setIsModal(true);
+    setOpenSlider(true);
     setcurrBudget({ limit, section });
   };
 
@@ -126,15 +127,9 @@ export default function DisplayBudget({ budgets, setLoading }) {
           )}
         </div>
       ))}
-      {isModal && (
-        <Modal>
-          <EditBudget
-            setLoading={setLoading}
-            setOpenDialog={setIsModal}
-            {...currBudget}
-          />
-        </Modal>
-      )}
+      <Slider open={openSlider} setOpen={setOpenSlider}>
+        <EditBudget setLoading={setLoading} {...currBudget} />
+      </Slider>
     </BudgetContainer>
   );
 }
