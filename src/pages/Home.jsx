@@ -1,7 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
 
 import { useUser } from "../context/UserContext";
 import WalletContainer from "../components/WalletContainer";
@@ -58,9 +55,6 @@ export default function HomePage() {
             setWallets={setWallets}
           />
         ))}
-        <Link to="/add-wallet">
-          <FontAwesomeIcon icon={faPlusSquare} size="4x" color="yellow" />
-        </Link>
       </StyledWallets>
       }
       <WalletDetails walletId={walletId} />

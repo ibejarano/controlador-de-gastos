@@ -5,8 +5,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHome,
   faMoneyCheckAlt,
-  faChartBar,
+  faTools,
   faInfoCircle,
+  faSignOutAlt
+  
 } from "@fortawesome/free-solid-svg-icons";
 
 const sections = [
@@ -21,9 +23,9 @@ const sections = [
     icon: faMoneyCheckAlt,
   },
   {
-    name: "Estadisticas",
-    url: "/stats",
-    icon: faChartBar,
+    name: "Configurar",
+    url: "/config",
+    icon: faTools,  
   },
   {
     name: "Info",
@@ -33,7 +35,7 @@ const sections = [
   {
     name: "Logout",
     url: "/logout",
-    icon: faChartBar,
+    icon: faSignOutAlt,
   },
 ];
 
