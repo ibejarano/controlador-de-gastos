@@ -1,8 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
-
-import Slider from "../components/Slider";
-import EditBudget from "./EditBudget";
 
 const BudgetContainer = styled.div`
   background: ${(props) => props.theme.color.yellowText};
@@ -96,13 +93,6 @@ const ProgressBar = styled.div`
 `;
 
 export default function DisplayBudget({ budgets, setLoading }) {
-  const [openSlider, setOpenSlider] = useState(false);
-  const [currBudget, setcurrBudget] = useState({});
-
-  const handleClick = (section, limit) => {
-    setOpenSlider(true);
-    setcurrBudget({ limit, section });
-  };
 
   return (
     <BudgetContainer>
@@ -110,7 +100,6 @@ export default function DisplayBudget({ budgets, setLoading }) {
         <div
           className="container_budget"
           key={section}
-          onClick={() => handleClick(section, limit)}
         >
           <p>
             {section} ${current} / ${limit}
@@ -126,9 +115,6 @@ export default function DisplayBudget({ budgets, setLoading }) {
           )}
         </div>
       ))}
-      <Slider open={openSlider} setOpen={setOpenSlider}>
-        <EditBudget setLoading={setLoading} {...currBudget} />
-      </Slider>
     </BudgetContainer>
   );
 }

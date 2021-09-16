@@ -14,6 +14,7 @@ import MainContainer from "./components/MainContainer";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import Home from "./pages/Home";
+import ConfigPage from "./pages/ConfigPage";
 import BudgetPage from "./pages/Budget";
 import Logout from "./pages/Logout";
 import Info from "./pages/Info";
@@ -54,6 +55,9 @@ function PrivateRoutes() {
     <React.Fragment>
       <Route path="/add-wallet">
         <AddWallet />
+      </Route>
+      <Route exact path="/config">
+        <ConfigPage />
       </Route>
       <Route exact path="/wallets">
         <Home />
