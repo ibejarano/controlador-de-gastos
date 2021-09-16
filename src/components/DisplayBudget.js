@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-import Modal from "../components/common/Modal";
 import Slider from "../components/Slider";
 import EditBudget from "./EditBudget";
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { useUser } from "../context/UserContext";
+// import { useUser } from "../context/UserContext";
 import Balance from "./Balance";
 import Expenses from "./Expenses";
 import AddExpenseForm from "./AddExpense";
@@ -15,7 +15,7 @@ export default function WalletDetails({ walletId }) {
   const [modal, toggleModal] = useState(false);
   const [openSlider, setOpenSlider] = useState(false);
   const [isIncome, setIsIncome] = useState(false);
-  const { dispatch } = useUser();
+  // const { dispatch } = useUser();
 
   useEffect(() => {
     async function fetchWalletDetails() {

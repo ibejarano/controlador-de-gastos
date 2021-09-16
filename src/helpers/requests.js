@@ -3,7 +3,7 @@ import axios from "axios";
 const endpoint =
   process.env.NODE_ENV === "production"
     ? process.env.REACT_APP_ENDPOINT
-    : "http://192.168.0.148:5000";
+    : "http://localhost:5000";
 
 const transport = axios.create({
   withCredentials: true,
@@ -12,7 +12,7 @@ const transport = axios.create({
 export async function getWallets() {
   try {
     const { data } = await transport.get(`${endpoint}/user`);
-    return data;
+    return { data };
   } catch (error) {
     return { err: error };
   }

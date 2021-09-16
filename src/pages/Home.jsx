@@ -33,15 +33,14 @@ export default function HomePage() {
 
   useEffect(() => {
     async function fetchWallets() {
-      const fetchedWallets = await getWallets();
-      setWallets(fetchedWallets);
+      const { data } = await getWallets();
+      setWallets(data);
     }
     if (refresh) {
       fetchWallets();
       dispatch({ type: "update-wallet" });
     }
   }, [refresh, openWallet, dispatch]);
-
   return (
     <React.Fragment>
       <TitleContainer title={title} />
@@ -49,10 +48,11 @@ export default function HomePage() {
         title="Cuentas"
         subtitle="Seleccione una para ver el estado"
       />
+      {wallets && 
       <StyledWallets>
         {wallets.map((wallet) => (
           <WalletContainer
-            key={wallet._id}
+            key={wallet._id}  
             wallet={wallet}
             dispatch={dispatch}
             setWallets={setWallets}
@@ -62,6 +62,7 @@ export default function HomePage() {
           <FontAwesomeIcon icon={faPlusSquare} size="4x" color="yellow" />
         </Link>
       </StyledWallets>
+      }
       <WalletDetails walletId={walletId} />
     </React.Fragment>
   );
