@@ -59,6 +59,18 @@ async function updateBalance(id, amount, expensesId = null) {
   return savedWallet;
 }
 
+async function changeName(id, name) {
+  const wallet = await Wallet.findById(id);
+  wallet.name = name
+  const savedWallet = await wallet.save();
+  if (!wallet) {
+    const error = new Error("Error al actualizar balance");
+    error.status = 401;
+    throw error;
+  }
+  return savedWallet;
+}
+
 async function deleteById(id) {
   const wallet = await Wallet.findByIdAndDelete(id);
   if (!wallet) {
@@ -75,4 +87,5 @@ module.exports = {
   getById,
   updateBalance,
   deleteById,
+  changeName
 };

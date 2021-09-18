@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from "styled-components";
 import {
   Switch,
@@ -9,6 +9,7 @@ import {
 import TitleContainer from "../components/TitleContainer"
 import AddWallet from "../components/AddWallet"
 import DeleteWallet from "../components/DeleteWallet"
+import ChangeWalletName from '../components/ChangeWalletName'
 
 const ConfigTextContainer = styled.div`
   color: ${(props) => props.theme.color.card};
@@ -36,19 +37,18 @@ function ConfigOptions() {
       <h1>Billeteras</h1>
 
       <ul>
-        <li><Link to="/config/add_wallet">Agregar Billetera</Link></li>
-        <li>Editar nombre de billetera - TODO</li>
-        <li><Link to="/config/delete_wallet">Eliminar Billetera</Link></li>
+        <li><Link to="/config/add_wallet">Agregar billetera</Link></li>
+        <li><Link to="/config/change_wallet_name">Cambiar nombre de billetera</Link></li>
+        <li><Link to="/config/delete_wallet">Eliminar billetera</Link></li>
       </ul>
       <h1>Presupuestos</h1>
       <ul>
-        <li>Crear Seccion</li>
-        <li>Editar nombre de seccion</li>
-        <li>Modificar limite de presupuesto</li>
+        <li>Modificar limite de presupuesto - TODO</li>
       </ul>
     </ConfigTextContainer>
   )
 }
+
 
 export default function ConfigPage() {
 
@@ -57,6 +57,7 @@ export default function ConfigPage() {
       <TitleContainer title="Configuracion" />
       <Switch>
         <Route exact path="/config/add_wallet"><AddWallet /></Route>
+        <Route exact path="/config/change_wallet_name"><ChangeWalletName /></Route>
         <Route exact path="/config/delete_wallet"><DeleteWallet /></Route>
         <Route path="/config" ><ConfigOptions /></Route>
       </Switch>

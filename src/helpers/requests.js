@@ -27,6 +27,20 @@ export async function addWallet(fields) {
   }
 }
 
+export async function changeWalletName(walletId, newName) {
+  try {
+    const { data } = await transport.put(
+      `${endpoint}/wallet/${walletId}/change-name`,
+      {
+        name: newName
+      }
+    );
+    return { data };
+  } catch (err) {
+    return { err };
+  }
+}
+
 export async function deleteWallet(walletId) {
   try {
     const { data } = await transport.delete(`${endpoint}/wallet/${walletId}`);

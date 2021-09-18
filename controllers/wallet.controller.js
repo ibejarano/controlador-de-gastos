@@ -24,8 +24,19 @@ async function newWallet(req, res, next) {
 async function updateWalletBalance(req, res, next) {
   try {
     const { id } = req.params;
-    const { amount } = req.bodyu;
+    const { amount } = req.body;
     const wallet = await WalletServices.updateBalance(id, amount);
+    res.json(wallet);
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function changeName(req, res, next) {
+  try {
+    const { id } = req.params;
+    const { name } = req.body;
+    const wallet = await WalletServices.changeName(id, name);
     res.json(wallet);
   } catch (error) {
     next(error);
@@ -63,4 +74,5 @@ module.exports = {
   deleteWallet,
   addExpense,
   getWalletInfo,
+  changeName
 };

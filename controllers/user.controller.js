@@ -131,7 +131,7 @@ async function setBudgetLimit(req, res, next) {
 
 async function createSection(req, res, next) {
   try {
-    const { section } = req.query;
+    const { section } = req.body;
     if (!section) {
       throw new Error("Seccion indefinida");
     }
