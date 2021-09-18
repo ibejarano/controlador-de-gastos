@@ -8,7 +8,7 @@ import { useUser } from "../context/UserContext";
 
 import { addWallet } from "../helpers/requests";
 
-import TitleContainer from "./TitleContainer";
+import TitleAndSubtitle from "./TitleAndSubtitle";
 
 const StyledForm = styled.form`
   background: ${(props) => props.theme.color.yellowText};
@@ -74,7 +74,7 @@ export default function AddWallet() {
     <Redirect to={redirect} />
   ) : (
     <React.Fragment>
-      <TitleContainer title="Agregar nueva billetera" />
+      <TitleAndSubtitle title="Agregar billetera"/>
       <StyledForm
         onSubmit={async (e) => {
           e.preventDefault();

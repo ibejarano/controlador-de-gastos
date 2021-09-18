@@ -27,6 +27,15 @@ export async function addWallet(fields) {
   }
 }
 
+export async function deleteWallet(walletId) {
+  try {
+    const { data } = await transport.delete(`${endpoint}/wallet/${walletId}`);
+    return { data };
+  } catch (err) {
+    return { err };
+  }
+}
+
 export async function getWalletDetails(walletId) {
   try {
     const { data } = await transport.get(`${endpoint}/wallet/${walletId}`);
