@@ -1,23 +1,24 @@
 import React, { useState, useEffect } from 'react';
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 import TitleAndSubtitle from './TitleAndSubtitle';
+import ItemList from "./common/ItemList"
+import List from "./common/ListContainer"
 
 import { getWallets, deleteWallet } from '../helpers/requests'
 
 function WalletItem({ _id, name, setWallets }) {
     const handleDelete = async () => {
         if (window.confirm(`Eliminar billetera ${name}?`)) {
-            console.log(_id)
             const { data } = await deleteWallet(_id)
             setWallets(data)
         }
     }
 
     return (
-        <li>
+        <ItemList action={handleDelete} icon={faTrash}>
             {name}
-            <button onClick={handleDelete}>delete</button>
-        </li>
+        </ItemList>
     )
 }
 
@@ -42,11 +43,11 @@ export default function DeleteWallet() {
             <TitleAndSubtitle title="Eliminar billetera" />
 
             {wallets &&
-                <ul>
+                <List>
                     {wallets.map((wallet) => (
                         <WalletItem key={wallet._id} setWallets={setWallets} {...wallet} />
                     ))}
-                </ul>
+                </List>
             }
 
         </React.Fragment>
