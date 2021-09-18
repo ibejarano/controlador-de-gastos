@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { faPen } from "@fortawesome/free-solid-svg-icons";
 
 import { toast } from "react-toastify"
 import TitleAndSubtitle from './TitleAndSubtitle';
+import ItemList from "./common/ItemList"
+import List from "./common/ListContainer"
 
 import { getBudgets, configureBudget } from '../helpers/requests'
 
@@ -15,10 +18,9 @@ function BudgetItem({ limit, section }) {
     }
 
     return (
-        <li>
+        <ItemList action={handleChange} icon={faPen}>
             {section}
-            <button onClick={handleChange}>Cambiar Limite</button>
-        </li>
+        </ItemList>
     )
 }
 
@@ -43,13 +45,13 @@ export default function ChangeBudgetLimit() {
             <TitleAndSubtitle title="Cambiar limite de presupuesto" />
 
             {budgets &&
-                <ul>
+                <List>
                     {budgets.map(
                         (b) => (
                             <BudgetItem key={b._id} {...b} />
                         ))
                     }
-                </ul>
+                </List>
             }
 
         </React.Fragment>
