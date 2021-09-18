@@ -10,6 +10,7 @@ import TitleContainer from "../components/TitleContainer"
 import AddWallet from "../components/AddWallet"
 import DeleteWallet from "../components/DeleteWallet"
 import ChangeWalletName from '../components/ChangeWalletName'
+import ChangeBudgetLimit from '../components/ChangeBudgetLimit'
 
 const ConfigTextContainer = styled.div`
   color: ${(props) => props.theme.color.card};
@@ -43,7 +44,7 @@ function ConfigOptions() {
       </ul>
       <h1>Presupuestos</h1>
       <ul>
-        <li>Modificar limite de presupuesto - TODO</li>
+        <li><Link to="/config/change_budget_limit">Cambiar limite de presupuesto</Link></li>
       </ul>
     </ConfigTextContainer>
   )
@@ -59,6 +60,7 @@ export default function ConfigPage() {
         <Route exact path="/config/add_wallet"><AddWallet /></Route>
         <Route exact path="/config/change_wallet_name"><ChangeWalletName /></Route>
         <Route exact path="/config/delete_wallet"><DeleteWallet /></Route>
+        <Route exact path="/config/change_budget_limit"><ChangeBudgetLimit /></Route>
         <Route path="/config" ><ConfigOptions /></Route>
       </Switch>
     </React.Fragment>
