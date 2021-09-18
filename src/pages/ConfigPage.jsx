@@ -29,6 +29,14 @@ const ConfigTextContainer = styled.div`
     margin: 1em 0;
     padding: 0;
   }
+
+  a {
+    text-decoration: none;
+  }
+
+  a:visited {
+    color: yellow;
+  }
 `;
 
 function ConfigOptions() {
