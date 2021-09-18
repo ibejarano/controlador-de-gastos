@@ -8,7 +8,7 @@ import { getBudgets, configureBudget } from '../helpers/requests'
 function BudgetItem({ limit, section }) {
     const handleChange = async () => {
         const newLimit = parseFloat(window.prompt("Nuevo limite", limit))
-        if ((newLimit != limit) & (newLimit > 0)) {
+        if ((newLimit !== limit) & (newLimit > 0)) {
             const { message } = await configureBudget(section, newLimit)
             toast.success(message)
         }

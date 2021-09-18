@@ -3,13 +3,14 @@ import React, { useState, useEffect } from 'react';
 import TitleAndSubtitle from './TitleAndSubtitle';
 
 import { getWallets, changeWalletName } from '../helpers/requests'
+import { toast } from 'react-toastify';
 
 function WalletItem({ _id, name, setWallets }) {
     const handleChange = async () => {
         const newName = window.prompt("Nuevo nombre", name)
-        if ((newName != name) & (newName.length > 0)) {
-            console.log("Cambiar nombre")
-            const resp = changeWalletName(_id, newName)
+        if ((newName !== name) & (newName.length > 0)) {
+            const { message } = changeWalletName(_id, newName)
+            toast.success(message)
         }
     }
 
