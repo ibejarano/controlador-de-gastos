@@ -28,7 +28,6 @@ export default function DeleteWallet() {
 
     useEffect(() => {
         async function fetchWallets() {
-            console.log("Fetching wallets list for delete")
             const { data } = await getWallets();
             setWallets(data);
         }

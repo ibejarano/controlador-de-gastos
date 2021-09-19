@@ -30,7 +30,6 @@ export default function ChangeBudgetLimit() {
 
     useEffect(() => {
         async function fetchData() {
-            console.log("Fetching Budgets list for change")
             const { data } = await getBudgets();
             setBudgets(data);
         }
@@ -38,7 +37,6 @@ export default function ChangeBudgetLimit() {
         fetchData()
 
     }, []);
-    console.log(budgets)
 
     return (
         <React.Fragment>
