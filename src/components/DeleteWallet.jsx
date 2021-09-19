@@ -6,12 +6,14 @@ import ItemList from "./common/ItemList"
 import List from "./common/ListContainer"
 
 import { getWallets, deleteWallet } from '../helpers/requests'
+import { toast } from 'react-toastify';
 
 function WalletItem({ _id, name, setWallets }) {
     const handleDelete = async () => {
         if (window.confirm(`Eliminar billetera ${name}?`)) {
             const { data } = await deleteWallet(_id)
             setWallets(data)
+            toast.success("Billetera eliminada")
         }
     }
 
