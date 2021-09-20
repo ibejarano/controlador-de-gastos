@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 
-// import { useUser } from "../context/UserContext";
 import Balance from "./Balance";
 import Expenses from "./Expenses";
 import AddExpenseForm from "./AddExpense";
@@ -13,13 +12,10 @@ import { getWalletDetails } from "../helpers/requests";
 export default function WalletDetails({ walletId }) {
   const [wallet, setWallet] = useState(null);
   const [modal, toggleModal] = useState(false);
-  const [openSlider, setOpenSlider] = useState(false);
   const [isIncome, setIsIncome] = useState(false);
-  // const { dispatch } = useUser();
 
   useEffect(() => {
     async function fetchWalletDetails() {
-      setOpenSlider(true);
       const { data } = await getWalletDetails(walletId);
       setWallet(data);
     }
@@ -30,7 +26,7 @@ export default function WalletDetails({ walletId }) {
 
   return (
     <React.Fragment>
-      <Slider open={openSlider} setOpen={setOpenSlider}>
+      <Slider>
         <React.Fragment>
           {wallet && (
             <React.Fragment>
@@ -46,16 +42,6 @@ export default function WalletDetails({ walletId }) {
             </React.Fragment>
           )}
         </React.Fragment>
-        {/* <Button
-          onClick={() => dispatch({ type: "close-wallet" })}
-          style={{
-            position: "absolute",
-            top: "10px",
-            left: "92%",
-          }}
-        >
-          <FontAwesomeIcon icon={faWindowClose} size="lg" />
-        </Button> */}
       </Slider>
       {modal && (
         <Modal>

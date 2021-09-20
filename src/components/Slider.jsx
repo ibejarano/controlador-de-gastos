@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWindowClose } from "@fortawesome/free-solid-svg-icons";
 
+import { useUser } from "../context/UserContext"
+
 import Button from "./common/Button";
 
 const Slider = styled.div`
@@ -35,8 +37,10 @@ const Slider = styled.div`
 `;
 
 export default function WalletDetails({ open, setOpen, children }) {
+  const { dispatch, user: { openWallet } } = useUser();
+
   return (
-    <Slider isOpen={open}>
+    <Slider isOpen={openWallet}>
       {children}
       <Button
         style={{
@@ -44,7 +48,7 @@ export default function WalletDetails({ open, setOpen, children }) {
           top: "10px",
           left: "92%",
         }}
-        onClick={() => setOpen(false)}
+        onClick={() => dispatch({ type: "close-wallet" })}
       >
         <FontAwesomeIcon icon={faWindowClose} size="lg" />
       </Button>
