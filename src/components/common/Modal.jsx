@@ -13,7 +13,7 @@ const ModalStyle = styled.div`
 
   & article {
     position: relative;
-    top: 30vh;
+    top: 12vh;
     width: 100%;
   }
 `;

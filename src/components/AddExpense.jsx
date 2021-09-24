@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import Dropdown from "react-dropdown";
 
 import Button from "../components/common/Button";
+import Dropdown from "../components/common/Dropdown"
+
 import { addExpense } from "../helpers/requests";
 import { DualRing } from "react-spinners-css";
 
@@ -17,21 +18,18 @@ const StyledForm = styled.form`
   margin: 0 24px;
   label {
     font-weight: bold;
+    margin: 8px 0;
+  }
+
+  button {
+    margin: 8px 0;
   }
 
   input {
     background: ${(props) => props.theme.color.mainBackground};
     color: ${(props) => props.theme.color.yellowText};
-  }
-`;
-
-const StyledDropdown = styled.div`
-  div {
-    background: ${(props) => props.theme.color.mainBackground};
-    color: ${(props) => props.theme.color.yellowText};
-  }
-  option {
-    font-size: 14px;
+    font-size: 16px;
+    padding: 8px 4px;
   }
 `;
 
@@ -60,6 +58,7 @@ const AddExpense = ({ walletId, setWallet, toggleModal, isIncome = false }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
+    console.log(e.target.name)
     setFields({ ...fields, [e.target.name]: e.target.value });
   };
 
@@ -95,14 +94,11 @@ const AddExpense = ({ walletId, setWallet, toggleModal, isIncome = false }) => {
         onChange={handleChange}
       />
       <label>Seccion</label>
-      <StyledDropdown>
-        <Dropdown
-          options={sectionsSaved}
-          value={section}
-          onChange={(e) => setFields({ ...fields, section: e.value })}
-          placeholder="Selecciona una opcion..."
-        />
-      </StyledDropdown>
+      <Dropdown
+        options={sectionsSaved}
+        value={section}
+        handleChange={handleChange}
+      />
       <SubmitButton isSubmitting={isSubmitting} />
       <Button onClick={() => toggleModal(false)}>Cancelar</Button>
     </StyledForm>
