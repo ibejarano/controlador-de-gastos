@@ -1,8 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-// import axios from "axios";
 
 import TitleAndSubtitle from "./common/TitleAndSubtitle";
+
+import { useUser } from '../context/UserContext'
 
 const StyledWalletContainer = styled.div`
   background: ${(props) => props.theme.color.yellowText};
@@ -69,24 +70,16 @@ const StyledWalletContainer = styled.div`
   }
 `;
 
-export default function WalletContainer({ wallet, dispatch, setWallets }) {
+export default function WalletContainer({ wallet }) {
+
+  const { dispatch } = useUser();
+
   const openWallet = async (walletId) => {
     dispatch({
       type: "open-wallet",
       payload: { name: wallet.name, id: walletId },
     });
   };
-
-  // const deleteWallet = async () => {
-  //   const { data } = await axios.delete(
-  //     `http://localhost:5000/wallet/${wallet._id}`,
-  //     {
-  //       withCredentials: true,
-  //     }
-  //   );
-  //   setWallets(data);
-  //   // dispatch({ type: "update-wallet" });
-  // };
 
   const { _id, name, description, balance } = wallet;
 
