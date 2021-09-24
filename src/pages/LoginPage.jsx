@@ -5,8 +5,8 @@ import { toast } from "react-toastify";
 
 import { login } from "../helpers/requests";
 import { useUser } from "../context/UserContext";
-import TitleContainer from "../components/TitleContainer";
-import TitleAndSubtitle from "../components/TitleAndSubtitle";
+import TitleContainer from "../components/common/Title";
+import TitleAndSubtitle from "../components/common/TitleAndSubtitle";
 import Form from "../components/Form";
 
 const FormsContainer = styled.div`

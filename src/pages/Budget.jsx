@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import TitleContainer from "../components/TitleContainer";
 
+import TitleContainer from "../components/common/Title";
 import DisplayBudgets from "../components/DisplayBudget";
 
 import { getBudgets } from "../helpers/requests";

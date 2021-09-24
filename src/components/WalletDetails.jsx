@@ -4,7 +4,7 @@ import Balance from "./Balance";
 import Expenses from "./Expenses";
 import AddExpenseForm from "./AddExpense";
 import Modal from "./common/Modal";
-import TitleAndSubtitle from "./TitleAndSubtitle";
+import TitleAndSubtitle from "./common/TitleAndSubtitle";
 import Slider from "./Slider";
 
 import { getWalletDetails } from "../helpers/requests";

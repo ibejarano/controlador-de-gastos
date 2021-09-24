@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 
-import TitleAndSubtitle from './TitleAndSubtitle';
+import TitleAndSubtitle from './common/TitleAndSubtitle';
 import ItemList from "./common/ItemList"
 import List from "./common/ListContainer"
 

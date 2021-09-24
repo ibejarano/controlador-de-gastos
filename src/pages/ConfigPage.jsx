@@ -6,7 +6,7 @@ import {
   Link
 } from "react-router-dom";
 
-import TitleContainer from "../components/TitleContainer"
+import TitleContainer from "../components/common/Title"
 import AddWallet from "../components/AddWallet"
 import DeleteWallet from "../components/DeleteWallet"
 import ChangeWalletName from '../components/ChangeWalletName'

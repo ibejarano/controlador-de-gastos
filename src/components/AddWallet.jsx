@@ -8,7 +8,7 @@ import { useUser } from "../context/UserContext";
 
 import { addWallet } from "../helpers/requests";
 
-import TitleAndSubtitle from "./TitleAndSubtitle";
+import TitleAndSubtitle from "./common/TitleAndSubtitle";
 
 const StyledForm = styled.form`
   background: ${(props) => props.theme.color.yellowText};
