@@ -12,6 +12,7 @@ const StyledButton = styled.button`
   border-radius: 10px;
   font-size: ${(props) => (props.fontSize ? props.fontSize : "12px")};
   width: ${(props) => (props.fullWidth ? "100%" : "min-content")};
+  max-width: 400px;
 `;
 
 const Button = ({ isSubmitting, text, fontSize, fullWidth, form }) => {

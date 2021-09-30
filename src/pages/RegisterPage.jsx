@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { toast } from "react-toastify";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import { register } from "../helpers/requests";
 import { useUser } from "../context/UserContext";
 
@@ -48,6 +48,9 @@ const LoginPage = () => {
           register
         />
         {redirect && <Redirect to={redirect} />}
+        <Link to="/login">
+          <TitleAndSubtitle title="Click aqui para logearse" />
+        </Link>
       </FormsContainer>
     </React.Fragment>
   );

@@ -47,10 +47,10 @@ const LoginPage = () => {
           formId="login-form"
         />
         {redirect && <Redirect to={redirect} />}
+        <Link to="/register">
+          <TitleAndSubtitle title="Click aqui para registrarse" />
+        </Link>
       </FormsContainer>
-      <Link to="/register">
-        <TitleAndSubtitle title="Click aqui para registrarse" />
-      </Link>
     </React.Fragment>
   );
 };

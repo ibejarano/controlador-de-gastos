@@ -7,7 +7,7 @@ const StyledForm = styled.form`
   background: yellow;
   display: flex;
   flex-flow: column nowrap;
-  max-width: 630px;
+  max-width: 400px;
   border-radius: 10px;
   padding: 15px;
   width: 100%;
