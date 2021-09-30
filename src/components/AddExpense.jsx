@@ -58,7 +58,6 @@ const AddExpense = ({ walletId, setWallet, toggleModal, isIncome = false }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
-    console.log(e.target.name)
     setFields({ ...fields, [e.target.name]: e.target.value });
   };
 

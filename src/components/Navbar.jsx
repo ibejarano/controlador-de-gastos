@@ -8,7 +8,7 @@ import {
   faTools,
   faInfoCircle,
   faSignOutAlt
-  
+
 } from "@fortawesome/free-solid-svg-icons";
 
 const sections = [
@@ -25,7 +25,7 @@ const sections = [
   {
     name: "Configurar",
     url: "/config",
-    icon: faTools,  
+    icon: faTools,
   },
   {
     name: "Info",
@@ -59,6 +59,18 @@ const StyledLinks = styled.div`
     font-size: 10px;
     margin: 0;
   }
+  @media (min-width: 600px) {
+    width: 52px;
+    height: 46px;
+
+    svg {
+      font-size: 20px;
+      color: ${(props) => props.theme.color.mainBackground};
+    }
+    p {
+      display: none;
+    }
+  }
 `;
 
 const NavItem = ({ section }) => (
@@ -81,10 +93,10 @@ const StyledNav = styled.nav`
   background: ${(props) => props.theme.color.yellowText};
 
   @media (min-width: 600px) {
-    flex-flow: column nowrap;
-    bottom: 40vh;
-    left: 0;
+    top: 16px;
+    right: 100px;
     width: min-content;
+    height: max-content;
   }
 `;
 
