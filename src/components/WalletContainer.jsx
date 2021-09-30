@@ -15,6 +15,7 @@ const StyledWalletContainer = styled.div`
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-around;
+  max-width: 350px;
 
   .wallet-title {
     padding: 0;

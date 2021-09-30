@@ -17,7 +17,7 @@ const StyledWallets = styled.div`
   @media (min-width: 600px) {
     flex-flow: row wrap;
     justify-content: space-around;
-    padding: 0 4em;
+    padding: 0 0.5em;
   }
 `;
 

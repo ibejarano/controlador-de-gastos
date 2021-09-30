@@ -7,8 +7,8 @@ const BudgetContainer = styled.div`
   border-radius: 1em;
   position: relative;
   padding: 0.75em;
-  margin: 1.5em 0;
-
+  margin: 1.5em auto;
+  max-width: 600px;
   .container_budget:last-child {
     border: none;
   }

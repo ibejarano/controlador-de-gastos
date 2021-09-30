@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { logout } from "../helpers/requests";
 
 import StyledButton from "../components/common/Button"
+import TitleContainer from "../components/common/Title";
 
 const StyledLogoutContainer = styled.div`
   background: ${(props) => props.theme.color.yellowText};
@@ -28,12 +29,16 @@ const Logout = () => {
   };
 
   return (
-    <StyledLogoutContainer>
-      <h1>Estas seguro que quieres salir?</h1>
-      <StyledButton onClick={logoutConfirm}>
-        Confirmar
-      </StyledButton>
-    </StyledLogoutContainer>
+    <React.Fragment>
+      <TitleContainer title="Salir" />
+      <StyledLogoutContainer>
+
+        <h1>Estas seguro que quieres salir?</h1>
+        <StyledButton onClick={logoutConfirm}>
+          Confirmar
+        </StyledButton>
+      </StyledLogoutContainer>
+    </React.Fragment>
   );
 };
 
