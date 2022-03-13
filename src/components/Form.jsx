@@ -1,41 +1,21 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+import { Formik, Form, Field } from "formik";
+import {
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
+  FormHelperText,
+  Input,
+  Button,
+} from "@chakra-ui/react";
 
-import SubmitButton from "../components/SubmitButton";
-
-const StyledForm = styled.form`
-  background: yellow;
-  display: flex;
-  flex-flow: column nowrap;
-  max-width: 400px;
-  border-radius: 10px;
-  padding: 15px;
-  width: 100%;
-
-  label {
-    font-size: 18px;
-    font-weight: bold;
-    color: ${(props) => props.theme.color.mainBackground};
-  }
-
-  input {
-    margin-bottom: 15px;
-    background: ${(props) => props.theme.color.mainBackground};
-    color: ${(props) => props.theme.color.yellowText};
-    font-size: 0.85em;
-    border: none;
-    border-radius: 0.5em;
-    padding: 0.4em;
-  }
-`;
-
-const Form = ({ onSubmit, isSubmitting, formId, register }) => {
-  const [input, setInput] = useState({
-    username: "Nacho Dev",
-    email: "test@test.dev",
-    password: "testing",
-    confPassword: "testing",
-  });
+export default function LoginRegisterForm({
+  onSubmit,
+  isSubmitting,
+  formId,
+  register,
+}) {
+  const [input, setInput] = useState();
 
   const handleChange = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
@@ -46,62 +26,74 @@ const Form = ({ onSubmit, isSubmitting, formId, register }) => {
   };
 
   return (
-    <React.Fragment>
-      <StyledForm
-        id={formId}
-        onSubmit={async (e) => {
-          e.preventDefault();
-          onSubmit(input);
-        }}
-      >
-        {register && (
-          <React.Fragment>
-            <label>Nombre de usuario</label>
-            <input
-              name="username"
-              type="text"
-              placeholder="Requerido"
-              onChange={handleChange}
-            />
-          </React.Fragment>
-        )}
+    <Formik
+      initialValues={{
+        username: "Nacho Dev",
+        email: "test@test.dev",
+        password: "testing",
+        confPassword: "testing",
+      }}
+      onSubmit={(values, actions) => {
+        setTimeout(() => {
+          alert(JSON.stringify(values, null, 2));
+          console.log("submiting...");
+          // onSubmit(input);
+          actions.setSubmitting(false);
+        }, 1000);
+      }}
+    >
+      {(props) => (
+        <Form>
+          <Field name="name">
+            {({ field, form }) => (
+              <FormControl>
+                {register && (
+                  <React.Fragment>
+                    <FormLabel>Nombre de usuario</FormLabel>
+                    <Input
+                      name="username"
+                      type="text"
+                      placeholder="Requerido"
+                      onChange={handleChange}
+                    />
+                  </React.Fragment>
+                )}
 
-        <label>E-mail</label>
-        <input
-          name="email"
-          type="email"
-          placeholder="Requerido"
-          onChange={handleChange}
-          value={input.email}
-        />
-        <label>Password</label>
-        <input
-          name="password"
-          type="password"
-          onChange={handleChange}
-          value={input.password}
-        />
-        {register && (
-          <React.Fragment>
-            <label>Repetir password</label>
-            <input
-              name="confPassword"
-              type="password"
-              value={input.confPassword}
-              onChange={handlePasswordConfirmation}
-            />
-          </React.Fragment>
-        )}
-      </StyledForm>
-      <SubmitButton
-        text={ register ? "Registrarse" : "Ingresar" }
-        fontSize="18px"
-        form={formId}
-        fullWidth
-        isSubmitting={isSubmitting}
-      />
-    </React.Fragment>
+                <FormLabel>E-mail</FormLabel>
+                <Input
+                  name="email"
+                  type="email"
+                  placeholder="Requerido"
+                  onChange={handleChange}
+                  value={input.email}
+                />
+                <FormLabel>Password</FormLabel>
+                <Input
+                  name="password"
+                  type="password"
+                  onChange={handleChange}
+                  value={input.password}
+                />
+                {register && (
+                  <React.Fragment>
+                    <FormLabel>Repetir password</FormLabel>
+                    <input
+                      name="confPassword"
+                      type="password"
+                      value={input.confPassword}
+                      onChange={handlePasswordConfirmation}
+                    />
+                  </React.Fragment>
+                )}
+              </FormControl>
+            )}
+          </Field>
+
+          <Button type="submit" isLoading={props.isSubmitting}>
+            {register ? "Registrarse" : "Ingresar"}
+          </Button>
+        </Form>
+      )}
+    </Formik>
   );
-};
-
-export default Form;
+}

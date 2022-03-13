@@ -2,13 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import { ChakraProvider } from "@chakra-ui/react";
 
 import './index.css'
 
 ReactDOM.render(
-  <React.StrictMode>
+  <ChakraProvider>
     <App />
-  </React.StrictMode>,
+  </ChakraProvider>,
   document.getElementById('root')
 );
 

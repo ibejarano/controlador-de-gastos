@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import styled from "styled-components";
 import { Redirect, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -7,14 +6,15 @@ import { login } from "../helpers/requests";
 import { useUser } from "../context/UserContext";
 import TitleContainer from "../components/common/Title";
 import TitleAndSubtitle from "../components/common/TitleAndSubtitle";
-import Form from "../components/Form";
+import LoginForm from "../components/LoginForm";
 
-const FormsContainer = styled.div`
-  display: flex;
-  flex-flow: column wrap;
-  justify-content: space-around;
-  align-items: center;
-`;
+import {
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
+  Input,
+  FormHelperText,
+} from "@chakra-ui/react";
 
 const LoginPage = () => {
   const [redirect, setRedirect] = useState(null);
@@ -39,18 +39,11 @@ const LoginPage = () => {
   return (
     <React.Fragment>
       <TitleContainer title="Bienvenid@!" />
-      <FormsContainer>
-        <TitleAndSubtitle title="Login" />
-        <Form
-          isSubmitting={isSubmitting}
-          onSubmit={submitLogin}
-          formId="login-form"
-        />
-        {redirect && <Redirect to={redirect} />}
-        <Link to="/register">
-          <TitleAndSubtitle title="Click aqui para registrarse" />
-        </Link>
-      </FormsContainer>
+      <LoginForm />
+      {redirect && <Redirect to={redirect} />}
+      <Link to="/register">
+        <TitleAndSubtitle title="Click aqui para registrarse" />
+      </Link>
     </React.Fragment>
   );
 };
