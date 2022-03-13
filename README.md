@@ -32,7 +32,12 @@ Software necesario:
 $ npm install
 ```
 
-> Crear un archivo .env en la carpeta raiz y agregar API KEY de mongo DB
+> Crear un archivo .env en la carpeta raiz y agregar
+
+```shell
+MONGO_URI=
+JWT_KEY=
+```
 
 Iniciar en modo development
 
