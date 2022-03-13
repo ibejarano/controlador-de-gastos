@@ -1,20 +1,22 @@
 import React from "react";
 
-import { CustomButton } from "./CustomButton.jsx";
+import Button from "../components/Button";
 
 export default {
-  title: "CustomButton",
-  component: CustomButton,
+  title: "Button",
+  component: Button,
 };
 
-const Template = (args) => <CustomButton {...args} />;
+const Template = (args) => <Button {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
-    title: "Hola mundo!"
-}
+  text: "Hola mundo!",
+  variant: "solid",
+};
 
 export const Secondary = Template.bind({});
 Secondary.args = {
-    title: "Bye world!"
-}
+  text: "Bye world!",
+  variant: "ghost",
+};
