@@ -8,14 +8,6 @@ import TitleContainer from "../components/common/Title";
 import TitleAndSubtitle from "../components/common/TitleAndSubtitle";
 import LoginForm from "../components/LoginForm";
 
-import {
-  FormControl,
-  FormLabel,
-  FormErrorMessage,
-  Input,
-  FormHelperText,
-} from "@chakra-ui/react";
-
 const LoginPage = () => {
   const [redirect, setRedirect] = useState(null);
   const { dispatch } = useUser();
@@ -39,7 +31,7 @@ const LoginPage = () => {
   return (
     <React.Fragment>
       <TitleContainer title="Bienvenid@!" />
-      <LoginForm />
+      <LoginForm submitLogin={submitLogin} />
       {redirect && <Redirect to={redirect} />}
       <Link to="/register">
         <TitleAndSubtitle title="Click aqui para registrarse" />

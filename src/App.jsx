@@ -32,7 +32,7 @@ function App() {
             <Route exact path="/">
               <LoginPage />
             </Route>
-            {/* <PrivateRoutes /> */}
+            <PrivateRoutes />
           </Switch>
         </UserProvider>
         <ToastContainer />

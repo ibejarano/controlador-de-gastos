@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Icon, Flex, Text } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHome,
@@ -40,16 +40,18 @@ const sections = [
 
 const NavItem = ({ section }) => (
   <Link to={section.url}>
-      <FontAwesomeIcon icon={section.icon} />
+    <FontAwesomeIcon size="2xl" icon={section.icon} />
   </Link>
 );
 
 const Navbar = () => (
-  <Flex as="nav" maxW="400px" justify="space-around">
-    {sections.map((sec) => (
-      <NavItem key={sec.name} section={sec} />
-    ))}
-  </Flex>
+  <Box position="fixed" bottom="0vh" width="100vw" p="10px">
+    <Flex justifyContent={"space-around"}>
+      {sections.map((sec) => (
+        <NavItem key={sec.name} section={sec} />
+      ))}
+    </Flex>
+  </Box>
 );
 
 export default Navbar;

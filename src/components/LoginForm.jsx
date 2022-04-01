@@ -5,21 +5,18 @@ import { Container, Center } from "@chakra-ui/react";
 import InputText from "./InputText";
 import Button from "./Button";
 
-export default function LoginRegisterForm() {
+export default function LoginRegisterForm({ submitLogin }) {
   return (
     <Container border="1px solid black" bg="teal">
       <Formik
         initialValues={{
-          email: "test@test.dev",
-          password: "testing",
+          email: "test1@test.com",
+          password: "test",
         }}
         onSubmit={(values, actions) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            console.log("submiting...");
-            // onSubmit(input);
-            actions.setSubmitting(false);
-          }, 1000);
+          alert(JSON.stringify(values, null, 2));
+          submitLogin(values);
+          actions.setSubmitting(false);
         }}
       >
         {(props) => (
@@ -35,7 +32,12 @@ export default function LoginRegisterForm() {
               )}
             </Field>
             <Center m="20px 0">
-              <Button isLoading={props.isSubmitting} type="submit" primary text="Ingresar" />
+              <Button
+                isLoading={props.isSubmitting}
+                type="submit"
+                primary
+                text="Ingresar"
+              />
             </Center>
           </Form>
         )}
