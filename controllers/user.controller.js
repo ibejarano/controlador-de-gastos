@@ -6,14 +6,6 @@ const COOKIESETTINGS = {
   httpOnly: true,
 };
 
-async function get(req, res, next) {
-  try {
-    const users = await UserServices.getAllUsers();
-    res.send(users);
-  } catch (err) {
-    next(err);
-  }
-}
 
 async function getWallets(req, res, next) {
   try {
@@ -90,20 +82,6 @@ async function updateUser(req, res) {
   }
 }
 
-async function addWallet(req, res, next) {
-  try {
-    const user = await User.findById(req.userId);
-    console.log(user);
-    console.log(req.walletId);
-    user.wallets.push(req.walletId);
-    await user.save();
-    const resUser = await User.findById(req.userId).populate("wallet");
-    res.json({ walletId: req.walletId, userInfo: resUser });
-  } catch (error) {
-    next(error);
-  }
-}
-
 async function deleteUser(req, res) {
   try {
     /* TODO  Viene de middleware cookie parser luego*/
@@ -163,7 +141,6 @@ module.exports = {
   login,
   logout,
   updateUser,
-  addWallet,
   deleteUser,
   createSection,
   getWalletsId,

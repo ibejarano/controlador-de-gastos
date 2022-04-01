@@ -7,8 +7,6 @@ router.get("/budgets", User.getBudgets);
 
 router.put("/", User.updateUser);
 
-router.put("/:id/:wallet", User.addWallet);
-
 router.get("/logout", User.logout);
 
 router.get("/wallets", User.getWalletsId);

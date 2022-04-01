@@ -33,12 +33,10 @@ async function createExpense(expenseData, walletId) {
 }
 
 async function create(data) {
-  const { balance, name, description, currency } = data;
+  const { name, description } = data;
   const wallet = new Wallet({
-    balance,
     name,
     description,
-    currency,
   });
   const savedWallet = await wallet.save();
   return savedWallet;
@@ -61,7 +59,7 @@ async function updateBalance(id, amount, expensesId = null) {
 
 async function changeName(id, name) {
   const wallet = await Wallet.findById(id);
-  wallet.name = name
+  wallet.name = name;
   const savedWallet = await wallet.save();
   if (!wallet) {
     const error = new Error("Error al actualizar balance");
@@ -87,5 +85,5 @@ module.exports = {
   getById,
   updateBalance,
   deleteById,
-  changeName
+  changeName,
 };
