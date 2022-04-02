@@ -14,7 +14,7 @@ import {
   HStack,
 } from "@chakra-ui/react";
 
-import ExpensesTable from "./ExpensesTable"
+import ExpensesTable from "./ExpensesTable";
 
 import { useUser } from "../context/UserContext";
 
@@ -36,10 +36,10 @@ export default function WalletContainer({ wallets }) {
   return (
     <Accordion allowMultiple>
       {wallets.map((wallet) => (
-        <AccordionItem>
+        <AccordionItem key={wallet._id}>
           <AccordionItem>
             <AccordionButton>
-              <Wallet key={wallet._id} wallet={wallet} />
+              <Wallet wallet={wallet} />
             </AccordionButton>
             <AccordionPanel>
               <Text>{wallet.description}</Text>

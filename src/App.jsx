@@ -8,35 +8,34 @@ import {
 import { ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
-import MainContainer from "./components/MainContainer";
 import LoginPage from "./pages/LoginPage";
 // import RegisterPage from "./pages/RegisterPage";
 import Home from "./pages/Home";
-import ConfigPage from "./pages/ConfigPage";
-import BudgetPage from "./pages/Budget";
-import Logout from "./pages/Logout";
-import Info from "./pages/Info";
+// import ConfigPage from "./pages/ConfigPage";
+// import BudgetPage from "./pages/Budget";
+// import Logout from "./pages/Logout";
+// import Info from "./pages/Info";
 import Navbar from "./components/Navbar";
+import TitleBar from "./components/TitleBar"
 
 import { UserProvider, useUser } from "./context/UserContext";
 
 function App() {
   return (
     <Router>
-      {/* <MainContainer> */}
-        <UserProvider>
-          <Switch>
-            {/* <Route exact path="/register">
+      <UserProvider>
+        <TitleBar title="Bienvenido" />
+        <Switch>
+          {/* <Route exact path="/register">
               <RegisterPage />
             </Route> */}
-            <Route exact path="/">
-              <LoginPage />
-            </Route>
-            <PrivateRoutes />
-          </Switch>
-        </UserProvider>
-        <ToastContainer />
-      {/* </MainContainer> */}
+          <Route exact path="/">
+            <LoginPage />
+          </Route>
+          <PrivateRoutes />
+        </Switch>
+      </UserProvider>
+      <ToastContainer />
     </Router>
   );
 }
@@ -48,11 +47,11 @@ function PrivateRoutes() {
   if (!loggedIn) return <Redirect to="/" />;
   return (
     <React.Fragment>
-      <Route path="/config">
-        <ConfigPage />
-      </Route>
       <Route exact path="/wallets">
         <Home />
+      </Route>
+      {/* <Route path="/config">
+        <ConfigPage />
       </Route>
       <Route exact path="/logout">
         <Logout />
@@ -62,7 +61,7 @@ function PrivateRoutes() {
       </Route>
       <Route exact path="/info">
         <Info />
-      </Route>
+      </Route> */}
       <Navbar />
     </React.Fragment>
   );
