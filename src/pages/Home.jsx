@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 
 import { useUser } from "../context/UserContext";
+
 import WalletContainer from "../components/WalletContainer";
-import WalletDetails from "../components/WalletDetails";
 
 import { getWallets } from "../helpers/requests";
 
@@ -25,13 +25,7 @@ export default function HomePage() {
   }, [refresh, openWallet, dispatch]);
   return (
     <React.Fragment>
-      {wallets && (
-        <React.Fragment>
-          {wallets.map((wallet) => (
-            <WalletContainer key={wallet._id} wallet={wallet} />
-          ))}
-        </React.Fragment>
-      )}
+      {wallets && <WalletContainer wallets={wallets} />}
     </React.Fragment>
   );
 }

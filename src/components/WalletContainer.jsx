@@ -5,38 +5,44 @@ import {
   Flex,
   Spacer,
   Box,
-  VStack,
   Text,
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  AccordionIcon,
+  HStack,
 } from "@chakra-ui/react";
 
 import { useUser } from "../context/UserContext";
 
-export default function WalletContainer({ wallet }) {
-  const { dispatch } = useUser();
-
-  const openWallet = async (walletId) => {
-    dispatch({
-      type: "open-wallet",
-      payload: { name: wallet.name, id: walletId },
-    });
-  };
-
-  const { _id, name, description, balance } = wallet;
+const Wallet = ({ wallet }) => {
+  const { name, balance } = wallet;
 
   return (
-    <Flex maxW="800px" border="1px solid black" p="4">
-      <Box>
-        <Heading size="md">{name}</Heading>
-        <Text size="sm">{description}</Text>
-      </Box>
-      <Spacer />
-      <Box minW="100px">
-        <Heading size="md">Balance:</Heading>
-        <Heading size="md">${balance}</Heading>
-      </Box>
-      <Spacer />
-      <Button onClick={() => openWallet(_id)}>Ver detalles</Button>
-      <Button>Opciones*</Button>
-    </Flex>
+    <HStack>
+      <Heading size="sm">{name}</Heading>
+      <Heading size="sm">Balance:</Heading>
+      <Heading size="sm">${balance}</Heading>
+    </HStack>
+  );
+};
+
+export default function WalletContainer({ wallets }) {
+  const { dispatch } = useUser();
+
+  return (
+    <Accordion allowMultiple>
+      {wallets.map((wallet) => (
+        <AccordionItem>
+          <AccordionItem>
+            <AccordionButton>
+              <Wallet key={wallet._id} wallet={wallet} />
+            </AccordionButton>
+            <AccordionPanel>{wallet.description}</AccordionPanel>
+          </AccordionItem>
+        </AccordionItem>
+      ))}
+    </Accordion>
   );
 }
