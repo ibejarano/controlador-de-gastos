@@ -30,13 +30,26 @@ export default function AddExpense({ onClose, btnRef, isOpen, wallets }) {
     setExpense((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  const handleSubmitAndClose = async () => {
+    const { walletId, description, amount } = expense;
+    const { data } = await addExpense(walletId, { description, amount });
+    if (true) {
+      const { wallet } = data;
+      dispatch({ type: "update-wallet", payload: wallet });
+      setExpense(INITIAL_EXPENSE);
+      onClose();
+    } else {
+      alert("ERROR");
+    }
+  };
+
   const handleSubmit = async () => {
     const { walletId, description, amount } = expense;
     const { data } = await addExpense(walletId, { description, amount });
     if (true) {
       const { wallet } = data;
       dispatch({ type: "update-wallet", payload: wallet });
-      onClose();
+      setExpense(INITIAL_EXPENSE);
     } else {
       alert("ERROR");
     }
@@ -90,7 +103,9 @@ export default function AddExpense({ onClose, btnRef, isOpen, wallets }) {
           <Button colorScheme="blue" mr={3} onClick={handleSubmit}>
             Guardar
           </Button>
-          <Button colorScheme="blue">Guardar y Cerrar</Button>
+          <Button colorScheme="blue" onClick={handleSubmitAndClose}>
+            Guardar y Cerrar
+          </Button>
         </DrawerFooter>
       </DrawerContent>
     </Drawer>
