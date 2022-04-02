@@ -13,10 +13,9 @@ import LoginPage from "./pages/LoginPage";
 import Home from "./pages/Home";
 // import ConfigPage from "./pages/ConfigPage";
 // import BudgetPage from "./pages/Budget";
-// import Logout from "./pages/Logout";
 // import Info from "./pages/Info";
 import Navbar from "./components/Navbar";
-import TitleBar from "./components/TitleBar"
+import TitleBar from "./components/TitleBar";
 
 import { UserProvider, useUser } from "./context/UserContext";
 
@@ -52,9 +51,6 @@ function PrivateRoutes() {
       </Route>
       {/* <Route path="/config">
         <ConfigPage />
-      </Route>
-      <Route exact path="/logout">
-        <Logout />
       </Route>
       <Route exact path="/budgets">
         <BudgetPage />
