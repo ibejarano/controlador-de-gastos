@@ -2,11 +2,11 @@ import React from "react";
 import { Table, Thead, Tbody, Tr, Th, Td } from "@chakra-ui/react";
 
 const ExpensesTable = ({ expenses }) => (
-  <Table>
+  <Table maxW="100%" size="sm">
     <Thead>
       <Tr>
-        <Th>Descripcion</Th>
-        <Th>Monto $</Th>
+        <Th>Descr.</Th>
+        <Th isNumeric>$</Th>
         <Th>Seccion</Th>
         <Th>Fecha</Th>
       </Tr>
