@@ -1,107 +1,98 @@
 import React, { useState } from "react";
-import styled from "styled-components";
-
-import Button from "../components/common/Button";
-import Dropdown from "../components/common/Dropdown"
+import {
+  Drawer,
+  DrawerBody,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  Button,
+  Input,
+  Select,
+} from "@chakra-ui/react";
 
 import { addExpense } from "../helpers/requests";
-import { DualRing } from "react-spinners-css";
-
 import { useUser } from "../context/UserContext";
 
-const StyledForm = styled.form`
-  background: ${(props) => props.theme.color.yellowText};
-  display: flex;
-  flex-flow: column nowrap;
-  padding: 1em;
-  border-radius: 1em;
-  margin: 0 24px;
-  label {
-    font-weight: bold;
-    margin: 8px 0;
-  }
-
-  button {
-    margin: 8px 0;
-  }
-
-  input {
-    background: ${(props) => props.theme.color.mainBackground};
-    color: ${(props) => props.theme.color.yellowText};
-    font-size: 16px;
-    padding: 8px 4px;
-  }
-`;
-
-const SubmitButton = ({ isSubmitting }) => {
-  return (
-    <Button type="submit">
-      {isSubmitting ? (
-        <DualRing style={{ padding: 0, marginTop: 0 }} size={25} />
-      ) : (
-        "Agregar"
-      )}
-    </Button>
-  );
+const INITIAL_EXPENSE = {
+  amount: "",
+  description: "",
+  walletId: "",
 };
 
-const AddExpense = ({ walletId, setWallet, toggleModal, isIncome = false }) => {
-  const {
-    user: { sectionsSaved },
-  } = useUser();
-  const [fields, setFields] = useState({
-    description: "papa",
-    amount: 150,
-    section: "comida",
-  });
-  const { description, amount, section } = fields;
-  const [isSubmitting, setIsSubmitting] = useState(false);
+export default function AddExpense({ onClose, btnRef, isOpen, wallets }) {
+  const { dispatch } = useUser();
+  const [expense, setExpense] = useState(INITIAL_EXPENSE);
 
   const handleChange = (e) => {
-    setFields({ ...fields, [e.target.name]: e.target.value });
+    e.persist();
+    setExpense((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = async () => {
+    const { walletId, description, amount } = expense;
+    const { data } = await addExpense(walletId, { description, amount });
+    if (true) {
+      const { wallet } = data;
+      dispatch({ type: "update-wallet", payload: wallet });
+      onClose();
+    } else {
+      alert("ERROR");
+    }
   };
 
   return (
-    <StyledForm
-      onSubmit={async (e) => {
-        e.preventDefault();
-        setIsSubmitting(true);
-        fields["amount"] = isIncome ? fields["amount"] : -1 * fields["amount"];
-        const { data, err } = await addExpense(walletId, fields);
-        if (err) {
-          alert(err.response.data.error);
-        } else {
-          setWallet(data.wallet);
-        }
-        setIsSubmitting(false);
-        toggleModal(false);
-      }}
+    <Drawer
+      isOpen={isOpen}
+      placement="bottom"
+      onClose={onClose}
+      finalFocusRef={btnRef}
     >
-      <h3>{isIncome ? "Nuevo ingreso" : "Nuevo gasto"}</h3>
-      <label>Descripcion</label>
-      <input
-        name="description"
-        value={description}
-        type="text"
-        onChange={handleChange}
-      />
-      <label>Monto</label>
-      <input
-        name="amount"
-        value={amount}
-        type="number"
-        onChange={handleChange}
-      />
-      <label>Seccion</label>
-      <Dropdown
-        options={sectionsSaved}
-        value={section}
-        handleChange={handleChange}
-      />
-      <SubmitButton isSubmitting={isSubmitting} />
-      <Button onClick={() => toggleModal(false)}>Cancelar</Button>
-    </StyledForm>
-  );
-};
+      <DrawerOverlay />
+      <DrawerContent>
+        <DrawerCloseButton />
+        <DrawerHeader>Nuevo gasto</DrawerHeader>
 
-export default AddExpense;
+        <DrawerBody>
+          <Select
+            placeholder="Seleccione billetera"
+            onChange={handleChange}
+            value={expense.walletId}
+            name="walletId"
+          >
+            {wallets.map((w, idx) => (
+              <option key={w._id} value={w._id}>
+                {idx + 1} - {w.name}
+              </option>
+            ))}
+          </Select>
+          <Input
+            placeholder="Descripcion"
+            name="description"
+            onChange={handleChange}
+            type="text"
+            value={expense.description}
+          />
+          <Input
+            placeholder="Monto $"
+            name="amount"
+            onChange={handleChange}
+            type="number"
+            value={expense.amount}
+          />
+        </DrawerBody>
+
+        <DrawerFooter>
+          <Button variant="outline" mr={3} onClick={onClose}>
+            Cancelar
+          </Button>
+          <Button colorScheme="blue" mr={3} onClick={handleSubmit}>
+            Guardar
+          </Button>
+          <Button colorScheme="blue">Guardar y Cerrar</Button>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
+  );
+}

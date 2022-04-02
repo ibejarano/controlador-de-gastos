@@ -9,11 +9,21 @@ export default function UserReducer(state, action) {
         ...action.payload,
         title: homeTitle,
         refresh: true,
+        wallets: [],
       };
       sessionStorage.setItem("expenses-user", JSON.stringify(newState));
       return { ...newState };
+    case "set-wallets":
+      return { ...state, wallets: action.payload };
     case "update-wallet":
-      return { ...state, refresh: true };
+      const updatedWallet = action.payload;
+      const ind = state.wallets
+        .map((wall) => wall._id)
+        .indexOf(updatedWallet._id);
+      const updatedWallets = [...state.wallets];
+      updatedWallets[ind] = updatedWallet;
+
+      return { ...state, wallets: updatedWallets };
     case "set-budgets":
       return { ...state, budgets: action.payload };
     case "update-wallet-budget":

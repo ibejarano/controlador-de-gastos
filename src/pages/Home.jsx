@@ -1,31 +1,51 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { Button, useDisclosure } from "@chakra-ui/react";
+import { AddIcon } from "@chakra-ui/icons";
 
 import { useUser } from "../context/UserContext";
 
 import WalletContainer from "../components/WalletContainer";
 
 import { getWallets } from "../helpers/requests";
+import AddExpense from "../components/AddExpense";
 
 export default function HomePage() {
   const {
-    user: { refresh, title, openWallet, walletId },
+    user: { wallets },
     dispatch,
   } = useUser();
-  const [wallets, setWallets] = useState([]);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const btnRef = useRef();
 
   useEffect(() => {
     async function fetchWallets() {
       const { data } = await getWallets();
-      setWallets(data);
+      dispatch({ type: "set-wallets", payload: data });
     }
-    if (refresh) {
-      fetchWallets();
-      dispatch({ type: "update-wallet" });
-    }
-  }, [refresh, openWallet, dispatch]);
+    fetchWallets();
+  }, [dispatch]);
+
   return (
     <React.Fragment>
       {wallets && <WalletContainer wallets={wallets} />}
+      <Button
+        pos="fixed"
+        bottom="10vh"
+        left="60%"
+        leftIcon={<AddIcon />}
+        colorScheme="teal"
+        variant="solid"
+        ref={btnRef}
+        onClick={onOpen}
+      >
+        Nuevo Gasto
+      </Button>
+      <AddExpense
+        isOpen={isOpen}
+        onClose={onClose}
+        btnRef={btnRef}
+        wallets={wallets}
+      />
     </React.Fragment>
   );
 }
