@@ -36,9 +36,9 @@ export default function WalletContainer({ wallets }) {
   return (
     <Accordion allowMultiple>
       {wallets.map((wallet) => (
-        <AccordionItem key={wallet._id}>
+        <AccordionItem key={wallet._id} shadow="md" m="10px 10px" borderRadius="20px">
           <AccordionItem>
-            <AccordionButton>
+            <AccordionButton  borderRadius="20px">
               <Wallet wallet={wallet} />
             </AccordionButton>
             <AccordionPanel>
