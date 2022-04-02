@@ -1,6 +1,6 @@
 const { WalletServices, UserServices } = require("../services");
 
-async function getWalletInfo(req, res, next) {
+async function getWalletById(req, res, next) {
   try {
     const { id } = req.params;
     const { section } = req.query;
@@ -73,6 +73,6 @@ module.exports = {
   updateWalletBalance,
   deleteWallet,
   addExpense,
-  getWalletInfo,
+  getWalletById,
   changeName
 };

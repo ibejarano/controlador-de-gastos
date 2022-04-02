@@ -5,7 +5,14 @@
 const { User } = require("../models");
 
 async function getWallets(id) {
-  const user = await User.findById(id).select("wallets").populate("wallets");
+  const user = await User.findById(id)
+    .select("wallets")
+    .populate({
+      path: "wallets",
+      populate: {
+        path: "expenses",
+      },
+    });
   return { user };
 }
 

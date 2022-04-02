@@ -3,7 +3,7 @@ const { Wallet } = require("../controllers");
 
 const router = express.Router();
 
-router.get("/:id", Wallet.getWalletInfo);
+router.get("/:id", Wallet.getWalletById);
 
 router.post("/new", Wallet.newWallet);
 
