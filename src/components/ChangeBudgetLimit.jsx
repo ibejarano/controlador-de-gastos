@@ -1,57 +1,96 @@
-import React, { useState, useEffect } from 'react';
-import { faPen } from "@fortawesome/free-solid-svg-icons";
+import React, { useState } from "react";
+import {
+  Drawer,
+  DrawerBody,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  Button,
+  Input,
+  Select,
+  Text,
+} from "@chakra-ui/react";
 
-import { toast } from "react-toastify"
-import TitleAndSubtitle from './common/TitleAndSubtitle';
-import ItemList from "./common/ItemList"
-import List from "./common/ListContainer"
+import { toast } from "react-toastify";
 
-import { getBudgets, configureBudget } from '../helpers/requests'
+import { configureBudget } from "../helpers/requests";
 
-function BudgetItem({ limit, section }) {
-    const handleChange = async () => {
-        const newLimit = parseFloat(window.prompt("Nuevo limite", limit))
-        if ((newLimit !== limit) & (newLimit > 0)) {
-            const { message } = await configureBudget(section, newLimit)
-            toast.success(message)
-        }
+export default function ChangeBudgetLimit({
+  onClose,
+  btnRef,
+  isOpen,
+  budgets,
+}) {
+  const [current, setCurrent] = useState({});
+
+  const handleChange = (e) => {
+    e.persist();
+    setCurrent((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleChangeSection = (e) => {
+    e.persist();
+    const idx = budgets.map((b) => b.section).indexOf(e.target.value);
+    const limit = budgets[idx].limit;
+    setCurrent((prev) => ({ ...prev, [e.target.name]: e.target.value, limit }));
+  };
+
+  const handleSubmit = async () => {
+    const { newLimit, limit, section } = current;
+    if ((newLimit !== limit) & (newLimit > 0)) {
+      const { message } = await configureBudget(section, newLimit);
+      toast.success(message);
     }
+  };
 
-    return (
-        <ItemList action={handleChange} icon={faPen}>
-            {section}
-        </ItemList>
-    )
-}
+  const { limit, newLimit, section } = current;
 
-export default function ChangeBudgetLimit() {
+  return (
+    <Drawer
+      isOpen={isOpen}
+      placement="bottom"
+      onClose={onClose}
+      finalFocusRef={btnRef}
+    >
+      <DrawerOverlay />
+      <DrawerContent>
+        <DrawerCloseButton />
+        <DrawerHeader>Cambiar limite de presupuesto</DrawerHeader>
 
-    const [budgets, setBudgets] = useState([])
+        <DrawerBody>
+          <Select
+            placeholder="Seleccione seccion"
+            onChange={handleChangeSection}
+            value={section}
+            name="section"
+          >
+            {budgets.map((budget, idx) => (
+              <option key={budget.section} value={budget.section}>
+                {idx + 1} - {budget.section}
+              </option>
+            ))}
+          </Select>
+          <Text>Limite actual {limit}</Text>
+          <Input
+            placeholder="Nuevo limite"
+            name="newLimit"
+            onChange={handleChange}
+            type="number"
+            value={newLimit}
+          />
+        </DrawerBody>
 
-    useEffect(() => {
-        async function fetchData() {
-            const { data } = await getBudgets();
-            setBudgets(data);
-        }
-
-        fetchData()
-
-    }, []);
-
-    return (
-        <React.Fragment>
-            <TitleAndSubtitle title="Cambiar limite de presupuesto" />
-
-            {budgets &&
-                <List>
-                    {budgets.map(
-                        (b) => (
-                            <BudgetItem key={b._id} {...b} />
-                        ))
-                    }
-                </List>
-            }
-
-        </React.Fragment>
-    )
+        <DrawerFooter>
+          <Button variant="outline" mr={3} onClick={onClose}>
+            Cancelar
+          </Button>
+          <Button colorScheme="blue" mr={3} onClick={handleSubmit}>
+            Guardar
+          </Button>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
+  );
 }

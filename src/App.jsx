@@ -12,7 +12,7 @@ import LoginPage from "./pages/LoginPage";
 // import RegisterPage from "./pages/RegisterPage";
 import Home from "./pages/Home";
 // import ConfigPage from "./pages/ConfigPage";
-// import BudgetPage from "./pages/Budget";
+import BudgetPage from "./pages/Budget";
 // import Info from "./pages/Info";
 import Navbar from "./components/Navbar";
 import TitleBar from "./components/TitleBar";
@@ -49,11 +49,11 @@ function PrivateRoutes() {
       <Route exact path="/wallets">
         <Home />
       </Route>
-      {/* <Route path="/config">
-        <ConfigPage />
-      </Route>
       <Route exact path="/budgets">
         <BudgetPage />
+      </Route>
+      {/* <Route path="/config">
+        <ConfigPage />
       </Route>
       <Route exact path="/info">
         <Info />
