@@ -11,7 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 import LoginPage from "./pages/LoginPage";
 // import RegisterPage from "./pages/RegisterPage";
 import Home from "./pages/Home";
-// import ConfigPage from "./pages/ConfigPage";
+import ConfigPage from "./pages/ConfigPage";
 import BudgetPage from "./pages/Budget";
 // import Info from "./pages/Info";
 import Navbar from "./components/Navbar";
@@ -52,10 +52,10 @@ function PrivateRoutes() {
       <Route exact path="/budgets">
         <BudgetPage />
       </Route>
-      {/* <Route path="/config">
+      <Route path="/config">
         <ConfigPage />
       </Route>
-      <Route exact path="/info">
+      {/* <Route exact path="/info">
         <Info />
       </Route> */}
       <Navbar />

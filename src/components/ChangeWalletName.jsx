@@ -1,64 +1,57 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 import { faPen } from "@fortawesome/free-solid-svg-icons";
 
-import TitleAndSubtitle from './common/TitleAndSubtitle';
-import ItemList from "./common/ItemList"
-import List from "./common/ListContainer"
-
-import { getWallets, changeWalletName } from '../helpers/requests'
-import { toast } from 'react-toastify';
+import { getWallets, changeWalletName } from "../helpers/requests";
+import { toast } from "react-toastify";
 
 function WalletItem({ _id, name, setWallets, idx }) {
-    const handleChange = async () => {
-        const newName = window.prompt("Nuevo nombre", name)
+  const handleChange = async () => {
+    const newName = window.prompt("Nuevo nombre", name);
 
-        if (newName) {
-            const { data } = await changeWalletName(_id, newName)
-            setWallets(prev => {
-                prev[idx] = data;
-                return [...prev]
-            })
-            toast.success("Nombre cambiado correctamente.")
-        }
+    if (newName) {
+      const { data } = await changeWalletName(_id, newName);
+      setWallets((prev) => {
+        prev[idx] = data;
+        return [...prev];
+      });
+      toast.success("Nombre cambiado correctamente.");
     }
+  };
 
-    return (
-        <ItemList action={handleChange} icon={faPen}>
-            {name}
-        </ItemList>
-    )
+  return (
+    <li action={handleChange} icon={faPen}>
+      {name}
+    </li>
+  );
 }
 
 export default function DeleteWallet() {
+  const [wallets, setWallets] = useState([]);
 
-    const [wallets, setWallets] = useState([])
+  useEffect(() => {
+    async function fetchWallets() {
+      const { data } = await getWallets();
+      setWallets(data);
+    }
 
-    useEffect(() => {
-        async function fetchWallets() {
-            const { data } = await getWallets();
-            setWallets(data);
-        }
+    fetchWallets();
+  }, []);
 
-        fetchWallets()
-
-    }, []);
-
-
-    return (
-        <React.Fragment>
-            <TitleAndSubtitle title="Cambiar nombre de billetera" />
-
-            {wallets &&
-                <List>
-
-                    {wallets.map((wallet, idx) => (
-                        <WalletItem key={wallet._id} setWallets={setWallets} {...wallet} idx={idx} />
-                    ))}
-                </List>
-
-            }
-
-        </React.Fragment>
-    )
+  return (
+    <React.Fragment>
+      {wallets && (
+        <ul>
+          {wallets.map((wallet, idx) => (
+            <WalletItem
+              key={wallet._id}
+              setWallets={setWallets}
+              {...wallet}
+              idx={idx}
+            />
+          ))}
+        </ul>
+      )}
+    </React.Fragment>
+  );
 }
