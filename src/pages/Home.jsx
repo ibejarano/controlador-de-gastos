@@ -11,7 +11,7 @@ import AddExpense from "../components/AddExpense";
 
 export default function HomePage() {
   const {
-    user: { wallets },
+    user: { wallets, sectionsSaved },
     dispatch,
   } = useUser();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -45,6 +45,7 @@ export default function HomePage() {
         onClose={onClose}
         btnRef={btnRef}
         wallets={wallets}
+        sections={sectionsSaved}
       />
     </React.Fragment>
   );

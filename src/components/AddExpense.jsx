@@ -21,7 +21,13 @@ const INITIAL_EXPENSE = {
   walletId: "",
 };
 
-export default function AddExpense({ onClose, btnRef, isOpen, wallets }) {
+export default function AddExpense({
+  onClose,
+  btnRef,
+  isOpen,
+  wallets,
+  sections,
+}) {
   const { dispatch } = useUser();
   const [expense, setExpense] = useState(INITIAL_EXPENSE);
 
@@ -30,23 +36,14 @@ export default function AddExpense({ onClose, btnRef, isOpen, wallets }) {
     setExpense((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmitAndClose = async () => {
-    const { walletId, description, amount } = expense;
-    const { data } = await addExpense(walletId, { description, amount });
-    if (true) {
-      const { wallet } = data;
-      dispatch({ type: "update-wallet", payload: wallet });
-      setExpense(INITIAL_EXPENSE);
-      onClose();
-    } else {
-      alert("ERROR");
-    }
-  };
-
   const handleSubmit = async () => {
-    const { walletId, description, amount } = expense;
-    const { data } = await addExpense(walletId, { description, amount });
-    if (true) {
+    const { walletId, description, amount, section } = expense;
+    const { data } = await addExpense(walletId, {
+      description,
+      amount,
+      section,
+    });
+    if (data) {
       const { wallet } = data;
       dispatch({ type: "update-wallet", payload: wallet });
       setExpense(INITIAL_EXPENSE);
@@ -94,6 +91,18 @@ export default function AddExpense({ onClose, btnRef, isOpen, wallets }) {
             type="number"
             value={expense.amount}
           />
+          <Select
+            placeholder="Seleccione seccion"
+            onChange={handleChange}
+            value={expense.section}
+            name="section"
+          >
+            {sections.map((s, idx) => (
+              <option key={idx} value={s}>
+                {s}
+              </option>
+            ))}
+          </Select>
         </DrawerBody>
 
         <DrawerFooter>
@@ -103,7 +112,13 @@ export default function AddExpense({ onClose, btnRef, isOpen, wallets }) {
           <Button colorScheme="blue" mr={3} onClick={handleSubmit}>
             Guardar
           </Button>
-          <Button colorScheme="blue" onClick={handleSubmitAndClose}>
+          <Button
+            colorScheme="blue"
+            onClick={async () => {
+              await handleSubmit();
+              onClose();
+            }}
+          >
             Guardar y Cerrar
           </Button>
         </DrawerFooter>

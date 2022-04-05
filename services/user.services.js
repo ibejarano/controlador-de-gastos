@@ -127,9 +127,8 @@ async function updateBudget(userId, expenses) {
     return {};
   }
   const amount = parseInt(expenses.amount);
-  if (amount < 0) {
-    user.budgets[indexOfBudget].current += -amount;
-  }
+  user.budgets[indexOfBudget].current += amount;
+
   await user.save();
   return user.budgets[indexOfBudget];
 }
