@@ -1,6 +1,6 @@
 import React from "react";
-import { Switch, Route, Link as RouterLink } from "react-router-dom";
-import { Link, Heading, Box } from "@chakra-ui/react";
+import { Switch, Route } from "react-router-dom";
+import { Heading, Box } from "@chakra-ui/react";
 
 import AddWallet from "../components/AddWallet";
 import DeleteWallet from "../components/DeleteWallet";
