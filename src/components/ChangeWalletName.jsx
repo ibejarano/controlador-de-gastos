@@ -31,7 +31,6 @@ export default function DeleteWallet() {
   };
 
   const handleSubmit = async () => {
-    alert(JSON.stringify(currentWallet));
     const { _id, name, description } = currentWallet;
     const { err } = await changeWalletName(_id, { name, description });
     if (err) {

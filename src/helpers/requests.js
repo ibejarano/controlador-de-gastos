@@ -32,7 +32,7 @@ export async function changeWalletName(walletId, fields) {
     const { data } = await transport.put(
       `${endpoint}/wallet/${walletId}/change-name`,
       {
-        name: fields.name,
+        ...fields,
       }
     );
     return { data };

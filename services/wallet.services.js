@@ -57,9 +57,10 @@ async function updateBalance(id, amount, expensesId = null) {
   return savedWallet;
 }
 
-async function changeName(id, name) {
+async function changeName(id, fields) {
   const wallet = await Wallet.findById(id);
-  wallet.name = name;
+  wallet.name = fields.name;
+  wallet.description = fields.description;
   const savedWallet = await wallet.save();
   if (!wallet) {
     const error = new Error("Error al actualizar balance");

@@ -35,8 +35,8 @@ async function updateWalletBalance(req, res, next) {
 async function changeName(req, res, next) {
   try {
     const { id } = req.params;
-    const { name } = req.body;
-    const wallet = await WalletServices.changeName(id, name);
+    const { name, description } = req.body;
+    const wallet = await WalletServices.changeName(id, { name, description });
     res.json(wallet);
   } catch (error) {
     next(error);
@@ -74,5 +74,5 @@ module.exports = {
   deleteWallet,
   addExpense,
   getWalletById,
-  changeName
+  changeName,
 };
