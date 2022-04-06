@@ -1,57 +1,103 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import {
+  VStack,
+  Flex,
+  Input,
+  Heading,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  Button,
+} from "@chakra-ui/react";
 
-import { faPen } from "@fortawesome/free-solid-svg-icons";
-
-import { getWallets, changeWalletName } from "../helpers/requests";
+import { changeWalletName } from "../helpers/requests";
 import { toast } from "react-toastify";
-
-function WalletItem({ _id, name, setWallets, idx }) {
-  const handleChange = async () => {
-    const newName = window.prompt("Nuevo nombre", name);
-
-    if (newName) {
-      const { data } = await changeWalletName(_id, newName);
-      setWallets((prev) => {
-        prev[idx] = data;
-        return [...prev];
-      });
-      toast.success("Nombre cambiado correctamente.");
-    }
-  };
-
-  return (
-    <li action={handleChange} icon={faPen}>
-      {name}
-    </li>
-  );
-}
+import { useUser } from "../context/UserContext";
 
 export default function DeleteWallet() {
-  const [wallets, setWallets] = useState([]);
+  const {
+    user: { wallets },
+    dispatch,
+  } = useUser();
 
-  useEffect(() => {
-    async function fetchWallets() {
-      const { data } = await getWallets();
-      setWallets(data);
+  const handleChange = (e) => {
+    e.persist();
+    setCurrentWallet((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = async () => {
+    alert(JSON.stringify(currentWallet));
+    const { _id, name, description } = currentWallet;
+    const { err } = await changeWalletName(_id, { name, description });
+    if (err) {
+      toast.error("Algo salio mal...");
+    } else {
+      toast.success("Datos cambiados satisfactoriamente");
     }
+    onClose();
+  };
 
-    fetchWallets();
-  }, []);
+  const [currentWallet, setCurrentWallet] = useState({});
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const { name, description } = currentWallet;
 
   return (
     <React.Fragment>
       {wallets && (
-        <ul>
-          {wallets.map((wallet, idx) => (
-            <WalletItem
-              key={wallet._id}
-              setWallets={setWallets}
-              {...wallet}
-              idx={idx}
-            />
+        <VStack p="20px">
+          {wallets.map(({ description, name, _id }) => (
+            <Flex key={_id} justifyContent="space-between" w="100%">
+              <Heading size="md">{name}</Heading>
+              <Button
+                onClick={() => {
+                  setCurrentWallet({ name, description, _id });
+                  onOpen();
+                }}
+              >
+                Editar
+              </Button>
+            </Flex>
           ))}
-        </ul>
+        </VStack>
       )}
+      <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Modal Title</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Input
+              fontWeight="bold"
+              mb="1rem"
+              name="name"
+              type="text"
+              value={name}
+              onChange={handleChange}
+            />
+            <Input
+              fontWeight="bold"
+              mb="1rem"
+              name="description"
+              type="text"
+              value={description}
+              onChange={handleChange}
+            />
+          </ModalBody>
+
+          <ModalFooter>
+            <Button variant="ghost" mr={3} onClick={onClose}>
+              Close
+            </Button>
+            <Button onClick={handleSubmit}>Guardar</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </React.Fragment>
   );
 }

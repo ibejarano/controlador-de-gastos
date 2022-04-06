@@ -15,7 +15,9 @@ function ConfigOptions() {
       </Heading>
 
       <LinkCard to="/config/add_wallet">Agregar Billetera</LinkCard>
-      <LinkCard to="/config/change_wallet_name">Cambiar nombre</LinkCard>
+      <LinkCard to="/config/change_wallet_name">
+        Cambiar nombre y/o descripcion
+      </LinkCard>
 
       <LinkCard to="/config/delete_wallet">Eliminar </LinkCard>
 
