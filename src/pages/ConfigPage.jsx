@@ -1,37 +1,31 @@
 import React from "react";
-import { Switch, Route, Link } from "react-router-dom";
+import { Switch, Route, Link as RouterLink } from "react-router-dom";
+import { Link, Heading, Box } from "@chakra-ui/react";
 
 import AddWallet from "../components/AddWallet";
 import DeleteWallet from "../components/DeleteWallet";
 import ChangeWalletName from "../components/ChangeWalletName";
+import LinkCard from "../LinkCard";
 
 function ConfigOptions() {
   return (
-    <div>
-      <h1>Billeteras</h1>
+    <Box p="10px">
+      <Heading size="md" my="10px">
+        Billeteras
+      </Heading>
 
-      <ul>
-        <li>
-          <Link to="/config/add_wallet">Agregar billetera</Link>
-        </li>
-        <li>
-          <Link to="/config/change_wallet_name">
-            Cambiar nombre de billetera
-          </Link>
-        </li>
-        <li>
-          <Link to="/config/delete_wallet">Eliminar billetera</Link>
-        </li>
-      </ul>
-      <h1>Presupuestos</h1>
-      <ul>
-        <li>
-          <Link to="/config/change_budget_limit">
-            Cambiar limite de presupuesto
-          </Link>
-        </li>
-      </ul>
-    </div>
+      <LinkCard to="/config/add_wallet">Agregar Billetera</LinkCard>
+      <LinkCard to="/config/change_wallet_name">Cambiar nombre</LinkCard>
+
+      <LinkCard to="/config/delete_wallet">Eliminar </LinkCard>
+
+      <Heading size="md" my="10px">
+        Usuario
+      </Heading>
+      <LinkCard to="/config">Cambiar contraseña</LinkCard>
+      <LinkCard to="/config">Cambiar nombre</LinkCard>
+      <LinkCard to="/config">Eliminar cuenta</LinkCard>
+    </Box>
   );
 }
 

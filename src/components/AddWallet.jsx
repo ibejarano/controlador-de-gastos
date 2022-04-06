@@ -2,33 +2,30 @@ import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
 import { toast } from "react-toastify";
 
+import { Formik, Form, Field } from "formik";
+import { Container, Center } from "@chakra-ui/react";
 import { useUser } from "../context/UserContext";
 
 import { addWallet } from "../helpers/requests";
+import InputText from "./InputText";
+import Button from "./Button";
 
 export default function AddWallet() {
   const { dispatch } = useUser();
-  const [fields, setFields] = useState({
-    name: "TEST",
-    description: "TEST DESCRIPTION",
-    balance: 12200.0,
-  });
 
   const [redirect, setRedirect] = useState(null);
-  const { description, balance, currency, name } = fields;
-
-  const handleChange = (e) => {
-    setFields({ ...fields, [e.target.name]: e.target.value });
-  };
 
   return redirect ? (
     <Redirect to={redirect} />
   ) : (
-    <React.Fragment>
-      <form
-        onSubmit={async (e) => {
-          e.preventDefault();
-          const { err, data } = await addWallet(fields);
+    <Container shadow="md" mx="4px">
+      <Formik
+        initialValues={{
+          name: "",
+          description: "",
+        }}
+        onSubmit={async (values, actions) => {
+          const { err, data } = await addWallet(values);
           if (err) {
             toast.error(err.response.data.error);
           } else {
@@ -36,30 +33,38 @@ export default function AddWallet() {
               type: "set-user",
               payload: data,
             });
+            actions.setSubmitting(false);
             setRedirect("/wallets");
           }
         }}
       >
-        <label>Nombre</label>
-        <input name="name" value={name} type="text" onChange={handleChange} />
-        <label>Descripcion</label>
-        <input
-          name="description"
-          value={description}
-          type="text"
-          onChange={handleChange}
-        />
-        <label>Monto Inicial</label>
-        <input
-          name="balance"
-          value={balance}
-          type="number"
-          onChange={handleChange}
-        />
-        <label>Seccion</label>
-
-        <button type="submit">Submit</button>
-      </form>
-    </React.Fragment>
+        {(props) => (
+          <Form>
+            <Field name="name">
+              {({ field }) => (
+                <InputText id="name" label="Nombre" fieldData={field} />
+              )}
+            </Field>
+            <Field name="description">
+              {({ field }) => (
+                <InputText
+                  id="description"
+                  label="Descripcion"
+                  fieldData={field}
+                />
+              )}
+            </Field>
+            <Center m="20px 0">
+              <Button
+                isLoading={props.isSubmitting}
+                type="submit"
+                primary
+                text="Agregar"
+              />
+            </Center>
+          </Form>
+        )}
+      </Formik>
+    </Container>
   );
 }

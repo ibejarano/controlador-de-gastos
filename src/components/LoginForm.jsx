@@ -14,7 +14,6 @@ export default function LoginRegisterForm({ submitLogin }) {
           password: "test",
         }}
         onSubmit={(values, actions) => {
-          alert(JSON.stringify(values, null, 2));
           submitLogin(values);
           actions.setSubmitting(false);
         }}
@@ -22,12 +21,12 @@ export default function LoginRegisterForm({ submitLogin }) {
         {(props) => (
           <Form>
             <Field name="email">
-              {({ field, form }) => (
+              {({ field }) => (
                 <InputText id="email" label="E-mail" fieldData={field} />
               )}
             </Field>
             <Field name="password">
-              {({ field, form }) => (
+              {({ field }) => (
                 <InputText id="password" label="Password" fieldData={field} />
               )}
             </Field>
