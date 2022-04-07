@@ -1,16 +1,11 @@
 import React from "react";
 import {
   Heading,
-  Button,
-  Flex,
-  Spacer,
-  Box,
   Text,
   Accordion,
   AccordionItem,
   AccordionButton,
   AccordionPanel,
-  AccordionIcon,
   HStack,
 } from "@chakra-ui/react";
 
@@ -36,9 +31,14 @@ export default function WalletContainer({ wallets }) {
   return (
     <Accordion allowMultiple>
       {wallets.map((wallet) => (
-        <AccordionItem key={wallet._id} shadow="md" m="10px 10px" borderRadius="20px">
+        <AccordionItem
+          key={wallet._id}
+          shadow="md"
+          m="10px 10px"
+          borderRadius="20px"
+        >
           <AccordionItem>
-            <AccordionButton  borderRadius="20px">
+            <AccordionButton borderRadius="20px">
               <Wallet wallet={wallet} />
             </AccordionButton>
             <AccordionPanel>

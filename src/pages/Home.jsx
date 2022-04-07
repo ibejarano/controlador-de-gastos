@@ -10,13 +10,11 @@ import { getWallets } from "../helpers/requests";
 import AddExpense from "../components/AddExpense";
 
 export default function HomePage() {
-  const {
-    user: { wallets, sectionsSaved },
-    dispatch,
-  } = useUser();
+  const { user, dispatch } = useUser();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef();
-
+  const { wallets, sectionsSaved, username } = user;
+  console.log();
   useEffect(() => {
     async function fetchWallets() {
       const { data } = await getWallets();

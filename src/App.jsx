@@ -23,7 +23,7 @@ function App() {
   return (
     <Router>
       <UserProvider>
-        <TitleBar title="Bienvenido" />
+        <TitleBar />
         <Switch>
           {/* <Route exact path="/register">
               <RegisterPage />
