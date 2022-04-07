@@ -14,13 +14,16 @@ export default function HomePage() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef();
   const { wallets, sectionsSaved, username } = user;
-  console.log();
   useEffect(() => {
     async function fetchWallets() {
+      console.log("fetching wallets");
       const { data } = await getWallets();
       dispatch({ type: "set-wallets", payload: data });
     }
-    fetchWallets();
+    if (wallets.length === 0) {
+      fetchWallets();
+    }
+    dispatch({ type: "set-title", payload: `Bienveni@ ${username}` });
   }, [dispatch]);
 
   return (

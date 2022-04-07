@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Switch, Route } from "react-router-dom";
 import { Heading, Box } from "@chakra-ui/react";
 
@@ -6,6 +6,7 @@ import AddWallet from "../components/AddWallet";
 import DeleteWallet from "../components/DeleteWallet";
 import ChangeWalletName from "../components/ChangeWalletName";
 import LinkCard from "../LinkCard";
+import { useUser } from "../context/UserContext";
 
 function ConfigOptions() {
   return (
@@ -30,6 +31,12 @@ function ConfigOptions() {
 }
 
 export default function ConfigPage() {
+  const { dispatch } = useUser();
+
+  useEffect(() => {
+    dispatch({ type: "set-title", payload: "Configuracion" });
+  }, []);
+
   return (
     <React.Fragment>
       <Switch>

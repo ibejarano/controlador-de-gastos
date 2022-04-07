@@ -6,7 +6,10 @@ import { getBudgets } from "../helpers/requests";
 import BudgetCard from "../components/BudgetCard";
 import ChangeBudgetLimit from "../components/ChangeBudgetLimit";
 
+import { useUser } from "../context/UserContext";
+
 export default function BudgetPage() {
+  const { dispatch } = useUser();
   const [budgets, setBudgets] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -18,6 +21,7 @@ export default function BudgetPage() {
       setBudgets(data);
     }
     if (isLoading) {
+      dispatch({ type: "set-title", payload: "Presupuestos" });
       fetchBudgets();
       setLoading(false);
     }

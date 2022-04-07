@@ -43,6 +43,7 @@ function PrivateRoutes() {
   const {
     user: { loggedIn },
   } = useUser();
+
   if (!loggedIn) return <Redirect to="/" />;
   return (
     <React.Fragment>
