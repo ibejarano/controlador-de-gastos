@@ -7,6 +7,7 @@ import DeleteWallet from "../components/DeleteWallet";
 import ChangeWalletName from "../components/ChangeWalletName";
 import LinkCard from "../LinkCard";
 import { useUser } from "../context/UserContext";
+import ChangePassword from "../components/ChangePassword";
 
 function ConfigOptions() {
   return (
@@ -19,13 +20,14 @@ function ConfigOptions() {
       <LinkCard to="/config/change_wallet_name">
         Administrar billeteras
       </LinkCard>
+      <LinkCard to="/config/delete_wallet">Eliminar billeteras</LinkCard>
 
       <Heading size="md" my="10px">
         Usuario
       </Heading>
-      <LinkCard to="/config">Cambiar contraseña</LinkCard>
-      <LinkCard to="/config">Cambiar nombre</LinkCard>
-      <LinkCard to="/config">Eliminar cuenta</LinkCard>
+      <LinkCard to="/config/change_password" variant="disabled">
+        Cambiar contraseña
+      </LinkCard>
     </Box>
   );
 }
@@ -45,6 +47,12 @@ export default function ConfigPage() {
         </Route>
         <Route exact path="/config/change_wallet_name">
           <ChangeWalletName />
+        </Route>
+        <Route exact path="/config/delete_wallet">
+          <DeleteWallet />
+        </Route>
+        <Route exact path="/config/change_password">
+          <ChangePassword />
         </Route>
         <Route path="/config">
           <ConfigOptions />

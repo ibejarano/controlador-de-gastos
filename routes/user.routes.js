@@ -6,12 +6,13 @@ router.get("/", User.getWallets);
 router.get("/budgets", User.getBudgets);
 
 router.put("/", User.updateUser);
+router.post("/change-password", User.changePassword);
 
 router.get("/logout", User.logout);
 
 router.get("/wallets", User.getWalletsId);
 
-router.post("/budget-limit", User.setBudgetLimit)
+router.post("/budget-limit", User.setBudgetLimit);
 
 router.delete("/", User.deleteUser);
 

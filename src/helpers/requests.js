@@ -113,6 +113,25 @@ export async function register(input) {
   }
 }
 
+export async function changePassword(inputs) {
+  try {
+    if (inputs.newPass !== inputs.newPassConfirmation) {
+      throw new Error("Los passwords nos coinciden");
+    }
+
+    const { data } = await transport.post(
+      `${endpoint}/user/change-password`,
+      inputs
+    );
+    return { data };
+  } catch (err) {
+    if (err.message) {
+      return { err: err.message };
+    }
+    return { err: err.response.data.error };
+  }
+}
+
 export async function configureBudget(section, limit) {
   try {
     const { data } = await transport.post(`${endpoint}/user/budget-limit`, {
