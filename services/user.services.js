@@ -50,6 +50,14 @@ async function login(data) {
   return { user, token };
 }
 
+async function changePassword(id, password, newPass) {
+  const { email } = await User.findById(id);
+  const user = await User.authenticate(email, password);
+  user.password = newPass;
+  await user.save();
+  return { user };
+}
+
 async function createSection(section, id) {
   const user = await User.findById(id);
   if (user.sectionsSaved.includes(section.toLowerCase())) {
@@ -146,4 +154,5 @@ module.exports = {
   updateBudget,
   setBudgetLimit,
   addWallet,
+  changePassword,
 };

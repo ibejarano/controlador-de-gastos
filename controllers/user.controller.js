@@ -121,14 +121,17 @@ async function createSection(req, res, next) {
 
 async function changePassword(req, res, next) {
   try {
-    const { newPass, newPassConfirmation } = req.body;
-    let message;
-    if (newPass == newPassConfirmation) {
-      message = "Changing password";
+    const { password, newPass, newPassConfirmation } = req.body;
+    if (newPass != newPassConfirmation) {
+      throw new Error("The passwords must be the same");
     } else {
-      message = "Check your new password";
+      const user = await UserServices.changePassword(
+        req.userId,
+        password,
+        newPass
+      );
+      res.json({ message: "Contraseña cambiada exitosamente." });
     }
-    res.json({ message, newPass, newPassConfirmation });
   } catch (error) {
     next(error);
   }
