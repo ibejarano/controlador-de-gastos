@@ -6,7 +6,6 @@ const COOKIESETTINGS = {
   httpOnly: true,
 };
 
-
 async function getWallets(req, res, next) {
   try {
     const {
@@ -120,6 +119,21 @@ async function createSection(req, res, next) {
   }
 }
 
+async function changePassword(req, res, next) {
+  try {
+    const { newPass, newPassConfirmation } = req.body;
+    let message;
+    if (newPass == newPassConfirmation) {
+      message = "Changing password";
+    } else {
+      message = "Check your new password";
+    }
+    res.json({ message, newPass, newPassConfirmation });
+  } catch (error) {
+    next(error);
+  }
+}
+
 /*Helpers functions */
 
 function checkUserIdProvided(clientReq) {
@@ -145,4 +159,5 @@ module.exports = {
   createSection,
   getWalletsId,
   setBudgetLimit,
+  changePassword,
 };

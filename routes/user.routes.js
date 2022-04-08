@@ -6,7 +6,7 @@ router.get("/", User.getWallets);
 router.get("/budgets", User.getBudgets);
 
 router.put("/", User.updateUser);
-router.post("/change-password", User.changePassword);
+router.put("/change-password", User.changePassword);
 
 router.get("/logout", User.logout);
 
