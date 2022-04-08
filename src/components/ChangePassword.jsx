@@ -13,9 +13,15 @@ export default function ChangePassword() {
   };
 
   const handleSubmit = async () => {
-    const { err } = await changePassword(password);
+    const { err, message } = await changePassword({
+      password: password.current,
+      newPass: password.newPass,
+      newPassConfirmation: password.newPassConfirmation,
+    });
     if (err) {
       toast.error(err);
+    } else {
+      toast.success(message);
     }
   };
 

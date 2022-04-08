@@ -25,9 +25,7 @@ function ConfigOptions() {
       <Heading size="md" my="10px">
         Usuario
       </Heading>
-      <LinkCard to="/config/change_password" variant="disabled">
-        Cambiar contraseña
-      </LinkCard>
+      <LinkCard to="/config/change_password">Cambiar contraseña</LinkCard>
     </Box>
   );
 }

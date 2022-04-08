@@ -1,3 +1,4 @@
+import { PinInputDescendantsProvider } from "@chakra-ui/react";
 import axios from "axios";
 
 const endpoint =
@@ -116,14 +117,13 @@ export async function register(input) {
 export async function changePassword(inputs) {
   try {
     if (inputs.newPass !== inputs.newPassConfirmation) {
-      throw new Error("Los passwords nos coinciden");
+      throw new Error("Los contraseñas deben coincidir");
     }
-
-    const { data } = await transport.post(
+    const { data } = await transport.put(
       `${endpoint}/user/change-password`,
       inputs
     );
-    return { data };
+    return data;
   } catch (err) {
     if (err.message) {
       return { err: err.message };
