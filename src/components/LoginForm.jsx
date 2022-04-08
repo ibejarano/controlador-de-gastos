@@ -1,41 +1,41 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
-import { Container, Center } from "@chakra-ui/react";
+import { Container, Center, Heading } from "@chakra-ui/react";
 
 import InputText from "./InputText";
 import Button from "./Button";
 
-export default function LoginRegisterForm({ submitLogin }) {
+export default function CustomForm({
+  submitAction,
+  form_vars,
+  initialValues = {},
+}) {
   return (
     <Container border="1px solid black" bg="teal">
+      <Heading>{form_vars.title}</Heading>
       <Formik
-        initialValues={{
-          email: "test1@test.com",
-          password: "test",
-        }}
+        initialValues={initialValues}
         onSubmit={(values, actions) => {
-          submitLogin(values);
+          actions.setSubmitting(true)
+          submitAction(values);
           actions.setSubmitting(false);
         }}
       >
         {(props) => (
           <Form>
-            <Field name="email">
-              {({ field }) => (
-                <InputText id="email" label="E-mail" fieldData={field} />
-              )}
-            </Field>
-            <Field name="password">
-              {({ field }) => (
-                <InputText id="password" label="Password" fieldData={field} />
-              )}
-            </Field>
+            {form_vars.fields.map((f) => (
+              <Field key={f.name} name={f.name}>
+                {({ field }) => (
+                  <InputText id={f.type} label={f.label} fieldData={field} />
+                )}
+              </Field>
+            ))}
             <Center m="20px 0">
               <Button
                 isLoading={props.isSubmitting}
                 type="submit"
                 primary
-                text="Ingresar"
+                text={form_vars.buttonText}
               />
             </Center>
           </Form>

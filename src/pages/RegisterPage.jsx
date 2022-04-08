@@ -1,22 +1,39 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+import { Redirect } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Redirect, Link } from "react-router-dom";
+
 import { register } from "../helpers/requests";
 import { useUser } from "../context/UserContext";
+import CustomForm from "../components/LoginForm";
 
-import TitleContainer from "../components/common/Title";
-import TitleAndSubtitle from "../components/common/TitleAndSubtitle";
-import Form from "../components/Form";
+const REGISTER_VARS = {
+  title: "Registro de nuevo usuario",
+  buttonText: "Registrar",
+  fields: [
+    {
+      name: "email",
+      label: "E-mail",
+      type: "text",
+    },
+    {
+      name: "username",
+      label: "Nombre de usuario",
+      type: "text",
+    },
+    {
+      name: "password",
+      label: "Contraseña",
+      type: "password",
+    },
+    {
+      name: "confPassword",
+      label: "Confirmar contraseña",
+      type: "password",
+    },
+  ],
+};
 
-const FormsContainer = styled.div`
-  display: flex;
-  flex-flow: column wrap;
-  justify-content: space-around;
-  align-items: center;
-`;
-
-const LoginPage = () => {
+const RegisterPage = () => {
   const [redirect, setRedirect] = useState(null);
   const { dispatch } = useUser();
 
@@ -38,22 +55,10 @@ const LoginPage = () => {
 
   return (
     <React.Fragment>
-      <TitleContainer title="Bienvenid@!" />
-      <FormsContainer>
-        <TitleAndSubtitle title="Registro" />
-        <Form
-          isSubmitting={isSubmitting}
-          onSubmit={submitRegister}
-          formId="register-form"
-          register
-        />
-        {redirect && <Redirect to={redirect} />}
-        <Link to="/login">
-          <TitleAndSubtitle title="Click aqui para logearse" />
-        </Link>
-      </FormsContainer>
+      <CustomForm submitAction={submitRegister} form_vars={REGISTER_VARS} />
+      {redirect && <Redirect to={redirect} />}
     </React.Fragment>
   );
 };
 
-export default LoginPage;
+export default RegisterPage;

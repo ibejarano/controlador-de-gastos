@@ -9,7 +9,7 @@ import { ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
 import LoginPage from "./pages/LoginPage";
-// import RegisterPage from "./pages/RegisterPage";
+import RegisterPage from "./pages/RegisterPage";
 import Home from "./pages/Home";
 import ConfigPage from "./pages/ConfigPage";
 import BudgetPage from "./pages/Budget";
@@ -25,9 +25,9 @@ function App() {
       <UserProvider>
         <TitleBar />
         <Switch>
-          {/* <Route exact path="/register">
+          <Route exact path="/register">
               <RegisterPage />
-            </Route> */}
+            </Route>
           <Route exact path="/">
             <LoginPage />
           </Route>
