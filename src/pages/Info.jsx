@@ -1,13 +1,29 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { Heading, List, ListItem, ListIcon, Box } from "@chakra-ui/react";
+import { PlusSquareIcon } from "@chakra-ui/icons";
 
-import TitleContainer from "../components/common/Title";
-import TitleAndSubtitle from "../components/common/TitleAndSubtitle";
+import { useUser } from "../context/UserContext";
 
-export default function HomePage() {
+export default function InfoPage() {
+  const { dispatch } = useUser();
+
+  useEffect(() => {
+    dispatch({ type: "set-title", payload: "Info" });
+  }, []);
+
   return (
-    <React.Fragment>
-      <TitleContainer title="Proximamente" />
-      <TitleAndSubtitle title="- Desktop Version" />
-    </React.Fragment>
+    <Box p="16px">
+      <Heading>Roadmap</Heading>
+      <List spacing={3}>
+        <ListItem>
+          <ListIcon as={PlusSquareIcon} color="green.500" />
+          Versión Desktop
+        </ListItem>
+        <ListItem>
+          <ListIcon as={PlusSquareIcon} color="green.500" />
+          Dividir Gastos por Mes
+        </ListItem>
+      </List>
+    </Box>
   );
 }

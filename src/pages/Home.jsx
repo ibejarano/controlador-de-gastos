@@ -23,7 +23,7 @@ export default function HomePage() {
     if (wallets.length === 0) {
       fetchWallets();
     }
-    dispatch({ type: "set-title", payload: `Bienveni@ ${username}` });
+    dispatch({ type: "set-title", payload: `Bienvenid@ ${username}` });
   }, [dispatch]);
 
   return (

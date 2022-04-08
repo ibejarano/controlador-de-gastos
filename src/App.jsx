@@ -13,7 +13,7 @@ import LoginPage from "./pages/LoginPage";
 import Home from "./pages/Home";
 import ConfigPage from "./pages/ConfigPage";
 import BudgetPage from "./pages/Budget";
-// import Info from "./pages/Info";
+import Info from "./pages/Info";
 import Navbar from "./components/Navbar";
 import TitleBar from "./components/TitleBar";
 
@@ -56,9 +56,9 @@ function PrivateRoutes() {
       <Route path="/config">
         <ConfigPage />
       </Route>
-      {/* <Route exact path="/info">
+      <Route exact path="/info">
         <Info />
-      </Route> */}
+      </Route>
       <Navbar />
     </React.Fragment>
   );
