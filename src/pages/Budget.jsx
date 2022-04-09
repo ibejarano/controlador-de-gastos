@@ -5,6 +5,7 @@ import { Button, useDisclosure } from "@chakra-ui/react";
 import { getBudgets } from "../helpers/requests";
 import BudgetCard from "../components/BudgetCard";
 import ChangeBudgetLimit from "../components/ChangeBudgetLimit";
+import LoadingScreen from "../components/Loading";
 
 import { useUser } from "../context/UserContext";
 
@@ -19,13 +20,15 @@ export default function BudgetPage() {
     async function fetchBudgets() {
       const { data } = await getBudgets();
       setBudgets(data);
-    }
-    if (isLoading) {
-      dispatch({ type: "set-title", payload: "Presupuestos" });
-      fetchBudgets();
       setLoading(false);
     }
+    if (isLoading) {
+      fetchBudgets();
+    }
+    dispatch({ type: "set-title", payload: "Presupuestos" });
   }, [dispatch, isLoading]);
+
+  if (isLoading) return <LoadingScreen />;
 
   return (
     <React.Fragment>

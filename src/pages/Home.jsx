@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button, useDisclosure } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 
@@ -8,9 +8,11 @@ import WalletContainer from "../components/WalletContainer";
 
 import { getWallets } from "../helpers/requests";
 import AddExpense from "../components/AddExpense";
+import LoadingScreen from "../components/Loading";
 
 export default function HomePage() {
   const { user, dispatch } = useUser();
+  const [isLoading, setLoading] = useState(true);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef();
   const { wallets, sectionsSaved, username } = user;
@@ -19,12 +21,15 @@ export default function HomePage() {
       console.log("fetching wallets");
       const { data } = await getWallets();
       dispatch({ type: "set-wallets", payload: data });
+      setLoading(false);
     }
-    if (wallets.length === 0) {
+    if (isLoading) {
       fetchWallets();
     }
     dispatch({ type: "set-title", payload: `Bienvenid@ ${username}` });
-  }, [dispatch, username, wallets]);
+  }, [dispatch, username, wallets, isLoading]);
+
+  if (isLoading) return <LoadingScreen />;
 
   return (
     <React.Fragment>
