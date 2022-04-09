@@ -26,6 +26,13 @@ export default function UserReducer(state, action) {
       updatedWallets[ind] = updatedWallet;
 
       return { ...state, wallets: updatedWallets };
+    case "update-wallet-fields":
+      const { name, description, _id } = action.payload;
+      const indF = state.wallets.map((wall) => wall._id).indexOf(_id);
+      const updatedWalletsF = [...state.wallets];
+      updatedWalletsF[indF].name = name;
+      updatedWalletsF[indF].description = description;
+      return { ...state, wallets: updatedWalletsF };
     case "set-budgets":
       return { ...state, budgets: action.payload };
     case "update-wallet-budget":

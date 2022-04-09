@@ -16,13 +16,14 @@ import {
   HStack,
 } from "@chakra-ui/react";
 
-import { changeWalletName, deleteWallet } from "../helpers/requests";
+import { changeWalletFields, deleteWallet } from "../helpers/requests";
 import { toast } from "react-toastify";
 import { useUser } from "../context/UserContext";
 
 export default function ManageWallets() {
   const {
     user: { wallets },
+    dispatch,
   } = useUser();
   const [currentWallet, setCurrentWallet] = useState({});
 
@@ -33,10 +34,11 @@ export default function ManageWallets() {
 
   const handleChangeWallet = async () => {
     const { _id, name, description } = currentWallet;
-    const { err } = await changeWalletName(_id, { name, description });
+    const { err, data } = await changeWalletFields(_id, { name, description });
     if (err) {
       toast.error("Algo salio mal...");
     } else {
+      dispatch({ type: "update-wallet-fields", payload: data });
       toast.success("Datos cambiados satisfactoriamente");
     }
     onClose();
