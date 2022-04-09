@@ -49,6 +49,7 @@ export default function BudgetPage() {
         btnRef={btnRef}
         isOpen={isOpen}
         budgets={budgets}
+        setBudgets={setBudgets}
       />
     </React.Fragment>
   );

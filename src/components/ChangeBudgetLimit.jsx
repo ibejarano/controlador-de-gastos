@@ -22,6 +22,7 @@ export default function ChangeBudgetLimit({
   btnRef,
   isOpen,
   budgets,
+  setBudgets,
 }) {
   const [current, setCurrent] = useState({});
 
@@ -40,8 +41,13 @@ export default function ChangeBudgetLimit({
   const handleSubmit = async () => {
     const { newLimit, limit, section } = current;
     if ((newLimit !== limit) & (newLimit > 0)) {
-      const { message } = await configureBudget(section, newLimit);
+      const {
+        message,
+        data: { budgets },
+      } = await configureBudget(section, newLimit);
+      setBudgets(budgets);
       toast.success(message);
+      onClose();
     }
   };
 
