@@ -3,8 +3,7 @@ import { Switch, Route } from "react-router-dom";
 import { Heading, Box } from "@chakra-ui/react";
 
 import AddWallet from "../components/AddWallet";
-import DeleteWallet from "../components/DeleteWallet";
-import ChangeWalletName from "../components/ChangeWalletName";
+import AdminWallets from "../components/AdminWallets";
 import LinkCard from "../LinkCard";
 import { useUser } from "../context/UserContext";
 import ChangePassword from "../components/ChangePassword";
@@ -17,9 +16,7 @@ function ConfigOptions() {
       </Heading>
 
       <LinkCard to="/config/add_wallet">Agregar Billetera</LinkCard>
-      <LinkCard to="/config/change_wallet_name">
-        Administrar billeteras
-      </LinkCard>
+      <LinkCard to="/config/admin_wallet">Administrar billeteras</LinkCard>
       <LinkCard to="/config/delete_wallet">Eliminar billeteras</LinkCard>
 
       <Heading size="md" my="10px">
@@ -43,11 +40,8 @@ export default function ConfigPage() {
         <Route exact path="/config/add_wallet">
           <AddWallet />
         </Route>
-        <Route exact path="/config/change_wallet_name">
-          <ChangeWalletName />
-        </Route>
-        <Route exact path="/config/delete_wallet">
-          <DeleteWallet />
+        <Route exact path="/config/admin_wallet">
+          <AdminWallets />
         </Route>
         <Route exact path="/config/change_password">
           <ChangePassword />
