@@ -107,7 +107,8 @@ export async function register(input) {
     return { data, message };
   } catch (err) {
     if (err.message) {
-      return { err: err.message };
+      console.log(err.message);
+      return { err };
     }
     return { err: err.response.data.error };
   }

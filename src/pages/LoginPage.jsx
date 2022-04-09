@@ -1,53 +1,77 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Redirect, Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { Formik, Form, Field } from "formik";
 
 import { login } from "../helpers/requests";
 import { useUser } from "../context/UserContext";
-import LoginForm from "../components/LoginForm";
-
-const LOGIN_VARS = {
-  title: "Bienvenid@!",
-  buttonText: "Ingresar",
-  fields: [
-    {
-      name: "email",
-      label: "E-mail",
-    },
-
-    {
-      name: "password",
-      label: "Contraseña",
-    },
-  ],
-};
+import {
+  Container,
+  Button,
+  Input,
+  FormControl,
+  FormLabel,
+} from "@chakra-ui/react";
 
 const LoginPage = () => {
   const [redirect, setRedirect] = useState(null);
   const { dispatch } = useUser();
 
-  const submitLogin = async (input) => {
-    const { data, err } = await login(input);
-    if (err) {
-      toast.error(err.message || err.response.data.error, {
-        position: "bottom-center",
-      });
-    } else {
-      dispatch({ type: "set-user", payload: data });
-      setRedirect("/wallets");
-    }
-  };
+  useEffect(() => {
+    dispatch({ type: "set-title", payload: "Ingreso" });
+  }, [dispatch]);
 
   return (
-    <React.Fragment>
-      <LoginForm
-        submitAction={submitLogin}
-        form_vars={LOGIN_VARS}
-        initialValues={{ email: "test1@test.com", password: "test" }}
-      />
+    <Container p="24px">
+      <Formik
+        initialValues={{ email: "test1@test.com", password: "terere" }}
+        onSubmit={(values, actions) => {
+          login(values).then(({ data, err }) => {
+            if (err) {
+              toast.error(err.message || err.response.data.error);
+            } else {
+              toast.success("Bienvenido! Redirigiendo...");
+              dispatch({ type: "set-user", payload: data });
+              setTimeout(() => {
+                setRedirect("/wallets");
+              }, 3000);
+            }
+            actions.setSubmitting(false);
+          });
+        }}
+      >
+        {(props) => (
+          <Form>
+            <Field name="email">
+              {({ field }) => (
+                <FormControl>
+                  <FormLabel htmlFor="email">E-mail</FormLabel>
+                  <Input {...field} id="email" placeholder="E-mail" />
+                </FormControl>
+              )}
+            </Field>
+            <Field name="password">
+              {({ field }) => (
+                <FormControl>
+                  <FormLabel htmlFor="password">Contraseña</FormLabel>
+                  <Input {...field} id="password" placeholder="Contraseña" />
+                </FormControl>
+              )}
+            </Field>
+            <Button
+              isLoading={props.isSubmitting}
+              colorScheme="teal"
+              type="submit"
+              my="8px"
+            >
+              Ingresar
+            </Button>
+          </Form>
+        )}
+      </Formik>
       {redirect && <Redirect to={redirect} />}
       <Link to="/register">Registrarse</Link>
-    </React.Fragment>
+    </Container>
   );
 };
 
