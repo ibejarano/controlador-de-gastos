@@ -46,10 +46,11 @@ export default function ManageWallets() {
 
   const handleDeleteWallet = async ({ name, _id }) => {
     if (window.confirm(`Eliminar billetera ${name}?`)) {
-      const { err } = await deleteWallet(_id);
+      const { err, data } = await deleteWallet(_id);
       if (err) {
         toast.error("Algo salio mal...");
       } else {
+        dispatch({ type: "set-wallets", payload: data });
         toast.success("Billetera eliminada");
       }
     }

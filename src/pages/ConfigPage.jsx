@@ -17,7 +17,6 @@ function ConfigOptions() {
 
       <LinkCard to="/config/add_wallet">Agregar Billetera</LinkCard>
       <LinkCard to="/config/admin_wallet">Administrar billeteras</LinkCard>
-      <LinkCard to="/config/delete_wallet">Eliminar billeteras</LinkCard>
 
       <Heading size="md" my="10px">
         Usuario
