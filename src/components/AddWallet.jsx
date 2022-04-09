@@ -46,17 +46,28 @@ export default function AddWallet() {
       }}
     >
       {(props) => (
-        <Container p="28px">
+        <Container p="28px" bg="tomato">
           <HStack>
-            <ChakraButton onClick={history.goBack} leftIcon={<ArrowBackIcon />} />
+            <ChakraButton
+              onClick={history.goBack}
+              leftIcon={<ArrowBackIcon />}
+            />
             <Heading size="sm">Agregar nueva billetera</Heading>
           </HStack>
           <Form>
             <Field name="name">
-              {({ field }) => <InputText id="name" fieldData={field} />}
+              {({ field }) => (
+                <InputText id="name" label="Nombre" fieldData={field} />
+              )}
             </Field>
             <Field name="description">
-              {({ field }) => <InputText id="description" fieldData={field} />}
+              {({ field }) => (
+                <InputText
+                  id="description"
+                  label="Descripcion"
+                  fieldData={field}
+                />
+              )}
             </Field>
             <Center m="20px 0">
               <Button
