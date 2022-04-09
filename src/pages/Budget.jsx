@@ -25,7 +25,7 @@ export default function BudgetPage() {
       fetchBudgets();
       setLoading(false);
     }
-  }, [isLoading]);
+  }, [dispatch, isLoading]);
 
   return (
     <React.Fragment>

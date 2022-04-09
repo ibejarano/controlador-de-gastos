@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { Button, useDisclosure } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 
@@ -24,7 +24,7 @@ export default function HomePage() {
       fetchWallets();
     }
     dispatch({ type: "set-title", payload: `Bienvenid@ ${username}` });
-  }, [dispatch]);
+  }, [dispatch, username, wallets]);
 
   return (
     <React.Fragment>

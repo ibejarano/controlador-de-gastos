@@ -9,7 +9,7 @@ export default function InfoPage() {
 
   useEffect(() => {
     dispatch({ type: "set-title", payload: "Info" });
-  }, []);
+  }, [dispatch]);
 
   return (
     <Box p="16px">

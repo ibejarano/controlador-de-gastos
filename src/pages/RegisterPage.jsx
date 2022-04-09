@@ -37,10 +37,7 @@ const RegisterPage = () => {
   const [redirect, setRedirect] = useState(null);
   const { dispatch } = useUser();
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
   const submitRegister = async (input) => {
-    setIsSubmitting(true);
     const { data, err } = await register(input);
     if (err) {
       toast.error(err.message || err.response.data.error, {
@@ -50,7 +47,6 @@ const RegisterPage = () => {
       dispatch({ type: "set-user", payload: data });
       setRedirect("/wallets");
     }
-    setIsSubmitting(false);
   };
 
   return (

@@ -11,8 +11,6 @@ import {
 
 import ExpensesTable from "./ExpensesTable";
 
-import { useUser } from "../context/UserContext";
-
 const Wallet = ({ wallet }) => {
   const { name, balance } = wallet;
 
@@ -26,8 +24,6 @@ const Wallet = ({ wallet }) => {
 };
 
 export default function WalletContainer({ wallets }) {
-  const { dispatch } = useUser();
-
   return (
     <Accordion allowMultiple>
       {wallets.map((wallet) => (

@@ -26,10 +26,7 @@ const LoginPage = () => {
   const [redirect, setRedirect] = useState(null);
   const { dispatch } = useUser();
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
   const submitLogin = async (input) => {
-    setIsSubmitting(true);
     const { data, err } = await login(input);
     if (err) {
       toast.error(err.message || err.response.data.error, {
@@ -39,7 +36,6 @@ const LoginPage = () => {
       dispatch({ type: "set-user", payload: data });
       setRedirect("/wallets");
     }
-    setIsSubmitting(false);
   };
 
   return (

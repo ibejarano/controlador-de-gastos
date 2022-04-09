@@ -35,7 +35,7 @@ export default function ConfigPage() {
 
   useEffect(() => {
     dispatch({ type: "set-title", payload: "Configuracion" });
-  }, []);
+  }, [dispatch]);
 
   return (
     <React.Fragment>
