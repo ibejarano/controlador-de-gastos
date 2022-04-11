@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 import {
   Drawer,
   DrawerBody,
@@ -30,6 +31,7 @@ export default function AddExpense({
 }) {
   const { dispatch } = useUser();
   const [expense, setExpense] = useState(INITIAL_EXPENSE);
+  const [isLoading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     e.persist();
@@ -37,6 +39,7 @@ export default function AddExpense({
   };
 
   const handleSubmit = async () => {
+    setLoading(true);
     const { walletId, description, amount, section } = expense;
     const { data } = await addExpense(walletId, {
       description,
@@ -47,9 +50,11 @@ export default function AddExpense({
       const { wallet } = data;
       dispatch({ type: "update-wallet", payload: wallet });
       setExpense(INITIAL_EXPENSE);
+      toast.success("Gasto registrado");
     } else {
-      alert("ERROR");
+      toast.error("Ha ocurrido un error");
     }
+    setLoading(false);
   };
 
   return (
@@ -109,11 +114,17 @@ export default function AddExpense({
           <Button variant="outline" mr={3} onClick={onClose}>
             Cancelar
           </Button>
-          <Button colorScheme="blue" mr={3} onClick={handleSubmit}>
+          <Button
+            colorScheme="blue"
+            isLoading={isLoading}
+            mr={3}
+            onClick={handleSubmit}
+          >
             Guardar
           </Button>
           <Button
             colorScheme="blue"
+            isLoading={isLoading}
             onClick={async () => {
               await handleSubmit();
               onClose();
