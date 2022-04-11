@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Heading, List, ListItem, ListIcon, Box } from "@chakra-ui/react";
+import { Heading, List, ListItem, ListIcon } from "@chakra-ui/react";
 import { PlusSquareIcon } from "@chakra-ui/icons";
 
 import { useUser } from "../context/UserContext";
@@ -12,7 +12,7 @@ export default function InfoPage() {
   }, [dispatch]);
 
   return (
-    <Box p="16px">
+    <React.Fragment>
       <Heading>Roadmap</Heading>
       <List spacing={3}>
         <ListItem>
@@ -24,6 +24,6 @@ export default function InfoPage() {
           Dividir Gastos por Mes
         </ListItem>
       </List>
-    </Box>
+    </React.Fragment>
   );
 }

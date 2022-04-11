@@ -8,14 +8,13 @@ import {
 import { ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
+import Layout from "./components/Layout";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import Home from "./pages/Home";
 import ConfigPage from "./pages/ConfigPage";
 import BudgetPage from "./pages/Budget";
 import Info from "./pages/Info";
-import Navbar from "./components/Navbar";
-import TitleBar from "./components/TitleBar";
 
 import { UserProvider, useUser } from "./context/UserContext";
 
@@ -23,11 +22,10 @@ function App() {
   return (
     <Router>
       <UserProvider>
-        <TitleBar />
         <Switch>
           <Route exact path="/register">
-              <RegisterPage />
-            </Route>
+            <RegisterPage />
+          </Route>
           <Route exact path="/">
             <LoginPage />
           </Route>
@@ -46,7 +44,7 @@ function PrivateRoutes() {
 
   if (!loggedIn) return <Redirect to="/" />;
   return (
-    <React.Fragment>
+    <Layout>
       <Route exact path="/wallets">
         <Home />
       </Route>
@@ -59,8 +57,7 @@ function PrivateRoutes() {
       <Route exact path="/info">
         <Info />
       </Route>
-      <Navbar />
-    </React.Fragment>
+    </Layout>
   );
 }
 
