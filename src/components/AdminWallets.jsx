@@ -26,6 +26,7 @@ export default function ManageWallets() {
     dispatch,
   } = useUser();
   const [currentWallet, setCurrentWallet] = useState({});
+  const [isLoading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     e.persist();
@@ -33,6 +34,7 @@ export default function ManageWallets() {
   };
 
   const handleChangeWallet = async () => {
+    setLoading(true);
     const { _id, name, description } = currentWallet;
     const { err, data } = await changeWalletFields(_id, { name, description });
     if (err) {
@@ -41,6 +43,7 @@ export default function ManageWallets() {
       dispatch({ type: "update-wallet-fields", payload: data });
       toast.success("Datos cambiados satisfactoriamente");
     }
+    setLoading(false);
     onClose();
   };
 
@@ -116,7 +119,9 @@ export default function ManageWallets() {
             <Button variant="ghost" mr={3} onClick={onClose}>
               Close
             </Button>
-            <Button onClick={handleChangeWallet}>Guardar</Button>
+            <Button isLoading={isLoading} onClick={handleChangeWallet}>
+              Guardar
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
