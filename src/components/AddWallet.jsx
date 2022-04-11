@@ -38,7 +38,7 @@ export default function AddWallet() {
       }}
     >
       {(props) => (
-        <Container p="28px" bg="tomato">
+        <Container p="28px">
           <GoBackHeading>Agregar billetera</GoBackHeading>
           <Form>
             <Field name="name">
