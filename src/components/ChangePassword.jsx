@@ -7,14 +7,15 @@ import {
   FormLabel,
 } from "@chakra-ui/react";
 import { Formik, Form, Field } from "formik";
-
 import { toast } from "react-toastify";
 
 import { changePassword } from "../helpers/requests";
+import GoBackHeading from "./GoBackHeading";
 
 export default function ChangePassword() {
   return (
     <Container p="24px">
+      <GoBackHeading>Cambiar contraseña</GoBackHeading>
       <Formik
         initialValues={{ password: "", newPass: "", newPassConfirmation: "" }}
         onSubmit={(values, actions) => {

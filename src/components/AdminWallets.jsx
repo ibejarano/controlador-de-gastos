@@ -19,6 +19,7 @@ import {
 import { changeWalletFields, deleteWallet } from "../helpers/requests";
 import { toast } from "react-toastify";
 import { useUser } from "../context/UserContext";
+import GoBackHeading from "./GoBackHeading";
 
 export default function ManageWallets() {
   const {
@@ -65,6 +66,7 @@ export default function ManageWallets() {
 
   return (
     <React.Fragment>
+      <GoBackHeading>Administrar billeteras</GoBackHeading>
       {wallets && (
         <VStack p="20px">
           {wallets.map(({ description, name, _id }) => (

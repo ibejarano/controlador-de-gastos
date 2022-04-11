@@ -1,26 +1,18 @@
 import React, { useState } from "react";
-import { Redirect, useHistory } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import { Formik, Form, Field } from "formik";
-import {
-  Container,
-  Center,
-  Heading,
-  HStack,
-  Button as ChakraButton,
-} from "@chakra-ui/react";
-import { ArrowBackIcon } from "@chakra-ui/icons";
+import { Container, Center, Button } from "@chakra-ui/react";
 
 import { useUser } from "../context/UserContext";
-
 import { addWallet } from "../helpers/requests";
+
+import GoBackHeading from "./GoBackHeading";
 import InputText from "./InputText";
-import Button from "./Button";
 
 export default function AddWallet() {
   const { dispatch } = useUser();
-  const history = useHistory();
   const [redirect, setRedirect] = useState(null);
 
   return redirect ? (
@@ -47,13 +39,7 @@ export default function AddWallet() {
     >
       {(props) => (
         <Container p="28px" bg="tomato">
-          <HStack>
-            <ChakraButton
-              onClick={history.goBack}
-              leftIcon={<ArrowBackIcon />}
-            />
-            <Heading size="sm">Agregar nueva billetera</Heading>
-          </HStack>
+          <GoBackHeading>Agregar billetera</GoBackHeading>
           <Form>
             <Field name="name">
               {({ field }) => (
@@ -70,12 +56,9 @@ export default function AddWallet() {
               )}
             </Field>
             <Center m="20px 0">
-              <Button
-                isLoading={props.isSubmitting}
-                type="submit"
-                primary
-                text="Agregar"
-              />
+              <Button isLoading={props.isSubmitting} type="submit">
+                Agregar
+              </Button>
             </Center>
           </Form>
         </Container>
