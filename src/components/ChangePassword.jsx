@@ -1,65 +1,70 @@
-import React, { useState } from "react";
-import { Input, Button, Box, Heading } from "@chakra-ui/react";
+import React from "react";
+import {
+  Container,
+  Button,
+  Input,
+  FormControl,
+  FormLabel,
+} from "@chakra-ui/react";
+import { Formik, Form, Field } from "formik";
+
 import { toast } from "react-toastify";
 
 import { changePassword } from "../helpers/requests";
 
 export default function ChangePassword() {
-  const [password, setPassword] = useState({});
-
-  const handleChange = (e) => {
-    e.persist();
-    setPassword((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
-
-  const handleSubmit = async () => {
-    const { err, message } = await changePassword({
-      password: password.current,
-      newPass: password.newPass,
-      newPassConfirmation: password.newPassConfirmation,
-    });
-    if (err) {
-      toast.error(err);
-    } else {
-      toast.success(message);
-    }
-  };
-
-  const { current, newPass, newPassConfirmation } = password;
-
   return (
-    <Box p="10px">
-      <Heading size="md" my="8px">
-        Cambiar contraseña
-      </Heading>
-      <Input
-        fontWeight="bold"
-        mb="1rem"
-        name="current"
-        type="password"
-        value={current}
-        placeholder="Contraseña actual"
-        onChange={handleChange}
-      />
-      <Input
-        fontWeight="bold"
-        mb="1rem"
-        name="newPass"
-        type="password"
-        value={newPass}
-        placeholder="Nueva contraseña"
-        onChange={handleChange}
-      />
-      <Input
-        fontWeight="bold"
-        mb="1rem"
-        name="newPassConfirmation"
-        type="password"
-        placeholder="Repetir nueva contraseña"
-        value={newPassConfirmation}
-        onChange={handleChange}
-      />
-      <Button onClick={handleSubmit}>Confirmar cambio</Button>
-    </Box>
+    <Container p="24px">
+      <Formik
+        initialValues={{ password: "", newPass: "", newPassConfirmation: "" }}
+        onSubmit={(values, actions) => {
+          changePassword(values)
+            .then(({ message }) => toast.success(message))
+            .catch(() => toast.error("La contraseña actual es incorrecta"))
+            .finally(() => {
+              actions.setSubmitting(false);
+            });
+        }}
+      >
+        {(props) => (
+          <Form>
+            <Field name="password">
+              {({ field }) => (
+                <FormControl>
+                  <FormLabel htmlFor="password">Contraseña</FormLabel>
+                  <Input {...field} type="password" id="password" />
+                </FormControl>
+              )}
+            </Field>
+            <Field name="newPass">
+              {({ field }) => (
+                <FormControl>
+                  <FormLabel htmlFor="newPass">Nueva contraseña</FormLabel>
+                  <Input {...field} type="password" id="newPass" />
+                </FormControl>
+              )}
+            </Field>
+            <Field name="newPassConfirmation">
+              {({ field }) => (
+                <FormControl>
+                  <FormLabel htmlFor="newPassConfirmation">
+                    Repita nueva contraseña
+                  </FormLabel>
+                  <Input {...field} type="password" id="newPassConfirmation" />
+                </FormControl>
+              )}
+            </Field>
+            <Button
+              isLoading={props.isSubmitting}
+              colorScheme="teal"
+              type="submit"
+              my="8px"
+            >
+              Cambiar contraseña
+            </Button>
+          </Form>
+        )}
+      </Formik>
+    </Container>
   );
 }
