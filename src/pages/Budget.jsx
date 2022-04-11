@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { EditIcon } from "@chakra-ui/icons";
-import { Button, useDisclosure } from "@chakra-ui/react";
+import { Button, ScaleFade, useDisclosure } from "@chakra-ui/react";
 
 import { getBudgets } from "../helpers/requests";
 import BudgetCard from "../components/BudgetCard";
@@ -32,9 +32,11 @@ export default function BudgetPage() {
 
   return (
     <React.Fragment>
-      {budgets.map((budget) => (
-        <BudgetCard key={budget.section} {...budget} />
-      ))}
+      <ScaleFade in={budgets.length} initialScale={0.8} offsetY="20px">
+        {budgets.map((budget) => (
+          <BudgetCard key={budget.section} {...budget} />
+        ))}
+      </ScaleFade>
       <Button
         pos="fixed"
         bottom="10vh"

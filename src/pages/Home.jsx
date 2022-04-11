@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Button, useDisclosure } from "@chakra-ui/react";
+import { Button, ScaleFade, useDisclosure } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 
 import { useUser } from "../context/UserContext";
@@ -33,7 +33,9 @@ export default function HomePage() {
 
   return (
     <React.Fragment>
-      {wallets && <WalletContainer wallets={wallets} />}
+      <ScaleFade in={wallets.length} initialScale={0.8} offsetY='20px'>
+        {wallets && <WalletContainer wallets={wallets} />}
+      </ScaleFade>
       <Button
         pos="fixed"
         bottom="10vh"
