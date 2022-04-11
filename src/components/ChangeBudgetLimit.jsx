@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
+import { Formik, Form, Field } from "formik";
 import {
   Drawer,
   DrawerBody,
@@ -10,7 +11,8 @@ import {
   Button,
   Input,
   Select,
-  Text,
+  FormControl,
+  FormLabel,
 } from "@chakra-ui/react";
 
 import { toast } from "react-toastify";
@@ -24,35 +26,6 @@ export default function ChangeBudgetLimit({
   budgets,
   setBudgets,
 }) {
-  const [current, setCurrent] = useState({});
-
-  const handleChange = (e) => {
-    e.persist();
-    setCurrent((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
-
-  const handleChangeSection = (e) => {
-    e.persist();
-    const idx = budgets.map((b) => b.section).indexOf(e.target.value);
-    const limit = budgets[idx].limit;
-    setCurrent((prev) => ({ ...prev, [e.target.name]: e.target.value, limit }));
-  };
-
-  const handleSubmit = async () => {
-    const { newLimit, limit, section } = current;
-    if ((newLimit !== limit) & (newLimit > 0)) {
-      const {
-        message,
-        data: { budgets },
-      } = await configureBudget(section, newLimit);
-      setBudgets(budgets);
-      toast.success(message);
-      onClose();
-    }
-  };
-
-  const { limit, newLimit, section } = current;
-
   return (
     <Drawer
       isOpen={isOpen}
@@ -65,37 +38,75 @@ export default function ChangeBudgetLimit({
         <DrawerCloseButton />
         <DrawerHeader>Cambiar limite de presupuesto</DrawerHeader>
 
-        <DrawerBody>
-          <Select
-            placeholder="Seleccione seccion"
-            onChange={handleChangeSection}
-            value={section}
-            name="section"
-          >
-            {budgets.map((budget, idx) => (
-              <option key={budget.section} value={budget.section}>
-                {idx + 1} - {budget.section}
-              </option>
-            ))}
-          </Select>
-          <Text>Limite actual {limit}</Text>
-          <Input
-            placeholder="Nuevo limite"
-            name="newLimit"
-            onChange={handleChange}
-            type="number"
-            value={newLimit}
-          />
-        </DrawerBody>
+        <Formik
+          id="change-budget"
+          initialValues={{ limit: "", section: "" }}
+          onSubmit={(values, actions) => {
+            const { limit, section } = values;
+            if (limit > 0) {
+              configureBudget(section, limit).then(
+                ({ message, data: { budgets } }) => {
+                  setBudgets(budgets);
+                  actions.setSubmitting(false);
+                  toast.success(message);
+                  onClose();
+                }
+              );
+            }
+          }}
+        >
+          {(props) => (
+            <Form>
+              <DrawerBody>
+                <Field name="section">
+                  {({ field }) => (
+                    <FormControl>
+                      <FormLabel htmlFor="section">Seccion</FormLabel>
+                      <Select
+                        {...field}
+                        placeholder="Seleccione seccion"
+                        name="section"
+                      >
+                        {budgets.map((budget, idx) => (
+                          <option key={budget.section} value={budget.section}>
+                            {idx + 1} - {budget.section}
+                          </option>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  )}
+                </Field>
+                <Field name="limit">
+                  {({ field }) => (
+                    <FormControl>
+                      <FormLabel htmlFor="limit">Limite</FormLabel>
+                      <Input
+                        {...field}
+                        placeholder="Nuevo limite"
+                        name="limit"
+                        type="number"
+                      />
+                    </FormControl>
+                  )}
+                </Field>
+              </DrawerBody>
 
-        <DrawerFooter>
-          <Button variant="outline" mr={3} onClick={onClose}>
-            Cancelar
-          </Button>
-          <Button colorScheme="blue" mr={3} onClick={handleSubmit}>
-            Guardar
-          </Button>
-        </DrawerFooter>
+              <DrawerFooter>
+                <Button variant="outline" mr={3} onClick={onClose}>
+                  Cancelar
+                </Button>
+                <Button
+                  isLoading={props.isSubmitting}
+                  colorScheme="blue"
+                  mr={3}
+                  type="submit"
+                >
+                  Guardar
+                </Button>
+              </DrawerFooter>
+            </Form>
+          )}
+        </Formik>
       </DrawerContent>
     </Drawer>
   );
