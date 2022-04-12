@@ -11,6 +11,8 @@ import {
   Input,
   FormControl,
   FormLabel,
+  Heading,
+  Text,
 } from "@chakra-ui/react";
 
 const LoginPage = () => {
@@ -22,7 +24,13 @@ const LoginPage = () => {
   }, [dispatch]);
 
   return (
-    <Container p="24px">
+    <Container p="24px" shadow="xs" h="100vh">
+      <Heading size="xl" my="12px">
+        Bienvenid@!
+      </Heading>
+      <Heading size="md" my="12px">
+        Ingrese su cuenta
+      </Heading>
       <Formik
         initialValues={{ email: "test1@test.com", password: "terere" }}
         onSubmit={(values, actions) => {
@@ -46,7 +54,7 @@ const LoginPage = () => {
               {({ field }) => (
                 <FormControl>
                   <FormLabel htmlFor="email">E-mail</FormLabel>
-                  <Input {...field} id="email" placeholder="E-mail" />
+                  <Input {...field} id="email" />
                 </FormControl>
               )}
             </Field>
@@ -54,7 +62,7 @@ const LoginPage = () => {
               {({ field }) => (
                 <FormControl>
                   <FormLabel htmlFor="password">Contraseña</FormLabel>
-                  <Input {...field} id="password" placeholder="Contraseña" />
+                  <Input {...field} id="password" type="password" />
                 </FormControl>
               )}
             </Field>
@@ -70,7 +78,10 @@ const LoginPage = () => {
         )}
       </Formik>
       {redirect && <Redirect to={redirect} />}
-      <Link to="/register">Registrarse</Link>
+      <Text>
+        No tienes una cuenta?
+        <Link to="/register">Registrarse</Link>
+      </Text>
     </Container>
   );
 };

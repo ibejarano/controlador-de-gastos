@@ -33,13 +33,13 @@ export default function HomePage() {
 
   return (
     <React.Fragment>
-      <ScaleFade in={wallets.length} initialScale={0.8} offsetY='20px'>
+      <ScaleFade in={wallets.length} initialScale={0.8} offsetY="20px">
         {wallets && <WalletContainer wallets={wallets} />}
       </ScaleFade>
       <Button
         pos="fixed"
         bottom="10vh"
-        left="60%"
+        right="5%"
         leftIcon={<AddIcon />}
         colorScheme="teal"
         variant="solid"

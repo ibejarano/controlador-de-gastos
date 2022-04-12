@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Redirect, Link } from "react-router-dom";
-import { Container, Button, Input, FormControl } from "@chakra-ui/react";
+import {
+  Container,
+  Button,
+  Input,
+  FormControl,
+  FormLabel,
+  Heading,
+} from "@chakra-ui/react";
 import { Formik, Form, Field } from "formik";
 import { toast } from "react-toastify";
 
@@ -16,7 +23,10 @@ const RegisterPage = () => {
   }, [dispatch]);
 
   return (
-    <Container p="24px">
+    <Container p="24px" shadow="xs" h="100vh">
+      <Heading size="xl" my="12px">
+        Registrese
+      </Heading>
       <Formik
         initialValues={{
           username: "test10",
@@ -43,43 +53,35 @@ const RegisterPage = () => {
           <Form>
             <Field name="username">
               {({ field }) => (
-                <FormControl>
-                  <Input
-                    {...field}
-                    id="username"
-                    placeholder="Nombre de usuario"
-                  />
+                <FormControl my="12px">
+                  <FormLabel htmlFor="username">Nombre de usuario</FormLabel>
+                  <Input {...field} id="username" />
                 </FormControl>
               )}
             </Field>
             <Field name="email">
               {({ field }) => (
-                <FormControl>
-                  <Input {...field} id="email" placeholder="E-mail" />
+                <FormControl my="12px">
+                  <FormLabel htmlFor="email">E-mail</FormLabel>
+                  <Input {...field} id="email" />
                 </FormControl>
               )}
             </Field>
             <Field name="password">
               {({ field }) => (
-                <FormControl>
-                  <Input
-                    {...field}
-                    id="password"
-                    placeholder="Contraseña"
-                    type="password"
-                  />
+                <FormControl my="12px">
+                  <FormLabel htmlFor="password">Contraseña</FormLabel>
+                  <Input {...field} id="password" type="password" />
                 </FormControl>
               )}
             </Field>
             <Field name="confPassword">
               {({ field }) => (
-                <FormControl>
-                  <Input
-                    {...field}
-                    id="confPassword"
-                    placeholder="Confirmar Contraseña"
-                    type="password"
-                  />
+                <FormControl my="12px">
+                  <FormLabel htmlFor="confPassword">
+                    Repetir contraseña
+                  </FormLabel>
+                  <Input {...field} id="confPassword" type="password" />
                 </FormControl>
               )}
             </Field>
