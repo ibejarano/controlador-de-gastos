@@ -18,7 +18,6 @@ export default function HomePage() {
   const { wallets, sectionsSaved, username } = user;
   useEffect(() => {
     async function fetchWallets() {
-      console.log("fetching wallets");
       const { data } = await getWallets();
       dispatch({ type: "set-wallets", payload: data });
       setLoading(false);
